@@ -1,0 +1,7 @@
+# TODO: define the service, obviously
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: maintain-kubeusers
+  labels:
+    name: maintain-kubeusers
