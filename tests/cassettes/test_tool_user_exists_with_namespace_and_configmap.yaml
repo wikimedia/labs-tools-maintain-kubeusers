@@ -1,0 +1,139 @@
+interactions:
+- request:
+    body: '{"apiVersion": "v1", "kind": "Namespace", "metadata": {"labels": {"name":
+      "tool-blurp", "tenancy": "tool"}, "name": "tool-blurp"}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Swagger-Codegen/10.0.0/python
+    method: POST
+    uri: https://192.168.99.101:8443/api/v1/namespaces
+  response:
+    body:
+      string: '{"kind":"Namespace","apiVersion":"v1","metadata":{"name":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp","uid":"aa8c0d5f-2654-498c-9a77-7cc4dd146a53","resourceVersion":"250091","creationTimestamp":"2019-08-10T00:58:43Z","labels":{"name":"tool-blurp","tenancy":"tool"}},"spec":{"finalizers":["kubernetes"]},"status":{"phase":"Active"}}
+
+        '
+    headers:
+      Content-Length:
+      - '343'
+      Content-Type:
+      - application/json
+      Date:
+      - Sat, 10 Aug 2019 00:58:43 GMT
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"apiVersion": "rbac.authorization.k8s.io/v1", "kind": "RoleBinding", "metadata":
+      {"name": "blurp-tool-binding", "namespace": "tool-blurp"}, "roleRef": {"apiGroup":
+      "rbac.authorization.k8s.io", "kind": "ClusterRole", "name": "edit"}, "subjects":
+      [{"apiGroup": "rbac.authorization.k8s.io", "kind": "User", "name": "blurp"}]}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Swagger-Codegen/10.0.0/python
+    method: POST
+    uri: https://192.168.99.101:8443/apis/rbac.authorization.k8s.io/v1/namespaces/tool-blurp/rolebindings
+  response:
+    body:
+      string: '{"kind":"RoleBinding","apiVersion":"rbac.authorization.k8s.io/v1","metadata":{"name":"blurp-tool-binding","namespace":"tool-blurp","selfLink":"/apis/rbac.authorization.k8s.io/v1/namespaces/tool-blurp/rolebindings/blurp-tool-binding","uid":"10448ca3-5392-4e5d-8167-d20aa6a54207","resourceVersion":"250095","creationTimestamp":"2019-08-10T00:58:43Z"},"subjects":[{"kind":"User","apiGroup":"rbac.authorization.k8s.io","name":"blurp"}],"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"edit"}}
+
+        '
+    headers:
+      Content-Length:
+      - '519'
+      Content-Type:
+      - application/json
+      Date:
+      - Sat, 10 Aug 2019 00:58:43 GMT
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"apiVersion": "v1", "data": {"status": "user created: 2019-08-10T00:58:43.354254"},
+      "kind": "ConfigMap", "metadata": {"name": "maintain-kubeusers"}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Swagger-Codegen/10.0.0/python
+    method: POST
+    uri: https://192.168.99.101:8443/api/v1/namespaces/tool-blurp/configmaps
+  response:
+    body:
+      string: '{"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"maintain-kubeusers","namespace":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp/configmaps/maintain-kubeusers","uid":"7b80b7f0-5d7b-4d4f-8a25-342845988c3e","resourceVersion":"250096","creationTimestamp":"2019-08-10T00:58:43Z"},"data":{"status":"user
+        created: 2019-08-10T00:58:43.354254"}}
+
+        '
+    headers:
+      Content-Length:
+      - '354'
+      Content-Type:
+      - application/json
+      Date:
+      - Sat, 10 Aug 2019 00:58:43 GMT
+    status:
+      code: 201
+      message: Created
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Swagger-Codegen/10.0.0/python
+    method: GET
+    uri: https://192.168.99.101:8443/api/v1/namespaces?labelSelector=tenancy%3Dtool
+  response:
+    body:
+      string: '{"kind":"NamespaceList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces","resourceVersion":"250096"},"items":[{"metadata":{"name":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp","uid":"aa8c0d5f-2654-498c-9a77-7cc4dd146a53","resourceVersion":"250091","creationTimestamp":"2019-08-10T00:58:43Z","labels":{"name":"tool-blurp","tenancy":"tool"}},"spec":{"finalizers":["kubernetes"]},"status":{"phase":"Active"}}]}
+
+        '
+    headers:
+      Content-Length:
+      - '431'
+      Content-Type:
+      - application/json
+      Date:
+      - Sat, 10 Aug 2019 00:58:43 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Swagger-Codegen/10.0.0/python
+    method: GET
+    uri: https://192.168.99.101:8443/api/v1/namespaces/tool-blurp/configmaps?fieldSelector=metadata.name%3Dmaintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"ConfigMapList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces/tool-blurp/configmaps","resourceVersion":"250096"},"items":[{"metadata":{"name":"maintain-kubeusers","namespace":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp/configmaps/maintain-kubeusers","uid":"7b80b7f0-5d7b-4d4f-8a25-342845988c3e","resourceVersion":"250096","creationTimestamp":"2019-08-10T00:58:43Z"},"data":{"status":"user
+        created: 2019-08-10T00:58:43.354254"}}]}
+
+        '
+    headers:
+      Content-Length:
+      - '464'
+      Content-Type:
+      - application/json
+      Date:
+      - Sat, 10 Aug 2019 00:58:43 GMT
+    status:
+      code: 200
+      message: OK
+version: 1
