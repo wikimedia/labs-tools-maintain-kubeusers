@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# -*- coding: utf-8 -*-
 # Copyright 2019 Wikimedia Foundation, Inc.
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -40,7 +41,6 @@ from datetime import datetime, timezone
 import logging
 import os
 
-# import shutil
 import stat
 import time
 
@@ -61,31 +61,22 @@ from kubernetes.client.rest import ApiException
 config.load_kube_config()
 
 
-# TODO: make this an actual test suite
-# This is a terrible, but practical way of testing for now.
-def testit():
-    logging.basicConfig(format="%(message)s", level=logging.INFO)
-    api = K8sAPI()
-    test_user = User("blurp", "502")
-    current = api.get_current_tool_users()
-    print(current)
-    if test_user.name in current:
-        print("already there!")
-        return
-    test_user.pk = generate_pk()
-    api.generate_csr(test_user.pk, test_user.name)
-    test_user.cert = api.approve_cert(test_user.name)
-    api.create_namespace(test_user.name)
-    write_kubeconfig(test_user, "https://192.168.99.101:8443")
-    api.process_rbac(test_user.name)
-    api.create_configmap(test_user.name)
-
-
 class K8sAPI:
     def __init__(self):
         self.core = client.CoreV1Api()
         self.certs = client.CertificatesV1beta1Api()
         self.rbac = client.RbacAuthorizationV1Api()
+
+    def get_cluster_info(self):
+        c_info = self.core.read_namespaced_config_map(
+            "cluster-info", "kube-public"
+        )
+        cl_kubeconfig = yaml.safe_load(c_info.data["kubeconfig"])
+        ca_data = cl_kubeconfig["clusters"][0]["cluster"][
+            "certificate-authority-data"
+        ]
+        api_server = cl_kubeconfig["clusters"][0]["cluster"]["server"]
+        return api_server, ca_data
 
     def get_tool_namespaces(self):
         ls = "tenancy=tool"
@@ -169,7 +160,8 @@ class K8sAPI:
         # patch the existing `body` with the new conditions
         # you might want to append the new conditions to the existing ones
         body.status.conditions = [approval_condition]
-        # patch the Kubernetes object
+        # Patch the Kubernetes CSR object in the certs API
+        # The method called to the API is very confusingly named
         _ = self.certs.replace_certificate_signing_request_approval(
             "tool-{}".format(user), body
         )
@@ -194,7 +186,7 @@ class K8sAPI:
         Creates a namespace for the given user if it doesn't exist
         """
         try:
-            resp = self.core.create_namespace(
+            _ = self.core.create_namespace(
                 body=client.V1Namespace(
                     api_version="v1",
                     kind="Namespace",
@@ -207,7 +199,6 @@ class K8sAPI:
                     ),
                 )
             )
-            logging.info(resp)
         except ApiException as api_ex:
             if api_ex.status == 409 and "AlreadyExists" in api_ex.body:
                 logging.info("Namespace tool-%s already exists", user)
@@ -253,16 +244,23 @@ class K8sAPI:
             logging.error("Could not create rolebinding for %s", user)
             raise
 
+    def add_user_access(self, username):
+        self.create_namespace(username)
+        self.process_rbac(username)
+        self.create_configmap(username)
+
 
 class User:
     """ Simple user object kept intentionally light-weight """
 
-    def __init__(self, name, id):
+    def __init__(self, name, id, home):
         self.name = name
         self.id = id
+        self.home = home
 
 
 def generate_pk():
+    # Simple rsa PK generation
     return rsa.generate_private_key(
         public_exponent=65537, key_size=4096, backend=default_backend()
     )
@@ -313,29 +311,33 @@ def get_tools_from_ldap(conn, projectname):
     for entry in entries:
         attrs = entry["attributes"]
         tool = User(
-            attrs["cn"][0][len(projectname) + 1 :], attrs["uidNumber"][0]
+            attrs["cn"][0][len(projectname) + 1 :],
+            attrs["uidNumber"],
+            attrs["homeDirectory"],
         )
-        tools[tool.id] = tool
+        tools[tool.name] = tool
 
     return tools
 
 
-def write_kubeconfig(user, master):
+def write_kubeconfig(user, api_server, ca_data):
     """
-    Write an appropriate .kube/config for given user to access given master.
+    Write an appropriate .kube/config for given user to access given api server.
     """
-    dirpath = os.path.join("/data", "project", user.name, ".kube")
-    certpath = os.path.join("/data", "project", user.name, ".toolskube")
+    dirpath = os.path.join(user.home, ".kube")
+    certpath = os.path.join(user.home, ".toolskube")
     certfile = os.path.join(certpath, "client.crt")
     keyfile = os.path.join(certpath, "client.key")
-    cafile = os.path.join(certpath, "ca.crt")
     path = os.path.join(dirpath, "config")
     config = {
         "apiVersion": "v1",
         "kind": "Config",
         "clusters": [
             {
-                "cluster": {"server": master, "certificate-authority": cafile},
+                "cluster": {
+                    "server": api_server,
+                    "certificate-authority-data": ca_data,
+                },
                 "name": "default",
             }
         ],
@@ -363,11 +365,6 @@ def write_kubeconfig(user, master):
     # TODO: change the GID back to user.id
     os.chown(dirpath, int(user.id), -1)
     os.chown(certpath, int(user.id), -1)
-    # shutil.copyfile(
-    #     "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt",
-    #     os.path.join(certpath, "ca.crt"),
-    # )
-    # os.chown(os.path.join(certpath, "ca.crt"), int(user.id), -1)
     write_certs(certpath, user.cert, user.pk, user)
     f = os.open(path, os.O_CREAT | os.O_WRONLY | os.O_NOFOLLOW)
     try:
@@ -390,8 +387,7 @@ def create_homedir(user):
     Create homedirs for new users
 
     """
-    homepath = os.path.join("/data", "project", user.name)
-    if not os.path.exists(homepath):
+    if not os.path.exists(user.home):
         # Try to not touch it if it already exists
         # This prevents us from messing with permissions while also
         # not crashing if homedirs already do exist
@@ -404,16 +400,16 @@ def create_homedir(user):
         # can not just delete and create a symlink to wherever. The chown
         # happens last, so should be ok.
 
-        os.makedirs(homepath, mode=0o775, exist_ok=False)
-        os.chmod(homepath, 0o775 | stat.S_ISGID)
-        os.chown(homepath, int(user.id), int(user.id))
+        os.makedirs(user.home, mode=0o775, exist_ok=False)
+        os.chmod(user.home, 0o775 | stat.S_ISGID)
+        os.chown(user.home, int(user.id), int(user.id))
 
-        logs_dir = os.path.join(homepath, "logs")
+        logs_dir = os.path.join(user.home, "logs")
         os.makedirs(logs_dir, mode=0o775, exist_ok=False)
         os.chmod(logs_dir, 0o775 | stat.S_ISGID)
-        os.chown(homepath, int(user.id), int(user.id))
+        os.chown(user.home, int(user.id), int(user.id))
     else:
-        logging.info("Homedir already exists for %s", homepath)
+        logging.info("Homedir already exists for %s", user.home)
 
 
 def main():
@@ -450,6 +446,7 @@ def main():
         ldapconfig = yaml.safe_load(f)
 
     k8s_api = K8sAPI()
+    api_server, ca_data = k8s_api.get_cluster_info()
     cur_users = k8s_api.get_current_tool_users()
 
     while True:
@@ -471,17 +468,15 @@ def main():
         ) as conn:
             tools = get_tools_from_ldap(conn, args.project)
 
-        new_tools = set([tool.name for tool in tools]) - set(cur_users)
+        new_tools = set([tool.name for tool in tools.values()]) - set(cur_users)
         if new_tools:
             for tool_name in new_tools:
                 tools[tool_name].pk = generate_pk()
                 k8s_api.generate_csr(tools[tool_name].pk, tool_name)
                 tools[tool_name].cert = k8s_api.approve_cert(tool_name)
                 create_homedir(tools[tool_name])
-                write_kubeconfig(tools[tool_name], args.kubernetes_api_url)
-                k8s_api.process_rbac(tool_name)
-                k8s_api.create_namespace(tool_name)
-                k8s_api.create_configmap(tool_name)
+                write_kubeconfig(tools[tool_name], api_server, ca_data)
+                k8s_api.add_user_access(tool_name)
                 logging.info("Provisioned creds for tool %s", tool_name)
 
         logging.info("finished run, wrote %s new accounts", len(new_tools))
