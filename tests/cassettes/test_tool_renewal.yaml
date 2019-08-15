@@ -1,0 +1,398 @@
+interactions:
+- request:
+    body: '{"apiVersion": "certificates.k8s.io/v1beta1", "kind": "CertificateSigningRequest",
+      "metadata": {"name": "tool-blurp"}, "spec": {"groups": ["system:authenticated",
+      "toolforge"], "request": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWVqQ0NBbUlDQVFBd0pERVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTR3REFZRFZRUUREQVZpYkhWeQpjRENDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFOTVppV0ZjS3ZBM28wQzFzUUwrCnd3dUhRUnF3cnViYkNBR1NFL1FYbkwwTERZNzl5enp3TnlyUTE5cXJhbWdxYnZSVHRKdnFVN3NUTmVLamVxbncKOHlPWDFScnV4OVdLSHd0T0lZR21IS2k4QmJZem1oc2w1ZTVCZktibUVSMnhGaUZza1Z1S2MranBEUjF2R2dHNQpYM3pXb29WUVhWVkN3TmRoQmdxOCtySWdQU1d6YkN2RFlwemdkWlUvZ3lyWFBvT29BeUlZaHdLS1p0UCs3QzdICmdwQ3pxVUYrVTVhS3BDd3d0dmMvZ0xGdWw4amMzcFRMb2dER0t2Wnk0NkxLRkx6OWRad3Ria0x6V0hkVk5yb08KTjcxQXZVTXFBcGRKN09tUXpER2FqYmRZL1hBdE93a1JicUxtU0NjT1J2R2JtZjdmWmMyUnkyTkNrNHdCZlVheApYTWo2TDZWaloxK0tnMGhFaEprNXpSVGVGaVgxdklHa3V0MzEyQ0FXZDhSVG1FT1VDVHJ3MEFhSzBwWjF2TVE1CnJkSGxrd1pXc3EzaUtJaGZrOTBrMFRKVmxMWGg5UzlINGlZRUJjMENMK0pLVVc3c2EzUUIyMlVYZVl4STdKL1gKYlE1NXk5dUJMNnF2Y2RVbnd1SEhpbWpzcDNIYktiZHl0M25yZ3BZc1E4TXI2UUZtZC8zUGthbnFqZDNYYzZndApiODVuOHp4eURPWkhMbFBZY1oycW5PbmhET2VFbzY1V0ZaOG1QZHR2WmNiWC9PVEcrOWFXeXB6WmROWWFtL1l2CitDRFMyenJFeFAyTDZLT0dFS2dNOU51cURmcCt1bVF5SEJZS2pZdGorbWR6Z1NrcisxdWZZbnAzWWxDVDNld0cKZGRNQ3dyMzM5WEl1bmdkSXZzejdsaWdoQWdNQkFBR2dFVEFQQmdrcWhraUc5dzBCQ1E0eEFqQUFNQTBHQ1NxRwpTSWIzRFFFQkN3VUFBNElDQVFCQVhsUE1OdjlBaFV5d3NVWVgva0dRb3NjT2NLSGcraHNoWEhQb1loRUcrK1J1CnZQMHpjeGI3T0hMc2ZQMTJYOEtnUkpydk9SUjFoNkxKenBDeXVERjR5Z0diR0hlM00xVkdpZ0FBVkIwZGRuS2cKZFAxdHEwakRUWG84VVRZT2NWaGlkdkV3a2t5TUxGUDhzWDZidGFLT2VWeHpkekQ1Qm83SlkxWWQzZGtBVUVhTwpzdjViM21hMndWUG12cGl6Z1cwMWZCUlg2RjJHOXZDY1I1REFFWittMXBiUmlzalRNOTRhTitLVTZJNkhaK3dlClpoSThjOTZVU1FUamtiQzJxWDFxakRRcEIyQ1RBeFpsRkNyTVBtWW4waGlOMjBwOExCVFdIejlKN1FxTlEzY2cKTWVGUHdWL0RwalN4ejlVOTJ6ZDYrRis1bTlFRFpJV2dwWExPTDg2c2s4b1YveC9CTmpwRGx2RkJsQmY5WktiLwoyL2ZGZUl6YjVDR1ZFb3hyY2pMVFRTS3RyNkpiTks0MERtMHh0SjBUR2R0UGxJZEVMaHpRUHdUbzl0KytZWmF2CmQxcWpIYXY5UGtIK3hHMkYyT0w3bjM1YjBFYksyVFJVaEt0eFNoWXlYa20yNnFId3FjSFN0MmJpdGM5QXZ6c00KMHRpQ0xlTUpHZzRQS0prdTUyRkZ1VnF4eUpGL01mZm1kdmxHK0h6N3BnV2llaHh0bFVPaWcwMEQycjlqOVZCYwpNWWg2cWd5M2xMZThpOHFXVTk3cHdlRFlGS2xOeEwzK2FhNUw4Z3g4Z050VHltY2dzalJsa3l1M21aTjJMTXhSCnFWU3d6SmN5MGQ5VWdwczk4aG1ZT2FiM29EZy9hd3g2MGVCdXl4UER0K05IQzN1dktvUGg5RStIN2lySnVRPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==",
+      "usages": ["digital signature", "key encipherment", "client auth"]}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Swagger-Codegen/10.0.0/python
+    method: POST
+    uri: https://192.168.99.101:8443/apis/certificates.k8s.io/v1beta1/certificatesigningrequests
+  response:
+    body:
+      string: '{"kind":"CertificateSigningRequest","apiVersion":"certificates.k8s.io/v1beta1","metadata":{"name":"tool-blurp","selfLink":"/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-blurp","uid":"58bd21d8-8788-4a0d-88ee-2dc328a2021b","resourceVersion":"313512","creationTimestamp":"2019-08-16T00:30:54Z"},"spec":{"request":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWVqQ0NBbUlDQVFBd0pERVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTR3REFZRFZRUUREQVZpYkhWeQpjRENDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFOTVppV0ZjS3ZBM28wQzFzUUwrCnd3dUhRUnF3cnViYkNBR1NFL1FYbkwwTERZNzl5enp3TnlyUTE5cXJhbWdxYnZSVHRKdnFVN3NUTmVLamVxbncKOHlPWDFScnV4OVdLSHd0T0lZR21IS2k4QmJZem1oc2w1ZTVCZktibUVSMnhGaUZza1Z1S2MranBEUjF2R2dHNQpYM3pXb29WUVhWVkN3TmRoQmdxOCtySWdQU1d6YkN2RFlwemdkWlUvZ3lyWFBvT29BeUlZaHdLS1p0UCs3QzdICmdwQ3pxVUYrVTVhS3BDd3d0dmMvZ0xGdWw4amMzcFRMb2dER0t2Wnk0NkxLRkx6OWRad3Ria0x6V0hkVk5yb08KTjcxQXZVTXFBcGRKN09tUXpER2FqYmRZL1hBdE93a1JicUxtU0NjT1J2R2JtZjdmWmMyUnkyTkNrNHdCZlVheApYTWo2TDZWaloxK0tnMGhFaEprNXpSVGVGaVgxdklHa3V0MzEyQ0FXZDhSVG1FT1VDVHJ3MEFhSzBwWjF2TVE1CnJkSGxrd1pXc3EzaUtJaGZrOTBrMFRKVmxMWGg5UzlINGlZRUJjMENMK0pLVVc3c2EzUUIyMlVYZVl4STdKL1gKYlE1NXk5dUJMNnF2Y2RVbnd1SEhpbWpzcDNIYktiZHl0M25yZ3BZc1E4TXI2UUZtZC8zUGthbnFqZDNYYzZndApiODVuOHp4eURPWkhMbFBZY1oycW5PbmhET2VFbzY1V0ZaOG1QZHR2WmNiWC9PVEcrOWFXeXB6WmROWWFtL1l2CitDRFMyenJFeFAyTDZLT0dFS2dNOU51cURmcCt1bVF5SEJZS2pZdGorbWR6Z1NrcisxdWZZbnAzWWxDVDNld0cKZGRNQ3dyMzM5WEl1bmdkSXZzejdsaWdoQWdNQkFBR2dFVEFQQmdrcWhraUc5dzBCQ1E0eEFqQUFNQTBHQ1NxRwpTSWIzRFFFQkN3VUFBNElDQVFCQVhsUE1OdjlBaFV5d3NVWVgva0dRb3NjT2NLSGcraHNoWEhQb1loRUcrK1J1CnZQMHpjeGI3T0hMc2ZQMTJYOEtnUkpydk9SUjFoNkxKenBDeXVERjR5Z0diR0hlM00xVkdpZ0FBVkIwZGRuS2cKZFAxdHEwakRUWG84VVRZT2NWaGlkdkV3a2t5TUxGUDhzWDZidGFLT2VWeHpkekQ1Qm83SlkxWWQzZGtBVUVhTwpzdjViM21hMndWUG12cGl6Z1cwMWZCUlg2RjJHOXZDY1I1REFFWittMXBiUmlzalRNOTRhTitLVTZJNkhaK3dlClpoSThjOTZVU1FUamtiQzJxWDFxakRRcEIyQ1RBeFpsRkNyTVBtWW4waGlOMjBwOExCVFdIejlKN1FxTlEzY2cKTWVGUHdWL0RwalN4ejlVOTJ6ZDYrRis1bTlFRFpJV2dwWExPTDg2c2s4b1YveC9CTmpwRGx2RkJsQmY5WktiLwoyL2ZGZUl6YjVDR1ZFb3hyY2pMVFRTS3RyNkpiTks0MERtMHh0SjBUR2R0UGxJZEVMaHpRUHdUbzl0KytZWmF2CmQxcWpIYXY5UGtIK3hHMkYyT0w3bjM1YjBFYksyVFJVaEt0eFNoWXlYa20yNnFId3FjSFN0MmJpdGM5QXZ6c00KMHRpQ0xlTUpHZzRQS0prdTUyRkZ1VnF4eUpGL01mZm1kdmxHK0h6N3BnV2llaHh0bFVPaWcwMEQycjlqOVZCYwpNWWg2cWd5M2xMZThpOHFXVTk3cHdlRFlGS2xOeEwzK2FhNUw4Z3g4Z050VHltY2dzalJsa3l1M21aTjJMTXhSCnFWU3d6SmN5MGQ5VWdwczk4aG1ZT2FiM29EZy9hd3g2MGVCdXl4UER0K05IQzN1dktvUGg5RStIN2lySnVRPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==","usages":["digital
+        signature","key encipherment","client auth"],"username":"minikube-user","groups":["system:masters","system:authenticated"]},"status":{}}
+
+        '
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 16 Aug 2019 00:30:54 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 201
+      message: Created
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Swagger-Codegen/10.0.0/python
+    method: GET
+    uri: https://192.168.99.101:8443/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-blurp/status
+  response:
+    body:
+      string: '{"kind":"CertificateSigningRequest","apiVersion":"certificates.k8s.io/v1beta1","metadata":{"name":"tool-blurp","selfLink":"/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-blurp/status","uid":"58bd21d8-8788-4a0d-88ee-2dc328a2021b","resourceVersion":"313512","creationTimestamp":"2019-08-16T00:30:54Z"},"spec":{"request":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWVqQ0NBbUlDQVFBd0pERVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTR3REFZRFZRUUREQVZpYkhWeQpjRENDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFOTVppV0ZjS3ZBM28wQzFzUUwrCnd3dUhRUnF3cnViYkNBR1NFL1FYbkwwTERZNzl5enp3TnlyUTE5cXJhbWdxYnZSVHRKdnFVN3NUTmVLamVxbncKOHlPWDFScnV4OVdLSHd0T0lZR21IS2k4QmJZem1oc2w1ZTVCZktibUVSMnhGaUZza1Z1S2MranBEUjF2R2dHNQpYM3pXb29WUVhWVkN3TmRoQmdxOCtySWdQU1d6YkN2RFlwemdkWlUvZ3lyWFBvT29BeUlZaHdLS1p0UCs3QzdICmdwQ3pxVUYrVTVhS3BDd3d0dmMvZ0xGdWw4amMzcFRMb2dER0t2Wnk0NkxLRkx6OWRad3Ria0x6V0hkVk5yb08KTjcxQXZVTXFBcGRKN09tUXpER2FqYmRZL1hBdE93a1JicUxtU0NjT1J2R2JtZjdmWmMyUnkyTkNrNHdCZlVheApYTWo2TDZWaloxK0tnMGhFaEprNXpSVGVGaVgxdklHa3V0MzEyQ0FXZDhSVG1FT1VDVHJ3MEFhSzBwWjF2TVE1CnJkSGxrd1pXc3EzaUtJaGZrOTBrMFRKVmxMWGg5UzlINGlZRUJjMENMK0pLVVc3c2EzUUIyMlVYZVl4STdKL1gKYlE1NXk5dUJMNnF2Y2RVbnd1SEhpbWpzcDNIYktiZHl0M25yZ3BZc1E4TXI2UUZtZC8zUGthbnFqZDNYYzZndApiODVuOHp4eURPWkhMbFBZY1oycW5PbmhET2VFbzY1V0ZaOG1QZHR2WmNiWC9PVEcrOWFXeXB6WmROWWFtL1l2CitDRFMyenJFeFAyTDZLT0dFS2dNOU51cURmcCt1bVF5SEJZS2pZdGorbWR6Z1NrcisxdWZZbnAzWWxDVDNld0cKZGRNQ3dyMzM5WEl1bmdkSXZzejdsaWdoQWdNQkFBR2dFVEFQQmdrcWhraUc5dzBCQ1E0eEFqQUFNQTBHQ1NxRwpTSWIzRFFFQkN3VUFBNElDQVFCQVhsUE1OdjlBaFV5d3NVWVgva0dRb3NjT2NLSGcraHNoWEhQb1loRUcrK1J1CnZQMHpjeGI3T0hMc2ZQMTJYOEtnUkpydk9SUjFoNkxKenBDeXVERjR5Z0diR0hlM00xVkdpZ0FBVkIwZGRuS2cKZFAxdHEwakRUWG84VVRZT2NWaGlkdkV3a2t5TUxGUDhzWDZidGFLT2VWeHpkekQ1Qm83SlkxWWQzZGtBVUVhTwpzdjViM21hMndWUG12cGl6Z1cwMWZCUlg2RjJHOXZDY1I1REFFWittMXBiUmlzalRNOTRhTitLVTZJNkhaK3dlClpoSThjOTZVU1FUamtiQzJxWDFxakRRcEIyQ1RBeFpsRkNyTVBtWW4waGlOMjBwOExCVFdIejlKN1FxTlEzY2cKTWVGUHdWL0RwalN4ejlVOTJ6ZDYrRis1bTlFRFpJV2dwWExPTDg2c2s4b1YveC9CTmpwRGx2RkJsQmY5WktiLwoyL2ZGZUl6YjVDR1ZFb3hyY2pMVFRTS3RyNkpiTks0MERtMHh0SjBUR2R0UGxJZEVMaHpRUHdUbzl0KytZWmF2CmQxcWpIYXY5UGtIK3hHMkYyT0w3bjM1YjBFYksyVFJVaEt0eFNoWXlYa20yNnFId3FjSFN0MmJpdGM5QXZ6c00KMHRpQ0xlTUpHZzRQS0prdTUyRkZ1VnF4eUpGL01mZm1kdmxHK0h6N3BnV2llaHh0bFVPaWcwMEQycjlqOVZCYwpNWWg2cWd5M2xMZThpOHFXVTk3cHdlRFlGS2xOeEwzK2FhNUw4Z3g4Z050VHltY2dzalJsa3l1M21aTjJMTXhSCnFWU3d6SmN5MGQ5VWdwczk4aG1ZT2FiM29EZy9hd3g2MGVCdXl4UER0K05IQzN1dktvUGg5RStIN2lySnVRPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==","usages":["digital
+        signature","key encipherment","client auth"],"username":"minikube-user","groups":["system:masters","system:authenticated"]},"status":{}}
+
+        '
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 16 Aug 2019 00:30:54 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"apiVersion": "certificates.k8s.io/v1beta1", "kind": "CertificateSigningRequest",
+      "metadata": {"creationTimestamp": "2019-08-16T00:30:54+00:00", "name": "tool-blurp",
+      "resourceVersion": "313512", "selfLink": "/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-blurp/status",
+      "uid": "58bd21d8-8788-4a0d-88ee-2dc328a2021b"}, "spec": {"groups": ["system:masters",
+      "system:authenticated"], "request": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWVqQ0NBbUlDQVFBd0pERVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTR3REFZRFZRUUREQVZpYkhWeQpjRENDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFOTVppV0ZjS3ZBM28wQzFzUUwrCnd3dUhRUnF3cnViYkNBR1NFL1FYbkwwTERZNzl5enp3TnlyUTE5cXJhbWdxYnZSVHRKdnFVN3NUTmVLamVxbncKOHlPWDFScnV4OVdLSHd0T0lZR21IS2k4QmJZem1oc2w1ZTVCZktibUVSMnhGaUZza1Z1S2MranBEUjF2R2dHNQpYM3pXb29WUVhWVkN3TmRoQmdxOCtySWdQU1d6YkN2RFlwemdkWlUvZ3lyWFBvT29BeUlZaHdLS1p0UCs3QzdICmdwQ3pxVUYrVTVhS3BDd3d0dmMvZ0xGdWw4amMzcFRMb2dER0t2Wnk0NkxLRkx6OWRad3Ria0x6V0hkVk5yb08KTjcxQXZVTXFBcGRKN09tUXpER2FqYmRZL1hBdE93a1JicUxtU0NjT1J2R2JtZjdmWmMyUnkyTkNrNHdCZlVheApYTWo2TDZWaloxK0tnMGhFaEprNXpSVGVGaVgxdklHa3V0MzEyQ0FXZDhSVG1FT1VDVHJ3MEFhSzBwWjF2TVE1CnJkSGxrd1pXc3EzaUtJaGZrOTBrMFRKVmxMWGg5UzlINGlZRUJjMENMK0pLVVc3c2EzUUIyMlVYZVl4STdKL1gKYlE1NXk5dUJMNnF2Y2RVbnd1SEhpbWpzcDNIYktiZHl0M25yZ3BZc1E4TXI2UUZtZC8zUGthbnFqZDNYYzZndApiODVuOHp4eURPWkhMbFBZY1oycW5PbmhET2VFbzY1V0ZaOG1QZHR2WmNiWC9PVEcrOWFXeXB6WmROWWFtL1l2CitDRFMyenJFeFAyTDZLT0dFS2dNOU51cURmcCt1bVF5SEJZS2pZdGorbWR6Z1NrcisxdWZZbnAzWWxDVDNld0cKZGRNQ3dyMzM5WEl1bmdkSXZzejdsaWdoQWdNQkFBR2dFVEFQQmdrcWhraUc5dzBCQ1E0eEFqQUFNQTBHQ1NxRwpTSWIzRFFFQkN3VUFBNElDQVFCQVhsUE1OdjlBaFV5d3NVWVgva0dRb3NjT2NLSGcraHNoWEhQb1loRUcrK1J1CnZQMHpjeGI3T0hMc2ZQMTJYOEtnUkpydk9SUjFoNkxKenBDeXVERjR5Z0diR0hlM00xVkdpZ0FBVkIwZGRuS2cKZFAxdHEwakRUWG84VVRZT2NWaGlkdkV3a2t5TUxGUDhzWDZidGFLT2VWeHpkekQ1Qm83SlkxWWQzZGtBVUVhTwpzdjViM21hMndWUG12cGl6Z1cwMWZCUlg2RjJHOXZDY1I1REFFWittMXBiUmlzalRNOTRhTitLVTZJNkhaK3dlClpoSThjOTZVU1FUamtiQzJxWDFxakRRcEIyQ1RBeFpsRkNyTVBtWW4waGlOMjBwOExCVFdIejlKN1FxTlEzY2cKTWVGUHdWL0RwalN4ejlVOTJ6ZDYrRis1bTlFRFpJV2dwWExPTDg2c2s4b1YveC9CTmpwRGx2RkJsQmY5WktiLwoyL2ZGZUl6YjVDR1ZFb3hyY2pMVFRTS3RyNkpiTks0MERtMHh0SjBUR2R0UGxJZEVMaHpRUHdUbzl0KytZWmF2CmQxcWpIYXY5UGtIK3hHMkYyT0w3bjM1YjBFYksyVFJVaEt0eFNoWXlYa20yNnFId3FjSFN0MmJpdGM5QXZ6c00KMHRpQ0xlTUpHZzRQS0prdTUyRkZ1VnF4eUpGL01mZm1kdmxHK0h6N3BnV2llaHh0bFVPaWcwMEQycjlqOVZCYwpNWWg2cWd5M2xMZThpOHFXVTk3cHdlRFlGS2xOeEwzK2FhNUw4Z3g4Z050VHltY2dzalJsa3l1M21aTjJMTXhSCnFWU3d6SmN5MGQ5VWdwczk4aG1ZT2FiM29EZy9hd3g2MGVCdXl4UER0K05IQzN1dktvUGg5RStIN2lySnVRPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==",
+      "usages": ["digital signature", "key encipherment", "client auth"], "username":
+      "minikube-user"}, "status": {"conditions": [{"lastUpdateTime": "2019-08-15T18:30:54.346056-06:00",
+      "message": "This certificate was approved by maintain_kubeusers", "reason":
+      "Authorized User", "type": "Approved"}]}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Swagger-Codegen/10.0.0/python
+    method: PUT
+    uri: https://192.168.99.101:8443/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-blurp/approval
+  response:
+    body:
+      string: '{"kind":"CertificateSigningRequest","apiVersion":"certificates.k8s.io/v1beta1","metadata":{"name":"tool-blurp","selfLink":"/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-blurp/approval","uid":"58bd21d8-8788-4a0d-88ee-2dc328a2021b","resourceVersion":"313513","creationTimestamp":"2019-08-16T00:30:54Z"},"spec":{"request":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWVqQ0NBbUlDQVFBd0pERVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTR3REFZRFZRUUREQVZpYkhWeQpjRENDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFOTVppV0ZjS3ZBM28wQzFzUUwrCnd3dUhRUnF3cnViYkNBR1NFL1FYbkwwTERZNzl5enp3TnlyUTE5cXJhbWdxYnZSVHRKdnFVN3NUTmVLamVxbncKOHlPWDFScnV4OVdLSHd0T0lZR21IS2k4QmJZem1oc2w1ZTVCZktibUVSMnhGaUZza1Z1S2MranBEUjF2R2dHNQpYM3pXb29WUVhWVkN3TmRoQmdxOCtySWdQU1d6YkN2RFlwemdkWlUvZ3lyWFBvT29BeUlZaHdLS1p0UCs3QzdICmdwQ3pxVUYrVTVhS3BDd3d0dmMvZ0xGdWw4amMzcFRMb2dER0t2Wnk0NkxLRkx6OWRad3Ria0x6V0hkVk5yb08KTjcxQXZVTXFBcGRKN09tUXpER2FqYmRZL1hBdE93a1JicUxtU0NjT1J2R2JtZjdmWmMyUnkyTkNrNHdCZlVheApYTWo2TDZWaloxK0tnMGhFaEprNXpSVGVGaVgxdklHa3V0MzEyQ0FXZDhSVG1FT1VDVHJ3MEFhSzBwWjF2TVE1CnJkSGxrd1pXc3EzaUtJaGZrOTBrMFRKVmxMWGg5UzlINGlZRUJjMENMK0pLVVc3c2EzUUIyMlVYZVl4STdKL1gKYlE1NXk5dUJMNnF2Y2RVbnd1SEhpbWpzcDNIYktiZHl0M25yZ3BZc1E4TXI2UUZtZC8zUGthbnFqZDNYYzZndApiODVuOHp4eURPWkhMbFBZY1oycW5PbmhET2VFbzY1V0ZaOG1QZHR2WmNiWC9PVEcrOWFXeXB6WmROWWFtL1l2CitDRFMyenJFeFAyTDZLT0dFS2dNOU51cURmcCt1bVF5SEJZS2pZdGorbWR6Z1NrcisxdWZZbnAzWWxDVDNld0cKZGRNQ3dyMzM5WEl1bmdkSXZzejdsaWdoQWdNQkFBR2dFVEFQQmdrcWhraUc5dzBCQ1E0eEFqQUFNQTBHQ1NxRwpTSWIzRFFFQkN3VUFBNElDQVFCQVhsUE1OdjlBaFV5d3NVWVgva0dRb3NjT2NLSGcraHNoWEhQb1loRUcrK1J1CnZQMHpjeGI3T0hMc2ZQMTJYOEtnUkpydk9SUjFoNkxKenBDeXVERjR5Z0diR0hlM00xVkdpZ0FBVkIwZGRuS2cKZFAxdHEwakRUWG84VVRZT2NWaGlkdkV3a2t5TUxGUDhzWDZidGFLT2VWeHpkekQ1Qm83SlkxWWQzZGtBVUVhTwpzdjViM21hMndWUG12cGl6Z1cwMWZCUlg2RjJHOXZDY1I1REFFWittMXBiUmlzalRNOTRhTitLVTZJNkhaK3dlClpoSThjOTZVU1FUamtiQzJxWDFxakRRcEIyQ1RBeFpsRkNyTVBtWW4waGlOMjBwOExCVFdIejlKN1FxTlEzY2cKTWVGUHdWL0RwalN4ejlVOTJ6ZDYrRis1bTlFRFpJV2dwWExPTDg2c2s4b1YveC9CTmpwRGx2RkJsQmY5WktiLwoyL2ZGZUl6YjVDR1ZFb3hyY2pMVFRTS3RyNkpiTks0MERtMHh0SjBUR2R0UGxJZEVMaHpRUHdUbzl0KytZWmF2CmQxcWpIYXY5UGtIK3hHMkYyT0w3bjM1YjBFYksyVFJVaEt0eFNoWXlYa20yNnFId3FjSFN0MmJpdGM5QXZ6c00KMHRpQ0xlTUpHZzRQS0prdTUyRkZ1VnF4eUpGL01mZm1kdmxHK0h6N3BnV2llaHh0bFVPaWcwMEQycjlqOVZCYwpNWWg2cWd5M2xMZThpOHFXVTk3cHdlRFlGS2xOeEwzK2FhNUw4Z3g4Z050VHltY2dzalJsa3l1M21aTjJMTXhSCnFWU3d6SmN5MGQ5VWdwczk4aG1ZT2FiM29EZy9hd3g2MGVCdXl4UER0K05IQzN1dktvUGg5RStIN2lySnVRPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==","usages":["digital
+        signature","key encipherment","client auth"],"username":"minikube-user","groups":["system:masters","system:authenticated"]},"status":{"conditions":[{"type":"Approved","reason":"Authorized
+        User","message":"This certificate was approved by maintain_kubeusers","lastUpdateTime":"2019-08-16T00:30:54Z"}]}}
+
+        '
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 16 Aug 2019 00:30:54 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Swagger-Codegen/10.0.0/python
+    method: GET
+    uri: https://192.168.99.101:8443/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-blurp
+  response:
+    body:
+      string: '{"kind":"CertificateSigningRequest","apiVersion":"certificates.k8s.io/v1beta1","metadata":{"name":"tool-blurp","selfLink":"/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-blurp","uid":"58bd21d8-8788-4a0d-88ee-2dc328a2021b","resourceVersion":"313514","creationTimestamp":"2019-08-16T00:30:54Z"},"spec":{"request":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWVqQ0NBbUlDQVFBd0pERVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTR3REFZRFZRUUREQVZpYkhWeQpjRENDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFOTVppV0ZjS3ZBM28wQzFzUUwrCnd3dUhRUnF3cnViYkNBR1NFL1FYbkwwTERZNzl5enp3TnlyUTE5cXJhbWdxYnZSVHRKdnFVN3NUTmVLamVxbncKOHlPWDFScnV4OVdLSHd0T0lZR21IS2k4QmJZem1oc2w1ZTVCZktibUVSMnhGaUZza1Z1S2MranBEUjF2R2dHNQpYM3pXb29WUVhWVkN3TmRoQmdxOCtySWdQU1d6YkN2RFlwemdkWlUvZ3lyWFBvT29BeUlZaHdLS1p0UCs3QzdICmdwQ3pxVUYrVTVhS3BDd3d0dmMvZ0xGdWw4amMzcFRMb2dER0t2Wnk0NkxLRkx6OWRad3Ria0x6V0hkVk5yb08KTjcxQXZVTXFBcGRKN09tUXpER2FqYmRZL1hBdE93a1JicUxtU0NjT1J2R2JtZjdmWmMyUnkyTkNrNHdCZlVheApYTWo2TDZWaloxK0tnMGhFaEprNXpSVGVGaVgxdklHa3V0MzEyQ0FXZDhSVG1FT1VDVHJ3MEFhSzBwWjF2TVE1CnJkSGxrd1pXc3EzaUtJaGZrOTBrMFRKVmxMWGg5UzlINGlZRUJjMENMK0pLVVc3c2EzUUIyMlVYZVl4STdKL1gKYlE1NXk5dUJMNnF2Y2RVbnd1SEhpbWpzcDNIYktiZHl0M25yZ3BZc1E4TXI2UUZtZC8zUGthbnFqZDNYYzZndApiODVuOHp4eURPWkhMbFBZY1oycW5PbmhET2VFbzY1V0ZaOG1QZHR2WmNiWC9PVEcrOWFXeXB6WmROWWFtL1l2CitDRFMyenJFeFAyTDZLT0dFS2dNOU51cURmcCt1bVF5SEJZS2pZdGorbWR6Z1NrcisxdWZZbnAzWWxDVDNld0cKZGRNQ3dyMzM5WEl1bmdkSXZzejdsaWdoQWdNQkFBR2dFVEFQQmdrcWhraUc5dzBCQ1E0eEFqQUFNQTBHQ1NxRwpTSWIzRFFFQkN3VUFBNElDQVFCQVhsUE1OdjlBaFV5d3NVWVgva0dRb3NjT2NLSGcraHNoWEhQb1loRUcrK1J1CnZQMHpjeGI3T0hMc2ZQMTJYOEtnUkpydk9SUjFoNkxKenBDeXVERjR5Z0diR0hlM00xVkdpZ0FBVkIwZGRuS2cKZFAxdHEwakRUWG84VVRZT2NWaGlkdkV3a2t5TUxGUDhzWDZidGFLT2VWeHpkekQ1Qm83SlkxWWQzZGtBVUVhTwpzdjViM21hMndWUG12cGl6Z1cwMWZCUlg2RjJHOXZDY1I1REFFWittMXBiUmlzalRNOTRhTitLVTZJNkhaK3dlClpoSThjOTZVU1FUamtiQzJxWDFxakRRcEIyQ1RBeFpsRkNyTVBtWW4waGlOMjBwOExCVFdIejlKN1FxTlEzY2cKTWVGUHdWL0RwalN4ejlVOTJ6ZDYrRis1bTlFRFpJV2dwWExPTDg2c2s4b1YveC9CTmpwRGx2RkJsQmY5WktiLwoyL2ZGZUl6YjVDR1ZFb3hyY2pMVFRTS3RyNkpiTks0MERtMHh0SjBUR2R0UGxJZEVMaHpRUHdUbzl0KytZWmF2CmQxcWpIYXY5UGtIK3hHMkYyT0w3bjM1YjBFYksyVFJVaEt0eFNoWXlYa20yNnFId3FjSFN0MmJpdGM5QXZ6c00KMHRpQ0xlTUpHZzRQS0prdTUyRkZ1VnF4eUpGL01mZm1kdmxHK0h6N3BnV2llaHh0bFVPaWcwMEQycjlqOVZCYwpNWWg2cWd5M2xMZThpOHFXVTk3cHdlRFlGS2xOeEwzK2FhNUw4Z3g4Z050VHltY2dzalJsa3l1M21aTjJMTXhSCnFWU3d6SmN5MGQ5VWdwczk4aG1ZT2FiM29EZy9hd3g2MGVCdXl4UER0K05IQzN1dktvUGg5RStIN2lySnVRPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==","usages":["digital
+        signature","key encipherment","client auth"],"username":"minikube-user","groups":["system:masters","system:authenticated"]},"status":{"conditions":[{"type":"Approved","reason":"Authorized
+        User","message":"This certificate was approved by maintain_kubeusers","lastUpdateTime":"2019-08-16T00:30:54Z"}],"certificate":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVHekNDQXdPZ0F3SUJBZ0lVTm9aQTU4cUtLc1JZQ2xSME1rYVlrMzJGQmNZd0RRWUpLb1pJaHZjTkFRRUwKQlFBd0ZURVRNQkVHQTFVRUF4TUtiV2x1YVd0MVltVkRRVEFlRncweE9UQTRNVFl3TURJMk1EQmFGdzB5TURBNApNVFV3TURJMk1EQmFNQ1F4RWpBUUJnTlZCQW9UQ1hSdmIyeG1iM0puWlRFT01Bd0dBMVVFQXhNRllteDFjbkF3CmdnSWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUNEd0F3Z2dJS0FvSUNBUURUR1lsaFhDcndONk5BdGJFQy9zTUwKaDBFYXNLN20yd2dCa2hQMEY1eTlDdzJPL2NzODhEY3EwTmZhcTJwb0ttNzBVN1NiNmxPN0V6WGlvM3FwOFBNagpsOVVhN3NmVmloOExUaUdCcGh5b3ZBVzJNNW9iSmVYdVFYeW01aEVkc1JZaGJKRmJpblBvNlEwZGJ4b0J1Vjk4CjFxS0ZVRjFWUXNEWFlRWUt2UHF5SUQwbHMyd3J3MktjNEhXVlA0TXExejZEcUFNaUdJY0NpbWJUL3V3dXg0S1EKczZsQmZsT1dpcVFzTUxiM1A0Q3hicGZJM042VXk2SUF4aXIyY3VPaXloUzgvWFdjTFc1QzgxaDNWVGE2RGplOQpRTDFES2dLWFNlenBrTXd4bW8yM1dQMXdMVHNKRVc2aTVrZ25Ea2J4bTVuKzMyWE5rY3RqUXBPTUFYMUdzVnpJCitpK2xZMmRmaW9OSVJJU1pPYzBVM2hZbDlieUJwTHJkOWRnZ0ZuZkVVNWhEbEFrNjhOQUdpdEtXZGJ6RU9hM1IKNVpNR1ZyS3Q0aWlJWDVQZEpORXlWWlMxNGZVdlIrSW1CQVhOQWkvaVNsRnU3R3QwQWR0bEYzbU1TT3lmMTIwTwplY3ZiZ1MrcXIzSFZKOExoeDRwbzdLZHgyeW0zY3JkNTY0S1dMRVBESytrQlpuZjl6NUdwNm8zZDEzT29MVy9PClovTThjZ3ptUnk1VDJIR2RxcHpwNFF6bmhLT3VWaFdmSmozYmIyWEcxL3preHZ2V2xzcWMyWFRXR3B2MkwvZ2cKMHRzNnhNVDlpK2lqaGhDb0RQVGJxZzM2ZnJwa01od1dDbzJMWS9wbmM0RXBLL3RibjJKNmQySlFrOTNzQm5YVApBc0s5OS9WeUxwNEhTTDdNKzVZb0lRSURBUUFCbzFRd1VqQU9CZ05WSFE4QkFmOEVCQU1DQmFBd0V3WURWUjBsCkJBd3dDZ1lJS3dZQkJRVUhBd0l3REFZRFZSMFRBUUgvQkFJd0FEQWRCZ05WSFE0RUZnUVVpbHpkQmpabU1DQ2gKQ0ZiSXdNTGtSeHFTY2Ewd0RRWUpLb1pJaHZjTkFRRUxCUUFEZ2dFQkFIYWlhL0lYcSt2UUxlTlRVeFBRTml0TApGS1dFVTdLTzJKT1djaGphRUJPTnJaYXFoMCtWWEtqNStxd0JUNHhwQWNmWVVBUUNSZ2FkTm0xOWtjZHdxYnRzCmlrZFM5Y3NEeGdKU0NpS1VLK0xqWEJDVi9yZW1HcG1abkMyR1lEeXF1YWxaYXVnemdtRTJuVFVuV2JReGREWU8KTVpjeXkrTW5rSE5YenE0YVQ1M25kN1VuL3ZLYm9VWjNhYUJPMFlESWpMZndiMDF4WXExQ09RTHVhVGdUd2owUwpJZmZHYSt4TWdnMFFDUVZWS2VBb2lJZmMvdklxOU1CSFpNd1NlNEZsTmMzbVEvczhVUnl6VzJMY0FSMG5abjRZCnRSdjd1YzliTTREdlk2TzFtelg4cEszc094QzdwK1dVY1FROURFTnhjNVd4OUg5c2k0RnUvc3U0bGRXUWxqbz0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}}
+
+        '
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 16 Aug 2019 00:30:55 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Swagger-Codegen/10.0.0/python
+    method: DELETE
+    uri: https://192.168.99.101:8443/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-blurp
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Success","details":{"name":"tool-blurp","group":"certificates.k8s.io","kind":"certificatesigningrequests","uid":"58bd21d8-8788-4a0d-88ee-2dc328a2021b"}}
+
+        '
+    headers:
+      Content-Length:
+      - '212'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 16 Aug 2019 00:30:55 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"apiVersion": "v1", "kind": "Namespace", "metadata": {"labels": {"name":
+      "tool-blurp", "tenancy": "tool"}, "name": "tool-blurp"}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Swagger-Codegen/10.0.0/python
+    method: POST
+    uri: https://192.168.99.101:8443/api/v1/namespaces
+  response:
+    body:
+      string: '{"kind":"Namespace","apiVersion":"v1","metadata":{"name":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp","uid":"51c3219b-a8ab-4263-b663-4f8f5d115fde","resourceVersion":"313517","creationTimestamp":"2019-08-16T00:30:55Z","labels":{"name":"tool-blurp","tenancy":"tool"}},"spec":{"finalizers":["kubernetes"]},"status":{"phase":"Active"}}
+
+        '
+    headers:
+      Content-Length:
+      - '343'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 16 Aug 2019 00:30:55 GMT
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"apiVersion": "rbac.authorization.k8s.io/v1", "kind": "RoleBinding", "metadata":
+      {"name": "blurp-tool-binding", "namespace": "tool-blurp"}, "roleRef": {"apiGroup":
+      "rbac.authorization.k8s.io", "kind": "ClusterRole", "name": "edit"}, "subjects":
+      [{"apiGroup": "rbac.authorization.k8s.io", "kind": "User", "name": "blurp"}]}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Swagger-Codegen/10.0.0/python
+    method: POST
+    uri: https://192.168.99.101:8443/apis/rbac.authorization.k8s.io/v1/namespaces/tool-blurp/rolebindings
+  response:
+    body:
+      string: '{"kind":"RoleBinding","apiVersion":"rbac.authorization.k8s.io/v1","metadata":{"name":"blurp-tool-binding","namespace":"tool-blurp","selfLink":"/apis/rbac.authorization.k8s.io/v1/namespaces/tool-blurp/rolebindings/blurp-tool-binding","uid":"f53c34e3-3e84-40e4-8dca-97da74736630","resourceVersion":"313520","creationTimestamp":"2019-08-16T00:30:55Z"},"subjects":[{"kind":"User","apiGroup":"rbac.authorization.k8s.io","name":"blurp"}],"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"edit"}}
+
+        '
+    headers:
+      Content-Length:
+      - '519'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 16 Aug 2019 00:30:55 GMT
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"apiVersion": "v1", "data": {"status": "user created: 2019-08-16T00:30:55.402057",
+      "expires": "2020-08-15T00:26:00"}, "kind": "ConfigMap", "metadata": {"name":
+      "maintain-kubeusers"}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Swagger-Codegen/10.0.0/python
+    method: POST
+    uri: https://192.168.99.101:8443/api/v1/namespaces/tool-blurp/configmaps
+  response:
+    body:
+      string: '{"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"maintain-kubeusers","namespace":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp/configmaps/maintain-kubeusers","uid":"25cac8a4-826b-425f-aae8-a699da2384db","resourceVersion":"313522","creationTimestamp":"2019-08-16T00:30:55Z"},"data":{"expires":"2020-08-15T00:26:00","status":"user
+        created: 2019-08-16T00:30:55.402057"}}
+
+        '
+    headers:
+      Content-Length:
+      - '386'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 16 Aug 2019 00:30:55 GMT
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"apiVersion": "v1", "data": {"status": "user created: 2019-08-16T00:30:55.409149",
+      "expires": "2018-08-14T22:31:00"}, "kind": "ConfigMap", "metadata": {"name":
+      "maintain-kubeusers"}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/strategic-merge-patch+json
+      User-Agent:
+      - Swagger-Codegen/10.0.0/python
+    method: PATCH
+    uri: https://192.168.99.101:8443/api/v1/namespaces/tool-blurp/configmaps/maintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"maintain-kubeusers","namespace":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp/configmaps/maintain-kubeusers","uid":"25cac8a4-826b-425f-aae8-a699da2384db","resourceVersion":"313523","creationTimestamp":"2019-08-16T00:30:55Z"},"data":{"expires":"2018-08-14T22:31:00","status":"user
+        created: 2019-08-16T00:30:55.409149"}}
+
+        '
+    headers:
+      Content-Length:
+      - '386'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 16 Aug 2019 00:30:55 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Swagger-Codegen/10.0.0/python
+    method: GET
+    uri: https://192.168.99.101:8443/api/v1/namespaces?labelSelector=tenancy%3Dtool
+  response:
+    body:
+      string: '{"kind":"NamespaceList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces","resourceVersion":"313523"},"items":[{"metadata":{"name":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp","uid":"51c3219b-a8ab-4263-b663-4f8f5d115fde","resourceVersion":"313517","creationTimestamp":"2019-08-16T00:30:55Z","labels":{"name":"tool-blurp","tenancy":"tool"}},"spec":{"finalizers":["kubernetes"]},"status":{"phase":"Active"}}]}
+
+        '
+    headers:
+      Content-Length:
+      - '431'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 16 Aug 2019 00:30:55 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Swagger-Codegen/10.0.0/python
+    method: GET
+    uri: https://192.168.99.101:8443/api/v1/namespaces/tool-blurp/configmaps?fieldSelector=metadata.name%3Dmaintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"ConfigMapList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces/tool-blurp/configmaps","resourceVersion":"313523"},"items":[{"metadata":{"name":"maintain-kubeusers","namespace":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp/configmaps/maintain-kubeusers","uid":"25cac8a4-826b-425f-aae8-a699da2384db","resourceVersion":"313523","creationTimestamp":"2019-08-16T00:30:55Z"},"data":{"expires":"2018-08-14T22:31:00","status":"user
+        created: 2019-08-16T00:30:55.409149"}}]}
+
+        '
+    headers:
+      Content-Length:
+      - '496'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 16 Aug 2019 00:30:55 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"apiVersion": "v1", "data": {"status": "user created: 2019-08-16T00:30:55.427588",
+      "expires": "2020-08-15T00:26:00"}, "kind": "ConfigMap", "metadata": {"name":
+      "maintain-kubeusers"}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/strategic-merge-patch+json
+      User-Agent:
+      - Swagger-Codegen/10.0.0/python
+    method: PATCH
+    uri: https://192.168.99.101:8443/api/v1/namespaces/tool-blurp/configmaps/maintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"maintain-kubeusers","namespace":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp/configmaps/maintain-kubeusers","uid":"25cac8a4-826b-425f-aae8-a699da2384db","resourceVersion":"313524","creationTimestamp":"2019-08-16T00:30:55Z"},"data":{"expires":"2020-08-15T00:26:00","status":"user
+        created: 2019-08-16T00:30:55.427588"}}
+
+        '
+    headers:
+      Content-Length:
+      - '386'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 16 Aug 2019 00:30:55 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Swagger-Codegen/10.0.0/python
+    method: GET
+    uri: https://192.168.99.101:8443/api/v1/namespaces?labelSelector=tenancy%3Dtool
+  response:
+    body:
+      string: '{"kind":"NamespaceList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces","resourceVersion":"313524"},"items":[{"metadata":{"name":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp","uid":"51c3219b-a8ab-4263-b663-4f8f5d115fde","resourceVersion":"313517","creationTimestamp":"2019-08-16T00:30:55Z","labels":{"name":"tool-blurp","tenancy":"tool"}},"spec":{"finalizers":["kubernetes"]},"status":{"phase":"Active"}}]}
+
+        '
+    headers:
+      Content-Length:
+      - '431'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 16 Aug 2019 00:30:55 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Swagger-Codegen/10.0.0/python
+    method: GET
+    uri: https://192.168.99.101:8443/api/v1/namespaces/tool-blurp/configmaps?fieldSelector=metadata.name%3Dmaintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"ConfigMapList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces/tool-blurp/configmaps","resourceVersion":"313524"},"items":[{"metadata":{"name":"maintain-kubeusers","namespace":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp/configmaps/maintain-kubeusers","uid":"25cac8a4-826b-425f-aae8-a699da2384db","resourceVersion":"313524","creationTimestamp":"2019-08-16T00:30:55Z"},"data":{"expires":"2020-08-15T00:26:00","status":"user
+        created: 2019-08-16T00:30:55.427588"}}]}
+
+        '
+    headers:
+      Content-Length:
+      - '496'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 16 Aug 2019 00:30:55 GMT
+    status:
+      code: 200
+      message: OK
+version: 1

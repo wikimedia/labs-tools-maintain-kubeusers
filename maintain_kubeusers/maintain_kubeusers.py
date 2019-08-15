@@ -37,7 +37,7 @@ Kubernetes
 """
 import argparse
 import base64
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import logging
 import os
 
@@ -86,15 +86,31 @@ class K8sAPI:
 
     def _check_confmap(self, ns):
         fs = "metadata.name=maintain-kubeusers"
-        yield self.core.list_namespaced_config_map(ns, field_selector=fs).items
+        return self.core.list_namespaced_config_map(ns, field_selector=fs).items
 
     def get_current_tool_users(self):
         # Return all tools that currently have the maintain-kubeusers ConfigMap
+        # and tools whose certs expire in 30 days
         namespaces = self.get_tool_namespaces()
-        return [ns[5:] for ns in namespaces if next(self._check_confmap(ns))]
+        current = []
+        expiring = []
+        test_time = datetime.utcnow() + timedelta(days=30)
+        for ns in namespaces:
+            cm_list = self._check_confmap(ns)
+            if cm_list:
+                current.append(ns[5:])
+                expiry_time = datetime.strptime(
+                    cm_list[0].data["expires"], "%Y-%m-%dT%H:%M:%S"
+                )
+                if expiry_time <= test_time:
+                    expiring.append(ns[5:])
+
+        return current, expiring
 
     def create_configmap(self, user):
         """ To be done after all user generation steps are complete """
+        cert_o = x509.load_pem_x509_certificate(user.cert, default_backend())
+        expires = cert_o.not_valid_after
         config_map = client.V1ConfigMap(
             api_version="v1",
             kind="ConfigMap",
@@ -102,11 +118,12 @@ class K8sAPI:
             data={
                 "status": "user created: {}".format(
                     datetime.utcnow().isoformat()
-                )
+                ),
+                "expires": expires.isoformat(),
             },
         )
         resp = self.core.create_namespaced_config_map(
-            "tool-{}".format(user), body=config_map
+            "tool-{}".format(user.name), body=config_map
         )
         return resp.metadata.name
 
@@ -207,6 +224,26 @@ class K8sAPI:
             logging.error("Could not create namespace for %s", user)
             raise
 
+    def update_expired_ns(self, user):
+        """ Patch the existing NS for the new certificate exipration """
+        cert_o = x509.load_pem_x509_certificate(user.cert, default_backend())
+        expires = cert_o.not_valid_after
+        config_map = client.V1ConfigMap(
+            api_version="v1",
+            kind="ConfigMap",
+            metadata=client.V1ObjectMeta(name="maintain-kubeusers"),
+            data={
+                "status": "user created: {}".format(
+                    datetime.utcnow().isoformat()
+                ),
+                "expires": expires.isoformat(),
+            },
+        )
+        resp = self.core.patch_namespaced_config_map(
+            "maintain-kubeusers", "tool-{}".format(user.name), body=config_map
+        )
+        return resp.metadata.name
+
     def process_rbac(self, user):
         # "edit" is a default clusterrole that basically implies
         # write access to most resources, including volumes.
@@ -244,10 +281,10 @@ class K8sAPI:
             logging.error("Could not create rolebinding for %s", user)
             raise
 
-    def add_user_access(self, username):
-        self.create_namespace(username)
-        self.process_rbac(username)
-        self.create_configmap(username)
+    def add_user_access(self, user):
+        self.create_namespace(user.name)
+        self.process_rbac(user.name)
+        self.create_configmap(user)
 
 
 class User:
@@ -447,10 +484,10 @@ def main():
 
     k8s_api = K8sAPI()
     api_server, ca_data = k8s_api.get_cluster_info()
-    cur_users = k8s_api.get_current_tool_users()
 
     while True:
         logging.info("starting a run")
+        cur_users, expiring_users = k8s_api.get_current_tool_users()
         servers = ldap3.ServerPool(
             [ldap3.Server(s, connect_timeout=1) for s in ldapconfig["servers"]],
             ldap3.ROUND_ROBIN,
@@ -476,10 +513,20 @@ def main():
                 tools[tool_name].cert = k8s_api.approve_cert(tool_name)
                 create_homedir(tools[tool_name])
                 write_kubeconfig(tools[tool_name], api_server, ca_data)
-                k8s_api.add_user_access(tool_name)
+                k8s_api.add_user_access(tools[tool_name])
                 logging.info("Provisioned creds for tool %s", tool_name)
 
         logging.info("finished run, wrote %s new accounts", len(new_tools))
+
+        if expiring_users:
+            for tool_name in expiring_users:
+                tools[tool_name].pk = generate_pk()
+                k8s_api.generate_csr(tools[tool_name].pk, tool_name)
+                tools[tool_name].cert = k8s_api.approve_cert(tool_name)
+                create_homedir(tools[tool_name])
+                write_kubeconfig(tools[tool_name], api_server, ca_data)
+                k8s_api.update_expired_ns(tools[tool_name])
+                logging.info("Renewed creds for tool %s", tool_name)
 
         if args.once:
             break
