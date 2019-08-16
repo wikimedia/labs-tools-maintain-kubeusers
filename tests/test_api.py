@@ -7,7 +7,7 @@ from .context import maintain_kubeusers
 
 @pytest.fixture(scope="module")
 def api_object():
-    maintain_kubeusers.config.load_kube_config()
+    maintain_kubeusers.config.load_kube_config(config_file="tests/dummy_config")
     return maintain_kubeusers.K8sAPI()
 
 

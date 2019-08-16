@@ -56,11 +56,6 @@ from kubernetes import client, config
 from kubernetes.client.rest import ApiException
 
 
-# TODO: Get credentials from mounted svc account not .kube/config
-# This makes it all work great with minikube for testing.
-config.load_kube_config()
-
-
 class K8sAPI:
     def __init__(self):
         self.core = client.CoreV1Api()
@@ -471,7 +466,9 @@ def main():
         "--once", help="Run once and exit", action="store_true"
     )
     argparser.add_argument(
-        "kubernetes_api_url", help="Full URL of Kubernetes API"
+        "--local",
+        help="Specifies this is not running in Kubernetes",
+        action="store_true",
     )
 
     args = argparser.parse_args()
@@ -481,6 +478,11 @@ def main():
 
     with open(args.ldapconfig, encoding="utf-8") as f:
         ldapconfig = yaml.safe_load(f)
+
+    if args.local:
+        config.load_kube_config()
+    else:
+        config.load_incluster_config()
 
     k8s_api = K8sAPI()
     api_server, ca_data = k8s_api.get_cluster_info()

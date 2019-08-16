@@ -5,3 +5,83 @@ metadata:
   name: maintain-kubeusers
   labels:
     name: maintain-kubeusers
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: user-maintainer
+  namespace: maintain-kubeusers
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: user-maintainer
+rules:
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - rolebindings
+  - roles
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  - configmaps
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - certificates.k8s.io
+  resources:
+  - certificatesigningrequests
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - replace
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: user-maintainer-binding
+subjects:
+- kind: ServiceAccount
+  namespace: maintain-kubeusers
+  name: user-maintainer
+roleRef:
+  kind: ClusterRole
+  name: user-maintainer
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: maintain-kubeusers
+  namespace: maintain-kubeusers
+  labels:
+    app: maintain-kubeusers
+spec:
+  serviceAccountName: user-maintainer
+  containers:
+  - name: maintain-kubeusers
+    imagePullPolicy: IfNotPresent
+    image: mk-test:latest
+    command: ["/bin/ash"]
+    args: ["-c", "while true; do echo hello; sleep 10;done"]
+  restartPolicy: OnFailure
+

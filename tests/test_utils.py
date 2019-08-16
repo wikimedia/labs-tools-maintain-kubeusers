@@ -9,7 +9,9 @@ def api_object():
     return maintain_kubeusers.K8sAPI()
 
 
-def test_home_dir_utils(test_user):
+def test_home_dir_utils(test_user, mocker):
+    mocker.patch('os.chown', autospec=True)
+    mocker.patch('os.fchown', autospec=True)
     test_user.cert = b"""
 -----BEGIN CERTIFICATE-----
 Not really a cert

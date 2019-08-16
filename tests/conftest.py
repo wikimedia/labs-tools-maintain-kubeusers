@@ -13,4 +13,4 @@ def vcr_config():
 
 @pytest.fixture
 def test_user(tmp_path):
-    return maintain_kubeusers.User("blurp", 502, tmp_path)
+    return maintain_kubeusers.User("blurp", 1002, tmp_path)
