@@ -107,19 +107,19 @@ roleRef:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: maintain-kubeusers
+  name: maintain-kubeusers-test
   namespace: maintain-kubeusers
   labels:
-    app: maintain-kubeusers
+    app: maintain-kubeusers-test
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: maintain-kubeusers
+      app: maintain-kubeusers-test
   template:
     metadata:
       labels:
-        app: maintain-kubeusers
+        app: maintain-kubeusers-test
     spec:
       serviceAccountName: user-maintainer
       volumes:
@@ -131,7 +131,7 @@ spec:
       - name: maintain-kubeusers
         imagePullPolicy: IfNotPresent
         # TODO: change this to production values when the time comes.
-        image: mk-test:latest
+        image: mk-test:testcase
         command: ["/bin/ash"]
         args: ["-c", "while true; do echo hello; sleep 10;done"]
         # production values

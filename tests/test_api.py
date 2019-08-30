@@ -6,8 +6,13 @@ from .context import maintain_kubeusers
 
 
 @pytest.fixture(scope="module")
-def api_object():
-    maintain_kubeusers.config.load_kube_config(config_file="tests/dummy_config")
+def api_object(are_we_in_k8s):
+    if are_we_in_k8s:
+        maintain_kubeusers.config.load_incluster_config()
+    else:
+        maintain_kubeusers.config.load_kube_config(
+            config_file="tests/dummy_config"
+        )
     return maintain_kubeusers.K8sAPI()
 
 

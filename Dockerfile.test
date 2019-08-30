@@ -6,14 +6,20 @@ RUN apk add --no-cache --virtual .fetch-deps \
 WORKDIR /app
 
 COPY maintain_kubeusers/maintain_kubeusers.py .
-COPY requirements.txt .
+
 COPY ldap.yaml /etc/
 
+COPY . /app
+RUN rm -rf venv
 RUN mkdir -p /data/project
 RUN python3 -m venv venv
 
 RUN source venv/bin/activate
 
+RUN sed -i 's/dc=wikimedia,dc=org/dc=wmftest,dc=net/g' maintain_kubeusers.py
+
 RUN venv/bin/pip install -r requirements.txt
+RUN venv/bin/pip install tox
+RUN venv/bin/pip install pytest pytest-vcr pytest-mock
 
 CMD ["venv/bin/python", "maintain_kubeusers.py" , "--once", "--debug"]

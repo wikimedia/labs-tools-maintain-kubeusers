@@ -14,3 +14,17 @@ def vcr_config():
 @pytest.fixture
 def test_user(tmp_path):
     return maintain_kubeusers.User("blurp", 1002, tmp_path)
+
+
+def pytest_addoption(parser):
+    parser.addoption(
+        "--in-k8s",
+        action="store_true",
+        default=False,
+        help="For rebuilding cassettes inside k8s",
+    )
+
+
+@pytest.fixture(scope="session")
+def are_we_in_k8s(request):
+    return request.config.getoption("--in-k8s")

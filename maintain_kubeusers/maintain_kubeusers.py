@@ -40,7 +40,7 @@ import base64
 from datetime import datetime, timezone, timedelta
 import logging
 import os
-
+from pathlib import Path
 import stat
 import time
 
@@ -61,6 +61,7 @@ class K8sAPI:
         self.core = client.CoreV1Api()
         self.certs = client.CertificatesV1beta1Api()
         self.rbac = client.RbacAuthorizationV1Api()
+        self.extensions = client.ExtensionsV1beta1Api()
 
     def get_cluster_info(self):
         c_info = self.core.read_namespaced_config_map(
@@ -239,11 +240,205 @@ class K8sAPI:
         )
         return resp.metadata.name
 
+    def generate_psp(self, user):
+        policy = client.ExtensionsV1beta1PodSecurityPolicy(
+            api_version="extensions/v1beta1",
+            kind="PodSecurityPolicy",
+            metadata=client.V1ObjectMeta(
+                name="tool-{}-psp".format(user.name),
+                annotations={
+                    "seccomp.security.alpha.kubernetes.io/allowedProfileNames": "runtime/default",  # noqa: E501
+                    "seccomp.security.alpha.kubernetes.io/defaultProfileName": "runtime/default",  # noqa: E501
+                },
+            ),
+            spec=client.ExtensionsV1beta1PodSecurityPolicySpec(
+                allow_privilege_escalation=False,
+                fs_group=client.ExtensionsV1beta1FSGroupStrategyOptions(
+                    rule="MustRunAs",
+                    ranges=[
+                        client.ExtensionsV1beta1IDRange(
+                            max=int(user.id), min=int(user.id)
+                        )
+                    ],
+                ),
+                host_ipc=False,
+                host_network=False,
+                host_pid=False,
+                privileged=False,
+                read_only_root_filesystem=False,
+                run_as_user=client.ExtensionsV1beta1RunAsUserStrategyOptions(
+                    rule="MustRunAs",
+                    ranges=[
+                        client.ExtensionsV1beta1IDRange(
+                            max=int(user.id), min=int(user.id)
+                        )
+                    ],
+                ),
+                se_linux=client.ExtensionsV1beta1SELinuxStrategyOptions(
+                    rule="RunAsAny"
+                ),
+                run_as_group=client.ExtensionsV1beta1RunAsGroupStrategyOptions(
+                    rule="MustRunAs",
+                    ranges=[
+                        client.ExtensionsV1beta1IDRange(
+                            max=int(user.id), min=int(user.id)
+                        )
+                    ],
+                ),
+                supplemental_groups=client.ExtensionsV1beta1SupplementalGroupsStrategyOptions(  # noqa: E501
+                    rule="MustRunAs",
+                    ranges=[client.ExtensionsV1beta1IDRange(min=1, max=65535)],
+                ),
+                volumes=[
+                    "configMap",
+                    "downwardAPI",
+                    "emptyDir",
+                    "projected",
+                    "secret",
+                ],
+                allowed_host_paths=[
+                    client.ExtensionsV1beta1AllowedHostPath(
+                        path_prefix="/var/lib/sss/pipes", read_only=False
+                    ),
+                    client.ExtensionsV1beta1AllowedHostPath(
+                        path_prefix="/data/project", read_only=False
+                    ),
+                    client.ExtensionsV1beta1AllowedHostPath(
+                        path_prefix="/public/scratch", read_only=False
+                    ),
+                    client.ExtensionsV1beta1AllowedHostPath(
+                        path_prefix="/public/dumps", read_only=True
+                    ),
+                    client.ExtensionsV1beta1AllowedHostPath(
+                        path_prefix="/etc/wmcs-project", read_only=True
+                    ),
+                    client.ExtensionsV1beta1AllowedHostPath(
+                        path_prefix="/etc/ldap.yaml", read_only=True
+                    ),
+                    client.ExtensionsV1beta1AllowedHostPath(
+                        path_prefix="/etc/novaobserver.yaml", read_only=True
+                    ),
+                    client.ExtensionsV1beta1AllowedHostPath(
+                        path_prefix="/etc/ldap.conf", read_only=True
+                    ),
+                ],
+            ),
+        )
+        try:
+            _ = self.extensions.create_pod_security_policy(policy)
+        except ApiException as api_ex:
+            if api_ex.status == 409 and "AlreadyExists" in api_ex.body:
+                logging.info(
+                    "PodSecurityPolicy tool-%s-psp already exists", user.name
+                )
+                return
+
+            logging.error("Could not create podsecuritypolicy for %s", user)
+            raise
+
     def process_rbac(self, user):
-        # "edit" is a default clusterrole that basically implies
-        # write access to most resources, including volumes.
-        # It does not include changing roles or bindings or PSPs.
-        # PSPs should override most volume functionality.
+        try:
+            _ = self.rbac.create_namespaced_role(
+                namespace="tool-{}".format(user),
+                body=client.V1Role(
+                    api_version="rbac.authorization.k8s.io/v1",
+                    kind="Role",
+                    metadata=client.V1ObjectMeta(
+                        name="tool-{}-psp".format(user),
+                        namespace="tool-{}".format(user),
+                    ),
+                    rules=[
+                        client.V1PolicyRule(
+                            api_groups=["extensions"],
+                            resource_names=["tool-{}-psp".format(user)],
+                            resources=["podsecuritypolicies"],
+                            verbs=["use"],
+                        )
+                    ],
+                ),
+            )
+        except ApiException as api_ex:
+            if api_ex.status == 409 and "AlreadyExists" in api_ex.body:
+                logging.info("Role tool-%s-psp already exists", user)
+                return
+
+            logging.error("Could not create psp role for %s", user)
+            raise
+
+        try:
+            _ = self.rbac.create_namespaced_role_binding(
+                namespace="tool-{}".format(user),
+                body=client.V1RoleBinding(
+                    api_version="rbac.authorization.k8s.io/v1",
+                    kind="RoleBinding",
+                    metadata=client.V1ObjectMeta(
+                        name="tool-{}-psp-binding".format(user),
+                        namespace="tool-{}".format(user),
+                    ),
+                    role_ref=client.V1RoleRef(
+                        kind="Role",
+                        name="tool-{}-psp".format(user),
+                        api_group="rbac.authorization.k8s.io",
+                    ),
+                    subjects=[
+                        client.V1Subject(
+                            kind="User",
+                            name=user,
+                            api_group="rbac.authorization.k8s.io",
+                        )
+                    ],
+                ),
+            )
+        except ApiException as api_ex:
+            if api_ex.status == 409 and "AlreadyExists" in api_ex.body:
+                logging.info(
+                    "RoleBinding tool-%s-psp-binding already exists", user
+                )
+                return
+
+            logging.error("Could not create psp rolebinding for %s", user)
+            raise
+
+        try:
+            _ = self.rbac.create_namespaced_role_binding(
+                namespace="tool-{}".format(user),
+                body=client.V1RoleBinding(
+                    api_version="rbac.authorization.k8s.io/v1",
+                    kind="RoleBinding",
+                    metadata=client.V1ObjectMeta(
+                        name="default-{}-psp-binding".format(user),
+                        namespace="tool-{}".format(user),
+                    ),
+                    role_ref=client.V1RoleRef(
+                        kind="Role",
+                        name="tool-{}-psp".format(user),
+                        api_group="rbac.authorization.k8s.io",
+                    ),
+                    subjects=[
+                        client.V1Subject(
+                            kind="ServiceAccount",
+                            name="default",
+                            namespace="tool-{}".format(user),
+                        )
+                    ],
+                ),
+            )
+        except ApiException as api_ex:
+            if api_ex.status == 409 and "AlreadyExists" in api_ex.body:
+                logging.info(
+                    "RoleBinding default-%s-psp-binding already exists", user
+                )
+                return
+
+            logging.error(
+                (
+                    "Could not create psp rolebinding for tool-%s:default "
+                    "serviceaccount"
+                ),
+                user,
+            )
+            raise
+
         try:
             _ = self.rbac.create_namespaced_role_binding(
                 namespace="tool-{}".format(user),
@@ -256,13 +451,13 @@ class K8sAPI:
                     ),
                     role_ref=client.V1RoleRef(
                         kind="ClusterRole",
-                        name="edit",
+                        name="tools-user",
                         api_group="rbac.authorization.k8s.io",
                     ),
                     subjects=[
                         client.V1Subject(
                             kind="User",
-                            name="blurp",
+                            name=user,
                             api_group="rbac.authorization.k8s.io",
                         )
                     ],
@@ -277,6 +472,7 @@ class K8sAPI:
             raise
 
     def add_user_access(self, user):
+        self.generate_psp(user)
         self.create_namespace(user.name)
         self.process_rbac(user.name)
         self.create_configmap(user)
@@ -299,13 +495,12 @@ def generate_pk():
 
 
 def write_certs(location, cert_str, priv_key, user):
-    # TODO: Set the gid to the user.id
     try:
         # The x.509 cert is already ready to write
         crt_path = os.path.join(location, "client.crt")
         with open(crt_path, "wb") as cert_file:
             cert_file.write(cert_str)
-        os.chown(crt_path, int(user.id), -1)
+        os.chown(crt_path, int(user.id), int(user.id))
         os.chmod(crt_path, 0o400)
 
         # The private key is an object and needs serialization
@@ -318,7 +513,7 @@ def write_certs(location, cert_str, priv_key, user):
                     encryption_algorithm=serialization.NoEncryption(),
                 )
             )
-        os.chown(key_path, int(user.id), -1)
+        os.chown(key_path, int(user.id), int(user.id))
         os.chmod(key_path, 0o400)
     except Exception:
         logging.warning(
@@ -394,9 +589,8 @@ def write_kubeconfig(user, api_server, ca_data):
     # exist_ok=True is fine here, and not a security issue (Famous last words?).
     os.makedirs(certpath, mode=0o775, exist_ok=True)
     os.makedirs(dirpath, mode=0o775, exist_ok=True)
-    # TODO: change the GID back to user.id
-    os.chown(dirpath, int(user.id), -1)
-    os.chown(certpath, int(user.id), -1)
+    os.chown(dirpath, int(user.id), int(user.id))
+    os.chown(certpath, int(user.id), int(user.id))
     write_certs(certpath, user.cert, user.pk, user)
     f = os.open(path, os.O_CREAT | os.O_WRONLY | os.O_NOFOLLOW)
     try:
@@ -404,7 +598,7 @@ def write_kubeconfig(user, api_server, ca_data):
             f, yaml.dump(config, encoding="utf-8", default_flow_style=False)
         )
         # uid == gid
-        os.fchown(f, int(user.id), -1)
+        os.fchown(f, int(user.id), int(user.id))
         os.fchmod(f, 0o400)
         logging.info("Wrote config in %s", path)
     except os.error:
@@ -442,6 +636,10 @@ def create_homedir(user):
         os.chown(user.home, int(user.id), int(user.id))
     else:
         logging.info("Homedir already exists for %s", user.home)
+
+
+def touch_liveness_file():
+    Path("/tmp/run.check").touch()
 
 
 def main():
@@ -489,6 +687,8 @@ def main():
 
     while True:
         logging.info("starting a run")
+        # Touch a temp file for a Kubernetes liveness check to prevent hangs
+        Path("/tmp/run.check").touch()
         cur_users, expiring_users = k8s_api.get_current_tool_users()
         servers = ldap3.ServerPool(
             [ldap3.Server(s, connect_timeout=1) for s in ldapconfig["servers"]],
@@ -496,7 +696,6 @@ def main():
             active=True,
             exhaust=True,
         )
-        # TODO: use read_timeout on the connection
         with ldap3.Connection(
             servers,
             read_only=True,
@@ -504,6 +703,7 @@ def main():
             auto_bind=True,
             password=ldapconfig["password"],
             raise_exceptions=True,
+            receive_timeout=60,
         ) as conn:
             tools = get_tools_from_ldap(conn, args.project)
 
