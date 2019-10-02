@@ -638,10 +638,6 @@ def create_homedir(user):
         logging.info("Homedir already exists for %s", user.home)
 
 
-def touch_liveness_file():
-    Path("/tmp/run.check").touch()
-
-
 def main():
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
