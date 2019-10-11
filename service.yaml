@@ -45,6 +45,8 @@ rules:
   resources:
   - namespaces
   - configmaps
+  - resourcequotas
+  - limitranges
   verbs:
   - create
   - delete

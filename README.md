@@ -81,27 +81,16 @@ The steps are below:
     pod! After this, things become a bit more familiar in terms of python
     testing.
 16. Run `source venv/bin/activate`
-17. Start recording tests! `pytest --vcr-record=all --in-k8s`.  This will
+17. Start recording tests! Delete the cassettes in the pod shell with `rm tests/cassettes` just to make sure you have a clean slate and run `pytest --in-k8s`.  This will
     **fail** on one of the API tests.  The reason is that this doesn't have an
     excellent teardown when actually running against an API server just yet.
     It should have only failed on a single test.
 18. In another terminal on your local machine run `kubectl delete ns
     tool-blurp` to clean up what is upsetting that last test.
-19. Now record only that test as a VCR cassette with `pytest --in-k8s
-    --vcr-record=all -k "test_tool_renewal"`.  If that succeeded, you have
+19. In your kubernetes pod terminal run `rm tests/cassettes/test_tool_renewal`. Now record only that test as a VCR cassette with `pytest --in-k8s -k "test_tool_renewal"`.  If that succeeded, you have
     a good set of mocks ("cassettes") to run later.
 20. You now need to get those cassettes from the pod to your host and into the
-    git repository. There are several ways to do that. First, know that the
-    cassettes are just files under tests/cassettes that need to be copied to
-    the same location in your local checkout of the repo. It's possible to
-    `cat` the files and copy and paste them from one shell to another to get
-    them in the right place. Another way is to set up a VM that has an NFS
-    share that allows you to copy things from your minikube VM to that VM and
-    then mount that NFS share on the host (which is what I do because I was
-    testing NFS with it). The simplest solution is to copy the cassettes to
-    the /data/project/ directory in the pod (which is a host mount on the
-    minikube VM) and then mess with the `minikube mount` command (see
-    `minikube mount --help`) to get an actual local machine folder mounted
-    inside minikube to smuggle it over to.
-21. Don't forget to check in the new cassettes with your commit review so CI
+    git repository. There are several ways to do that. The easy and reliable way is to copy them all to `/data/project` inside the pod like `cp -r tests/cassettes /data/project/` to get them on the minikube VM.  Then, log out of your pod terminal (since that should all be done if all your tests passed), delete the cassettes in your active repo (`rm tests/cassettes/*`), and replace them from the minikube vm with `scp -i $(minikube ssh-key) docker@$(minikube ip):/data/project/cassettes/* tests/cassettes/`
+21. Before you commit all this run `tox` on the changed repo to make sure the tests do, in fact pass now.
+22. Don't forget to check in the new cassettes with your commit review so CI
     will pass your tests!

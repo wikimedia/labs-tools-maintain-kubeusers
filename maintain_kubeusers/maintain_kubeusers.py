@@ -198,17 +198,15 @@ class K8sAPI:
         """
         Creates a namespace for the given user if it doesn't exist
         """
+        namestr = "tool-{}".format(user)
         try:
             _ = self.core.create_namespace(
                 body=client.V1Namespace(
                     api_version="v1",
                     kind="Namespace",
                     metadata=client.V1ObjectMeta(
-                        name="tool-{}".format(user),
-                        labels={
-                            "name": "tool-{}".format(user),
-                            "tenancy": "tool",
-                        },
+                        name=namestr,
+                        labels={"name": namestr, "tenancy": "tool"},
                     ),
                 )
             )
@@ -219,6 +217,51 @@ class K8sAPI:
 
             logging.error("Could not create namespace for %s", user)
             raise
+
+        # The above will shortcircuit this function before altering quotas
+        # Define default quotas for new namespaces only
+        _ = self.core.create_namespaced_resource_quota(
+            namespace=namestr,
+            body=client.V1ResourceQuota(
+                api_version="v1",
+                kind="ResourceQuota",
+                metadata=client.V1ObjectMeta(name=namestr),
+                spec=client.V1ResourceQuotaSpec(
+                    hard={
+                        "requests.cpu": "2",
+                        "requests.memory": "6Gi",
+                        "limits.cpu": "2",
+                        "limits.memory": "8Gi",
+                        "pods": "4",
+                        "services": "1",
+                        "services.nodeports": "0",
+                        "replicationcontrollers": "1",
+                        "secrets": "10",
+                        "configmaps": "10",
+                        "persistentvolumeclaims": "3",
+                    }
+                ),
+            ),
+        )
+        _ = self.core.create_namespaced_limit_range(
+            namespace=namestr,
+            body=client.V1LimitRange(
+                api_version="v1",
+                kind="LimitRange",
+                metadata=client.V1ObjectMeta(name=namestr),
+                spec=client.V1LimitRangeSpec(
+                    limits=[
+                        client.V1LimitRangeItem(
+                            default={"cpu": "500m", "memory": "512Mi"},
+                            default_request={"cpu": "250m", "memory": "256Mi"},
+                            type="Container",
+                            max={"cpu": "1", "memory": "4Gi"},
+                            min={"cpu": "100m", "memory": "100Mi"},
+                        )
+                    ]
+                ),
+            ),
+        )
 
     def update_expired_ns(self, user):
         """ Patch the existing NS for the new certificate exipration """
