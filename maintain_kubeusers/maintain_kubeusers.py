@@ -38,6 +38,7 @@ Kubernetes
 import argparse
 import base64
 from datetime import datetime, timezone, timedelta
+import fcntl
 import logging
 import os
 from pathlib import Path
@@ -592,45 +593,129 @@ def get_tools_from_ldap(conn, projectname):
     return tools
 
 
-def write_kubeconfig(user, api_server, ca_data):
+def append_config(user, config, api_server, ca_data, keyfile, certfile):
+    config["clusters"].append(
+        {
+            "cluster": {
+                "server": api_server,
+                "certificate-authority-data": ca_data,
+            },
+            "name": "toolforge",
+        }
+    )
+    config["users"].append(
+        {
+            "user": {"client-certificate": certfile, "client-key": keyfile},
+            "name": "tf-{}".format(user.name),
+        }
+    )
+    config["contexts"].append(
+        {
+            "context": {
+                "cluster": "toolforge",
+                "user": "tf-{}".format(user.name),
+                "namespace": "tool-{}".format(user.name),
+            },
+            "name": "toolforge",
+        }
+    )
+
+
+def merge_config(user, config, api_server, ca_data, keyfile, certfile):
+    for i in range(len(config["clusters"])):
+        if config["clusters"][i]["name"] == "toolforge":
+            config["clusters"][i] = {
+                "cluster": {
+                    "server": api_server,
+                    "certificate-authority-data": ca_data,
+                },
+                "name": "toolforge",
+            }
+    for i in range(len(config["users"])):
+        if "client-certificate" in config["users"][i]["user"]:
+            config["users"][i] = {
+                "user": {"client-certificate": certfile, "client-key": keyfile},
+                "name": "tf-{}".format(user.name),
+            }
+    for i in range(len(config["contexts"])):
+        if config["contexts"][i]["name"] == "toolforge":
+            config["contexts"][i] = {
+                "context": {
+                    "cluster": "toolforge",
+                    "user": "tf-{}".format(user.name),
+                    "namespace": "tool-{}".format(user.name),
+                },
+                "name": "toolforge",
+            }
+
+
+def write_kubeconfig(user, api_server, ca_data, gentle):
     """
-    Write an appropriate .kube/config for given user to access given api server.
+    Write or merge an appropriate .kube/config for given user to access given
+    api server.
     """
     dirpath = os.path.join(user.home, ".kube")
     certpath = os.path.join(user.home, ".toolskube")
     certfile = os.path.join(certpath, "client.crt")
     keyfile = os.path.join(certpath, "client.key")
     path = os.path.join(dirpath, "config")
-    config = {
-        "apiVersion": "v1",
-        "kind": "Config",
-        "clusters": [
-            {
-                "cluster": {
-                    "server": api_server,
-                    "certificate-authority-data": ca_data,
-                },
-                "name": "default",
-            }
-        ],
-        "users": [
-            {
-                "user": {"client-certificate": certfile, "client-key": keyfile},
-                "name": user.name,
-            }
-        ],
-        "contexts": [
-            {
-                "context": {
-                    "cluster": "default",
-                    "user": user.name,
-                    "namespace": "tool-{}".format(user.name),
-                },
-                "name": "default",
-            }
-        ],
-        "current-context": "default",
-    }
+    current_context = "default" if gentle else "toolforge"
+    # If the path exists, merge the configs and do not force the switch to this
+    # cluster
+    if os.path.isfile(path):
+        # If this is not yaml (JSON is YAML), fail with warning on this user.
+        try:
+            with open(path) as oldpath:
+                config = yaml.safe_load(oldpath)
+        except Exception:
+            logging.warning("Invalid config at %s!", path)
+            return
+
+        # At least make sure we are using valid required keys before proceeding
+        if all(
+            k in config
+            for k in (
+                "apiVersion",
+                "kind",
+                "clusters",
+                "users",
+                "contexts",
+                "current-context",
+            )
+        ):
+            # First check if we are using a "virgin" Toolforge 1.0 config
+            is_new = True
+            for i in range(len(config["clusters"])):
+                if config["clusters"][i]["name"] == "toolforge":
+                    is_new = False
+
+            if is_new:
+                # Add the new context for future use and move along
+                append_config(
+                    user, config, api_server, ca_data, keyfile, certfile
+                )
+            else:
+                # We need to overwrite only the "toolforge" configs
+                merge_config(
+                    user, config, api_server, ca_data, keyfile, certfile
+                )
+        else:
+            # Don't touch invalid configs
+            logging.warning("Invalid config at %s!", path)
+            return
+
+    else:
+        # Declare a config, then append the new material
+        config = {
+            "apiVersion": "v1",
+            "kind": "Config",
+            "clusters": [],
+            "users": [],
+            "contexts": [],
+            "current-context": current_context,
+        }
+        append_config(user, config, api_server, ca_data, keyfile, certfile)
+
     # exist_ok=True is fine here, and not a security issue (Famous last words?).
     os.makedirs(certpath, mode=0o775, exist_ok=True)
     os.makedirs(dirpath, mode=0o775, exist_ok=True)
@@ -639,12 +724,15 @@ def write_kubeconfig(user, api_server, ca_data):
     write_certs(certpath, user.cert, user.pk, user)
     f = os.open(path, os.O_CREAT | os.O_WRONLY | os.O_NOFOLLOW)
     try:
+        fcntl.flock(f, fcntl.LOCK_EX)
         os.write(
-            f, yaml.dump(config, encoding="utf-8", default_flow_style=False)
+            f,
+            yaml.safe_dump(config, encoding="utf-8", default_flow_style=False),
         )
+        fcntl.flock(f, fcntl.LOCK_UN)
         # uid == gid
         os.fchown(f, int(user.id), int(user.id))
-        os.fchmod(f, 0o400)
+        os.fchmod(f, 0o600)
         logging.info("Wrote config in %s", path)
     except os.error:
         logging.exception("Error creating %s", path)
@@ -706,7 +794,16 @@ def main():
     )
     argparser.add_argument(
         "--local",
-        help="Specifies this is not running in Kubernetes",
+        help="Specifies this is not running in Kubernetes (for debugging)",
+        action="store_true",
+    )
+
+    argparser.add_argument(
+        "--gentle-mode",
+        help=(
+            "Before general release, keep current context set to default "
+            "while the new Kubernetes cluster is considered opt-in"
+        ),
         action="store_true",
     )
 
@@ -755,7 +852,9 @@ def main():
                 k8s_api.generate_csr(tools[tool_name].pk, tool_name)
                 tools[tool_name].cert = k8s_api.approve_cert(tool_name)
                 create_homedir(tools[tool_name])
-                write_kubeconfig(tools[tool_name], api_server, ca_data)
+                write_kubeconfig(
+                    tools[tool_name], api_server, ca_data, args.gentle_mode
+                )
                 k8s_api.add_user_access(tools[tool_name])
                 logging.info("Provisioned creds for tool %s", tool_name)
 
@@ -767,7 +866,9 @@ def main():
                 k8s_api.generate_csr(tools[tool_name].pk, tool_name)
                 tools[tool_name].cert = k8s_api.approve_cert(tool_name)
                 create_homedir(tools[tool_name])
-                write_kubeconfig(tools[tool_name], api_server, ca_data)
+                write_kubeconfig(
+                    tools[tool_name], api_server, ca_data, args.gentle_mode
+                )
                 k8s_api.update_expired_ns(tools[tool_name])
                 logging.info("Renewed creds for tool %s", tool_name)
 

@@ -10,6 +10,15 @@
     - Drop the .kube/config file in the tool directory
     - Annotate the namespace with configmap
 
+## Deploying in toolsbeta
+
+Build the container on the current docker-builder host in the tools project with
+`docker build -t docker-registry.tools.wmflabs.org/maintain-kubeusers:latest .`
+and push it `docker push docker-registry.tools.wmflabs.org/maintain-kubeusers:latest`.
+
+Then as admin on the toolsbeta kubernetes cluster, go to a checkout of this repo
+and run `kubectl apply -f betaservice.yaml`
+
 ## Running tests
 
 Tests are run using [tox](https://tox.readthedocs.io/en/latest/), normally,

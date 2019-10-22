@@ -10,8 +10,8 @@ def api_object():
 
 
 def test_home_dir_utils(test_user, mocker):
-    mocker.patch('os.chown', autospec=True)
-    mocker.patch('os.fchown', autospec=True)
+    mocker.patch("os.chown", autospec=True)
+    mocker.patch("os.fchown", autospec=True)
     test_user.cert = b"""
 -----BEGIN CERTIFICATE-----
 Not really a cert
@@ -19,7 +19,9 @@ Not really a cert
 """
     test_user.pk = maintain_kubeusers.generate_pk()
     maintain_kubeusers.create_homedir(test_user)
-    maintain_kubeusers.write_kubeconfig(test_user, "myserver", "FAKE_CA_DATA==")
+    maintain_kubeusers.write_kubeconfig(
+        test_user, "myserver", "FAKE_CA_DATA==", False
+    )
     kube_conf = test_user.home / ".kube" / "config"
     certs_dir = test_user.home / ".toolskube"
     cert = certs_dir / "client.crt"
