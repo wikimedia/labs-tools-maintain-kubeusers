@@ -106,6 +106,19 @@ roleRef:
   name: privileged-psp
   apiGroup: rbac.authorization.k8s.io
 ---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: user-maintainer-tools-user
+subjects:
+- kind: ServiceAccount
+  namespace: maintain-kubeusers
+  name: user-maintainer
+roleRef:
+  kind: ClusterRole
+  name: tools-user
+  apiGroup: rbac.authorization.k8s.io
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:

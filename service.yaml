@@ -106,6 +106,19 @@ roleRef:
   name: privileged-psp
   apiGroup: rbac.authorization.k8s.io
 ---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: user-maintainer-tools-user
+subjects:
+- kind: ServiceAccount
+  namespace: maintain-kubeusers
+  name: user-maintainer
+roleRef:
+  kind: ClusterRole
+  name: tools-user
+  apiGroup: rbac.authorization.k8s.io
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -132,29 +145,23 @@ spec:
       containers:
       - name: maintain-kubeusers
         imagePullPolicy: IfNotPresent
-        # TODO: change this to production values when the time comes.
-        image: mk-test:latest
-        command: ["/bin/ash"]
-        args: ["-c", "while true; do echo hello; sleep 10;done"]
-        # production values
-        # image: maintain-kubeusers:latest
-        # command: ["/app/venv/bin/python"]
-        # args: ["/app/maintain_kubeusers"]
+        image: maintain-kubeusers:latest
+        command: ["/app/venv/bin/python"]
+        args: ["/app/maintain_kubeusers.py"]
         volumeMounts:
         - mountPath: /data/project
           name: my-host-nfs
-        # TODO: Enable this liveness probe once it actually is running the service
-        # livenessProbe:
-        #   exec:
-        #     command:
-        #     - find
-        #     - /tmp/run.check
-        #     - -mmin
-        #     - '+5'
-        #     - -exec
-        #     - rm
-        #     - /tmp/run.check
-        #     - ;
-        #   initialDelaySeconds: 5
-        #   periodSeconds: 5
+        livenessProbe:
+          exec:
+            command:
+            - find
+            - /tmp/run.check
+            - -mmin
+            - '+5'
+            - -exec
+            - rm
+            - /tmp/run.check
+            - ;
+          initialDelaySeconds: 5
+          periodSeconds: 5
 

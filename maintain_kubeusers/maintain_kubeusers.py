@@ -338,6 +338,8 @@ class K8sAPI:
                     "emptyDir",
                     "projected",
                     "secret",
+                    "hostPath",
+                    "persistentVolumeClaim",
                 ],
                 allowed_host_paths=[
                     client.ExtensionsV1beta1AllowedHostPath(
@@ -347,7 +349,7 @@ class K8sAPI:
                         path_prefix="/data/project", read_only=False
                     ),
                     client.ExtensionsV1beta1AllowedHostPath(
-                        path_prefix="/public/scratch", read_only=False
+                        path_prefix="/data/scratch", read_only=False
                     ),
                     client.ExtensionsV1beta1AllowedHostPath(
                         path_prefix="/public/dumps", read_only=True
