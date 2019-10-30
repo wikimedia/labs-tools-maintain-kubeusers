@@ -58,8 +58,7 @@ The steps are below:
 4. Fix that until it works, if it didn't.
 5. Run `vagrant forward-port 1389 389` to expose the vagrant VMs LDAP to the
    host.
-6. Start minikube with `minikube start
-   --extra-config=apiserver.enable-admission-plugins=PodSecurityPolicy`. It
+6. Start minikube with `minikube start --kubernetes-version=1.15.5 --extra-config=apiserver.runtime-config=settings.k8s.io/v1alpha1=true --extra-config=apiserver.enable-admission-plugins=PodSecurityPolicy,PodPreset`. It
    will fail to finish initializing because PodSecurityPolicy complicates
    everything until the next step.
 7. Run `kubectl apply -f <path to
@@ -92,13 +91,13 @@ The steps are below:
     pod! After this, things become a bit more familiar in terms of python
     testing.
 17. Run `source venv/bin/activate`
-18. Start recording tests! Delete the cassettes in the pod shell with `rm tests/cassettes` just to make sure you have a clean slate and run `pytest --in-k8s`.  This will
+18. Start recording tests! Delete the cassettes in the pod shell with `rm tests/cassettes/*` just to make sure you have a clean slate and run `pytest --in-k8s`.  This will
     **fail** on one of the API tests.  The reason is that this doesn't have an
     excellent teardown when actually running against an API server just yet.
     It should have only failed on a single test.
 19. In another terminal on your local machine run `kubectl delete ns
     tool-blurp` to clean up what is upsetting that last test.
-20. In your kubernetes pod terminal run `rm tests/cassettes/test_tool_renewal`. Now record only that test as a VCR cassette with `pytest --in-k8s -k "test_tool_renewal"`.  If that succeeded, you have
+20. In your kubernetes pod terminal run `rm tests/cassettes/test_tool_renewal.yaml`. Now record only that test as a VCR cassette with `pytest --in-k8s -k "test_tool_renewal"`.  If that succeeded, you have
     a good set of mocks ("cassettes") to run later.
 21. You now need to get those cassettes from the pod to your host and into the
     git repository. There are several ways to do that. The easy and reliable way is to copy them all to `/data/project` inside the pod like `cp -r tests/cassettes /data/project/` to get them on the minikube VM.  Then, log out of your pod terminal (since that should all be done if all your tests passed), delete the cassettes in your active repo (`rm tests/cassettes/*`), and replace them from the minikube vm with `scp -i $(minikube ssh-key) docker@$(minikube ip):/data/project/cassettes/* tests/cassettes/`

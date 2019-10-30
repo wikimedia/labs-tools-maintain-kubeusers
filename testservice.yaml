@@ -30,6 +30,17 @@ rules:
   - update
   - watch
 - apiGroups:
+  - settings.k8s.io
+  resources:
+  - podpresets
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
   - extensions
   resources:
   - podsecuritypolicies

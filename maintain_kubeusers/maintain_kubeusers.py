@@ -63,6 +63,7 @@ class K8sAPI:
         self.certs = client.CertificatesV1beta1Api()
         self.rbac = client.RbacAuthorizationV1Api()
         self.extensions = client.ExtensionsV1beta1Api()
+        self.settings_api = client.SettingsV1alpha1Api()
 
     def get_cluster_info(self):
         c_info = self.core.read_namespaced_config_map(
@@ -194,6 +195,129 @@ class K8sAPI:
             return cert
         else:
             logging.error("Certificate creation stalled or failed for %s", user)
+
+    def create_presets(self, user):
+        try:
+            _ = self.settings_api.create_namespaced_pod_preset(
+                namespace="tool-{}".format(user),
+                body=client.V1alpha1PodPreset(
+                    api_version="settings.k8s.io/v1alpha1",
+                    kind="PodPreset",
+                    metadata=client.V1ObjectMeta(name="mount-toolforge-vols"),
+                    spec=client.V1alpha1PodPresetSpec(
+                        selector=client.V1LabelSelector(
+                            match_labels={
+                                "toolforge": "tool"
+                            }
+                        ),
+                        env=[
+                            client.V1EnvVar(
+                                name="HOME",
+                                value="/data/project/{}".format(user)
+                            ),
+                        ],
+                        volumes=[
+                            client.V1Volume(
+                                name="dumps",
+                                host_path=client.V1HostPathVolumeSource(
+                                    path="/public/dumps", type="Directory"
+                                ),
+                            ),
+                            client.V1Volume(
+                                name="home",
+                                host_path=client.V1HostPathVolumeSource(
+                                    path="/data/project", type="Directory"
+                                ),
+                            ),
+                            client.V1Volume(
+                                name="wmcs-project",
+                                host_path=client.V1HostPathVolumeSource(
+                                    path="/etc/wmcs-project", type="File"
+                                ),
+                            ),
+                            client.V1Volume(
+                                name="scratch",
+                                host_path=client.V1HostPathVolumeSource(
+                                    path="/data/scratch", type="Directory"
+                                ),
+                            ),
+                            client.V1Volume(
+                                name="etcldap-conf",
+                                host_path=client.V1HostPathVolumeSource(
+                                    path="/etc/ldap.conf", type="File"
+                                ),
+                            ),
+                            client.V1Volume(
+                                name="etcldap-yaml",
+                                host_path=client.V1HostPathVolumeSource(
+                                    path="/etc/ldap.yaml", type="File"
+                                ),
+                            ),
+                            client.V1Volume(
+                                name="etcnovaobserver-yaml",
+                                host_path=client.V1HostPathVolumeSource(
+                                    path="/etc/novaobserver.yaml", type="File"
+                                ),
+                            ),
+                            client.V1Volume(
+                                name="sssd-pipes",
+                                host_path=client.V1HostPathVolumeSource(
+                                    path="/var/lib/sss/pipes", type="Directory"
+                                ),
+                            ),
+                        ],
+                        volume_mounts=[
+                            client.V1VolumeMount(
+                                name="dumps",
+                                mount_path="/public/dumps",
+                                read_only=True,
+                            ),
+                            client.V1VolumeMount(
+                                name="home", mount_path="/data/project"
+                            ),
+                            client.V1VolumeMount(
+                                name="wmcs-project",
+                                mount_path="/etc/wmcs-project",
+                                read_only=True,
+                            ),
+                            client.V1VolumeMount(
+                                name="scratch", mount_path="/data/scratch"
+                            ),
+                            client.V1VolumeMount(
+                                name="etcldap-conf",
+                                mount_path="/etc/ldap.conf",
+                                read_only=True,
+                            ),
+                            client.V1VolumeMount(
+                                name="etcldap-yaml",
+                                mount_path="/etc/ldap.yaml",
+                                read_only=True,
+                            ),
+                            client.V1VolumeMount(
+                                name="etcnovaobserver-yaml",
+                                mount_path="/etc/novaobserver.yaml",
+                                read_only=True,
+                            ),
+                            client.V1VolumeMount(
+                                name="sssd-pipes",
+                                mount_path="/var/lib/sss/pipes",
+                            ),
+                        ],
+                    ),
+                ),
+            )
+        except ApiException as api_ex:
+            if api_ex.status == 409 and "AlreadyExists" in api_ex.body:
+                logging.info(
+                    "PodPreset mount-toolforge-vols in tool-%s already exists",
+                    user,
+                )
+                return
+
+            logging.error(
+                "Could not create PodPreset mount-toolforge-vols for %s", user
+            )
+            raise
 
     def create_namespace(self, user):
         """
@@ -520,6 +644,7 @@ class K8sAPI:
     def add_user_access(self, user):
         self.generate_psp(user)
         self.create_namespace(user.name)
+        self.create_presets(user.name)
         self.process_rbac(user.name)
         self.create_configmap(user)
 
