@@ -12,12 +12,29 @@
 
 ## Deploying in toolsbeta
 
+**Important!** You must copy the /etc/ldap.yaml from a VM in the Cloud VPS over
+the repository's copy of ldap.yaml before running `docker build`.  The repository
+version is for testing only, not for deployment.
+
+Build the container on the current docker-builder host in the tools project with
+`docker build -t docker-registry.tools.wmflabs.org/maintain-kubeusers:beta .`
+and push it `docker push docker-registry.tools.wmflabs.org/maintain-kubeusers:beta`.
+
+Then as admin on the toolsbeta kubernetes cluster, go to a checkout of this repo
+and run `kubectl apply -f betaservice.yaml`
+
+## Deploying in tools
+
+**Important!** You must copy the /etc/ldap.yaml from a VM in the Cloud VPS over
+the repository's copy of ldap.yaml before running `docker build`.  The repository
+version is for testing only, not for deployment.
+
 Build the container on the current docker-builder host in the tools project with
 `docker build -t docker-registry.tools.wmflabs.org/maintain-kubeusers:latest .`
 and push it `docker push docker-registry.tools.wmflabs.org/maintain-kubeusers:latest`.
 
-Then as admin on the toolsbeta kubernetes cluster, go to a checkout of this repo
-and run `kubectl apply -f betaservice.yaml`
+Then as admin on the tools kubernetes cluster, go to a checkout of this repo
+and run `kubectl apply -f service.yaml`
 
 ## Running tests
 

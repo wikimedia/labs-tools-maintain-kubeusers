@@ -155,7 +155,7 @@ spec:
           type: Directory
       containers:
       - name: maintain-kubeusers
-        image: docker-registry.tools.wmflabs.org/maintain-kubeusers:latest
+        image: docker-registry.tools.wmflabs.org/maintain-kubeusers:beta
         command: ["/app/venv/bin/python"]
         args: ["/app/maintain_kubeusers.py", "--project=toolsbeta"]
         volumeMounts:
