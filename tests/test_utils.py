@@ -5,7 +5,7 @@ from .context import maintain_kubeusers
 
 @pytest.fixture(scope="module")
 def api_object():
-    maintain_kubeusers.config.load_kube_config()
+    maintain_kubeusers.k_config.load_kube_config()
     return maintain_kubeusers.K8sAPI()
 
 
@@ -18,9 +18,9 @@ Not really a cert
 -----END CERTIFICATE-----
 """
     test_user.pk = maintain_kubeusers.generate_pk()
-    maintain_kubeusers.create_homedir(test_user)
-    maintain_kubeusers.write_kubeconfig(
-        test_user, "myserver", "FAKE_CA_DATA==", False
+    test_user.create_homedir()
+    test_user.write_kubeconfig(
+        "myserver", "FAKE_CA_DATA==", False
     )
     kube_conf = test_user.home / ".kube" / "config"
     certs_dir = test_user.home / ".toolskube"

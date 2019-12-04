@@ -53,7 +53,7 @@ from cryptography import x509
 from cryptography.x509.oid import NameOID
 import ldap3
 import yaml
-from kubernetes import client, config
+from kubernetes import client, config as k_config
 from kubernetes.client.rest import ApiException
 
 
@@ -206,15 +206,13 @@ class K8sAPI:
                     metadata=client.V1ObjectMeta(name="mount-toolforge-vols"),
                     spec=client.V1alpha1PodPresetSpec(
                         selector=client.V1LabelSelector(
-                            match_labels={
-                                "toolforge": "tool"
-                            }
+                            match_labels={"toolforge": "tool"}
                         ),
                         env=[
                             client.V1EnvVar(
                                 name="HOME",
-                                value="/data/project/{}".format(user)
-                            ),
+                                value="/data/project/{}".format(user),
+                            )
                         ],
                         volumes=[
                             client.V1Volume(
@@ -656,6 +654,230 @@ class User:
         self.name = name
         self.id = id
         self.home = home
+        self.pk = None
+        self.cert = None
+
+    def read_config_file(self):
+        path = os.path.join(self.home, ".kube", "config")
+        # If this is not yaml (JSON is YAML), fail with warning on this user.
+        try:
+            with open(path) as oldpath:
+                config = yaml.safe_load(oldpath)
+        except Exception:
+            logging.warning("Invalid config at %s!", path)
+            return {}
+
+        # At least make sure we are using valid required keys before proceeding
+        if all(
+            k in config
+            for k in (
+                "apiVersion",
+                "kind",
+                "clusters",
+                "users",
+                "contexts",
+                "current-context",
+            )
+        ):
+            return config
+        else:
+            # Don't touch invalid configs
+            logging.warning("Invalid config at %s!", path)
+            return {}
+
+    def write_config_file(self, config):
+        path = os.path.join(self.home, ".kube", "config")
+        f = os.open(path, os.O_CREAT | os.O_WRONLY | os.O_NOFOLLOW)
+        try:
+            fcntl.flock(f, fcntl.LOCK_EX)
+            os.write(
+                f,
+                yaml.safe_dump(
+                    config, encoding="utf-8", default_flow_style=False
+                ),
+            )
+            fcntl.flock(f, fcntl.LOCK_UN)
+            # uid == gid
+            os.fchown(f, int(self.id), int(self.id))
+            os.fchmod(f, 0o600)
+            logging.info("Wrote config in %s", path)
+        except os.error:
+            logging.exception("Error creating %s", path)
+            raise
+        finally:
+            os.close(f)
+
+    def create_homedir(self):
+        """
+        Create homedirs for new users
+
+        """
+        if not os.path.exists(self.home):
+            # Try to not touch it if it already exists
+            # This prevents us from messing with permissions while also
+            # not crashing if homedirs already do exist
+            # This also protects against the race exploit that can be done
+            # by having a symlink from /data/project/$username point as a
+            # symlink to anywhere else. The ordering we have here prevents it -
+            # if it already exists in the race between the 'exists' check and
+            # the makedirs,
+            # we will just fail. Then we switch mode but not ownership, so
+            # attacker can not just delete and create a symlink to wherever.
+            # The chown happens last, so should be ok.
+
+            os.makedirs(self.home, mode=0o775, exist_ok=False)
+            os.chmod(self.home, 0o775 | stat.S_ISGID)
+            os.chown(self.home, int(self.id), int(self.id))
+
+            logs_dir = os.path.join(self.home, "logs")
+            os.makedirs(logs_dir, mode=0o775, exist_ok=False)
+            os.chmod(logs_dir, 0o775 | stat.S_ISGID)
+            os.chown(self.home, int(self.id), int(self.id))
+        else:
+            logging.info("Homedir already exists for %s", self.home)
+
+    def append_config(self, config, api_server, ca_data, keyfile, certfile):
+        config["clusters"].append(
+            {
+                "cluster": {
+                    "server": api_server,
+                    "certificate-authority-data": ca_data,
+                },
+                "name": "toolforge",
+            }
+        )
+        config["users"].append(
+            {
+                "user": {"client-certificate": certfile, "client-key": keyfile},
+                "name": "tf-{}".format(self.name),
+            }
+        )
+        config["contexts"].append(
+            {
+                "context": {
+                    "cluster": "toolforge",
+                    "user": "tf-{}".format(self.name),
+                    "namespace": "tool-{}".format(self.name),
+                },
+                "name": "toolforge",
+            }
+        )
+
+    def merge_config(self, config, api_server, ca_data, keyfile, certfile):
+        for i in range(len(config["clusters"])):
+            if config["clusters"][i]["name"] == "toolforge":
+                config["clusters"][i] = {
+                    "cluster": {
+                        "server": api_server,
+                        "certificate-authority-data": ca_data,
+                    },
+                    "name": "toolforge",
+                }
+        for i in range(len(config["users"])):
+            if "client-certificate" in config["users"][i]["user"]:
+                config["users"][i] = {
+                    "user": {
+                        "client-certificate": certfile,
+                        "client-key": keyfile,
+                    },
+                    "name": "tf-{}".format(self.name),
+                }
+        for i in range(len(config["contexts"])):
+            if config["contexts"][i]["name"] == "toolforge":
+                config["contexts"][i] = {
+                    "context": {
+                        "cluster": "toolforge",
+                        "user": "tf-{}".format(self.name),
+                        "namespace": "tool-{}".format(self.name),
+                    },
+                    "name": "toolforge",
+                }
+
+    def write_kubeconfig(self, api_server, ca_data, gentle):
+        """
+        Write or merge an appropriate .kube/config for given user to access
+        given api server.
+        """
+        dirpath = os.path.join(self.home, ".kube")
+        certpath = os.path.join(self.home, ".toolskube")
+        certfile = os.path.join(certpath, "client.crt")
+        keyfile = os.path.join(certpath, "client.key")
+        path = os.path.join(dirpath, "config")
+        current_context = "default" if gentle else "toolforge"
+        # If the path exists, merge the configs and do not force the switch to
+        # this cluster
+        if os.path.isfile(path):
+            config = self.read_config_file()
+            if config:
+                # First check if we are using a "virgin" Toolforge 1.0 config
+                is_new = True
+                for i in range(len(config["clusters"])):
+                    if config["clusters"][i]["name"] == "toolforge":
+                        is_new = False
+
+                if is_new:
+                    # Add the new context for future use and move along
+                    self.append_config(
+                        config, api_server, ca_data, keyfile, certfile
+                    )
+                else:
+                    # We need to overwrite only the "toolforge" configs
+                    self.merge_config(
+                        config, api_server, ca_data, keyfile, certfile
+                    )
+            else:
+                # Don't touch invalid configs
+                return
+
+        else:
+            # Declare a config, then append the new material
+            config = {
+                "apiVersion": "v1",
+                "kind": "Config",
+                "clusters": [],
+                "users": [],
+                "contexts": [],
+                "current-context": current_context,
+            }
+            self.append_config(config, api_server, ca_data, keyfile, certfile)
+
+        # exist_ok=True is fine here, and not a security issue (Famous
+        # last words?).
+        os.makedirs(certpath, mode=0o775, exist_ok=True)
+        os.makedirs(dirpath, mode=0o775, exist_ok=True)
+        os.chown(dirpath, int(self.id), int(self.id))
+        os.chown(certpath, int(self.id), int(self.id))
+        self.write_certs()
+        self.write_config_file(config)
+
+    def write_certs(self):
+        location = os.path.join(self.home, ".toolskube")
+        try:
+            # The x.509 cert is already ready to write
+            crt_path = os.path.join(location, "client.crt")
+            with open(crt_path, "wb") as cert_file:
+                cert_file.write(self.cert)
+            os.chown(crt_path, int(self.id), int(self.id))
+            os.chmod(crt_path, 0o400)
+
+            # The private key is an object and needs serialization
+            key_path = os.path.join(location, "client.key")
+            with open(key_path, "wb") as key_file:
+                key_file.write(
+                    self.pk.private_bytes(
+                        encoding=serialization.Encoding.PEM,
+                        format=serialization.PrivateFormat.TraditionalOpenSSL,
+                        encryption_algorithm=serialization.NoEncryption(),
+                    )
+                )
+            os.chown(key_path, int(self.id), int(self.id))
+            os.chmod(key_path, 0o400)
+        except Exception:
+            logging.warning(
+                "Path %s is not writable or failed to store certs somehow",
+                location,
+            )
+            raise
 
 
 def generate_pk():
@@ -663,34 +885,6 @@ def generate_pk():
     return rsa.generate_private_key(
         public_exponent=65537, key_size=4096, backend=default_backend()
     )
-
-
-def write_certs(location, cert_str, priv_key, user):
-    try:
-        # The x.509 cert is already ready to write
-        crt_path = os.path.join(location, "client.crt")
-        with open(crt_path, "wb") as cert_file:
-            cert_file.write(cert_str)
-        os.chown(crt_path, int(user.id), int(user.id))
-        os.chmod(crt_path, 0o400)
-
-        # The private key is an object and needs serialization
-        key_path = os.path.join(location, "client.key")
-        with open(key_path, "wb") as key_file:
-            key_file.write(
-                priv_key.private_bytes(
-                    encoding=serialization.Encoding.PEM,
-                    format=serialization.PrivateFormat.TraditionalOpenSSL,
-                    encryption_algorithm=serialization.NoEncryption(),
-                )
-            )
-        os.chown(key_path, int(user.id), int(user.id))
-        os.chmod(key_path, 0o400)
-    except Exception:
-        logging.warning(
-            "Path %s is not writable or failed to store certs somehow", location
-        )
-        raise
 
 
 def get_tools_from_ldap(conn, projectname):
@@ -718,186 +912,9 @@ def get_tools_from_ldap(conn, projectname):
     return tools
 
 
-def append_config(user, config, api_server, ca_data, keyfile, certfile):
-    config["clusters"].append(
-        {
-            "cluster": {
-                "server": api_server,
-                "certificate-authority-data": ca_data,
-            },
-            "name": "toolforge",
-        }
-    )
-    config["users"].append(
-        {
-            "user": {"client-certificate": certfile, "client-key": keyfile},
-            "name": "tf-{}".format(user.name),
-        }
-    )
-    config["contexts"].append(
-        {
-            "context": {
-                "cluster": "toolforge",
-                "user": "tf-{}".format(user.name),
-                "namespace": "tool-{}".format(user.name),
-            },
-            "name": "toolforge",
-        }
-    )
-
-
-def merge_config(user, config, api_server, ca_data, keyfile, certfile):
-    for i in range(len(config["clusters"])):
-        if config["clusters"][i]["name"] == "toolforge":
-            config["clusters"][i] = {
-                "cluster": {
-                    "server": api_server,
-                    "certificate-authority-data": ca_data,
-                },
-                "name": "toolforge",
-            }
-    for i in range(len(config["users"])):
-        if "client-certificate" in config["users"][i]["user"]:
-            config["users"][i] = {
-                "user": {"client-certificate": certfile, "client-key": keyfile},
-                "name": "tf-{}".format(user.name),
-            }
-    for i in range(len(config["contexts"])):
-        if config["contexts"][i]["name"] == "toolforge":
-            config["contexts"][i] = {
-                "context": {
-                    "cluster": "toolforge",
-                    "user": "tf-{}".format(user.name),
-                    "namespace": "tool-{}".format(user.name),
-                },
-                "name": "toolforge",
-            }
-
-
-def write_kubeconfig(user, api_server, ca_data, gentle):
-    """
-    Write or merge an appropriate .kube/config for given user to access given
-    api server.
-    """
-    dirpath = os.path.join(user.home, ".kube")
-    certpath = os.path.join(user.home, ".toolskube")
-    certfile = os.path.join(certpath, "client.crt")
-    keyfile = os.path.join(certpath, "client.key")
-    path = os.path.join(dirpath, "config")
-    current_context = "default" if gentle else "toolforge"
-    # If the path exists, merge the configs and do not force the switch to this
-    # cluster
-    if os.path.isfile(path):
-        # If this is not yaml (JSON is YAML), fail with warning on this user.
-        try:
-            with open(path) as oldpath:
-                config = yaml.safe_load(oldpath)
-        except Exception:
-            logging.warning("Invalid config at %s!", path)
-            return
-
-        # At least make sure we are using valid required keys before proceeding
-        if all(
-            k in config
-            for k in (
-                "apiVersion",
-                "kind",
-                "clusters",
-                "users",
-                "contexts",
-                "current-context",
-            )
-        ):
-            # First check if we are using a "virgin" Toolforge 1.0 config
-            is_new = True
-            for i in range(len(config["clusters"])):
-                if config["clusters"][i]["name"] == "toolforge":
-                    is_new = False
-
-            if is_new:
-                # Add the new context for future use and move along
-                append_config(
-                    user, config, api_server, ca_data, keyfile, certfile
-                )
-            else:
-                # We need to overwrite only the "toolforge" configs
-                merge_config(
-                    user, config, api_server, ca_data, keyfile, certfile
-                )
-        else:
-            # Don't touch invalid configs
-            logging.warning("Invalid config at %s!", path)
-            return
-
-    else:
-        # Declare a config, then append the new material
-        config = {
-            "apiVersion": "v1",
-            "kind": "Config",
-            "clusters": [],
-            "users": [],
-            "contexts": [],
-            "current-context": current_context,
-        }
-        append_config(user, config, api_server, ca_data, keyfile, certfile)
-
-    # exist_ok=True is fine here, and not a security issue (Famous last words?).
-    os.makedirs(certpath, mode=0o775, exist_ok=True)
-    os.makedirs(dirpath, mode=0o775, exist_ok=True)
-    os.chown(dirpath, int(user.id), int(user.id))
-    os.chown(certpath, int(user.id), int(user.id))
-    write_certs(certpath, user.cert, user.pk, user)
-    f = os.open(path, os.O_CREAT | os.O_WRONLY | os.O_NOFOLLOW)
-    try:
-        fcntl.flock(f, fcntl.LOCK_EX)
-        os.write(
-            f,
-            yaml.safe_dump(config, encoding="utf-8", default_flow_style=False),
-        )
-        fcntl.flock(f, fcntl.LOCK_UN)
-        # uid == gid
-        os.fchown(f, int(user.id), int(user.id))
-        os.fchmod(f, 0o600)
-        logging.info("Wrote config in %s", path)
-    except os.error:
-        logging.exception("Error creating %s", path)
-        raise
-    finally:
-        os.close(f)
-
-
-def create_homedir(user):
-    """
-    Create homedirs for new users
-
-    """
-    if not os.path.exists(user.home):
-        # Try to not touch it if it already exists
-        # This prevents us from messing with permissions while also
-        # not crashing if homedirs already do exist
-        # This also protects against the race exploit that can be done
-        # by having a symlink from /data/project/$username point as a symlink
-        # to anywhere else. The ordering we have here prevents it - if
-        # it already exists in the race between the 'exists' check and
-        # the makedirs,
-        # we will just fail. Then we switch mode but not ownership, so attacker
-        # can not just delete and create a symlink to wherever. The chown
-        # happens last, so should be ok.
-
-        os.makedirs(user.home, mode=0o775, exist_ok=False)
-        os.chmod(user.home, 0o775 | stat.S_ISGID)
-        os.chown(user.home, int(user.id), int(user.id))
-
-        logs_dir = os.path.join(user.home, "logs")
-        os.makedirs(logs_dir, mode=0o775, exist_ok=False)
-        os.chmod(logs_dir, 0o775 | stat.S_ISGID)
-        os.chown(user.home, int(user.id), int(user.id))
-    else:
-        logging.info("Homedir already exists for %s", user.home)
-
-
 def main():
     argparser = argparse.ArgumentParser()
+    group1 = argparser.add_mutually_exclusive_group()
     argparser.add_argument(
         "--ldapconfig",
         help="Path to YAML LDAP config file",
@@ -911,18 +928,15 @@ def main():
         help="Project name to fetch LDAP users from",
         default="tools",
     )
-    argparser.add_argument(
+    group1.add_argument(
         "--interval", help="Seconds between between runs", default=60
     )
-    argparser.add_argument(
-        "--once", help="Run once and exit", action="store_true"
-    )
+    group1.add_argument("--once", help="Run once and exit", action="store_true")
     argparser.add_argument(
         "--local",
         help="Specifies this is not running in Kubernetes (for debugging)",
         action="store_true",
     )
-
     argparser.add_argument(
         "--gentle-mode",
         help=(
@@ -941,9 +955,9 @@ def main():
         ldapconfig = yaml.safe_load(f)
 
     if args.local:
-        config.load_kube_config()
+        k_config.load_kube_config()
     else:
-        config.load_incluster_config()
+        k_config.load_incluster_config()
 
     k8s_api = K8sAPI()
     api_server, ca_data = k8s_api.get_cluster_info()
@@ -976,9 +990,9 @@ def main():
                 tools[tool_name].pk = generate_pk()
                 k8s_api.generate_csr(tools[tool_name].pk, tool_name)
                 tools[tool_name].cert = k8s_api.approve_cert(tool_name)
-                create_homedir(tools[tool_name])
-                write_kubeconfig(
-                    tools[tool_name], api_server, ca_data, args.gentle_mode
+                tools[tool_name].create_homedir()
+                tools[tool_name].write_kubeconfig(
+                    api_server, ca_data, args.gentle_mode
                 )
                 k8s_api.add_user_access(tools[tool_name])
                 logging.info("Provisioned creds for tool %s", tool_name)
@@ -990,9 +1004,9 @@ def main():
                 tools[tool_name].pk = generate_pk()
                 k8s_api.generate_csr(tools[tool_name].pk, tool_name)
                 tools[tool_name].cert = k8s_api.approve_cert(tool_name)
-                create_homedir(tools[tool_name])
-                write_kubeconfig(
-                    tools[tool_name], api_server, ca_data, args.gentle_mode
+                tools[tool_name].create_homedir()
+                tools[tool_name].write_kubeconfig(
+                    api_server, ca_data, args.gentle_mode
                 )
                 k8s_api.update_expired_ns(tools[tool_name])
                 logging.info("Renewed creds for tool %s", tool_name)

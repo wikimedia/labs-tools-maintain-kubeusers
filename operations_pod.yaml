@@ -1,0 +1,155 @@
+# The top portion is idempotent when using kubectl apply -f, so including it in case
+# the various components are required when this is used.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: maintain-kubeusers
+  labels:
+    name: maintain-kubeusers
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: user-maintainer
+  namespace: maintain-kubeusers
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: user-maintainer
+rules:
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - rolebindings
+  - roles
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - settings.k8s.io
+  resources:
+  - podpresets
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - extensions
+  resources:
+  - podsecuritypolicies
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - use
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  - configmaps
+  - resourcequotas
+  - limitranges
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - certificates.k8s.io
+  resources:
+  - certificatesigningrequests
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - replace
+  - update
+- apiGroups:
+  - certificates.k8s.io
+  resources:
+  - certificatesigningrequests/status
+  verbs:
+  - get
+- apiGroups:
+  - certificates.k8s.io
+  resources:
+  - certificatesigningrequests/approval
+  verbs:
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: user-maintainer-binding
+subjects:
+- kind: ServiceAccount
+  namespace: maintain-kubeusers
+  name: user-maintainer
+roleRef:
+  kind: ClusterRole
+  name: user-maintainer
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: user-maintainer-psp-binding
+subjects:
+- kind: ServiceAccount
+  namespace: maintain-kubeusers
+  name: user-maintainer
+roleRef:
+  kind: ClusterRole
+  name: privileged-psp
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: user-maintainer-tools-user
+subjects:
+- kind: ServiceAccount
+  namespace: maintain-kubeusers
+  name: user-maintainer
+roleRef:
+  kind: ClusterRole
+  name: tools-user
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: maintain-kubeusers-ops
+  namespace: maintain-kubeusers
+  labels:
+    ops: maintain-kubeusers
+spec:
+  serviceAccountName: user-maintainer
+  volumes:
+  - name: my-host-nfs
+    hostPath:
+      path: /data/project
+      type: Directory
+  containers:
+  - name: maintain-kubeusers
+    image: docker-registry.tools.wmflabs.org/maintain-kubeusers:latest
+    command: ["/bin/ash"]
+    args: ["-c", "while true; do echo hello; sleep 10;done"]
+    volumeMounts:
+    - mountPath: /data/project
+      name: my-host-nfs
