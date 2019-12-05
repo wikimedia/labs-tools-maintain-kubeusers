@@ -12,8 +12,21 @@ def vcr_config():
 
 
 @pytest.fixture
-def test_user(tmp_path):
-    return maintain_kubeusers.User("blurp", 1002, tmp_path)
+def test_user(tmp_path, mocker):
+    mocker.patch("os.chown", autospec=True)
+    mocker.patch("os.fchown", autospec=True)
+    user = maintain_kubeusers.User("blurp", 1002, tmp_path)
+    user.cert = b"""
+-----BEGIN CERTIFICATE-----
+Not really a cert
+-----END CERTIFICATE-----
+"""
+    user.pk = maintain_kubeusers.generate_pk()
+    user.create_homedir()
+    user.write_kubeconfig(
+        "myserver", "FAKE_CA_DATA==", True
+    )
+    return user
 
 
 def pytest_addoption(parser):
