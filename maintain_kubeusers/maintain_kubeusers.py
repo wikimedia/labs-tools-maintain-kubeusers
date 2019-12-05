@@ -707,6 +707,20 @@ class User:
         finally:
             os.close(f)
 
+    def switch_context(self):
+        path = os.path.join(self.home, ".kube", "config")
+        if not os.path.isfile(path):
+            return
+
+        config = self.read_config_file()
+        if not config:
+            return
+
+        context = config["current-context"]
+        if context != "toolforge":
+            config["current-context"] = "toolforge"
+            self.write_config_file(config)
+
     def create_homedir(self):
         """
         Create homedirs for new users
@@ -915,6 +929,7 @@ def get_tools_from_ldap(conn, projectname):
 def main():
     argparser = argparse.ArgumentParser()
     group1 = argparser.add_mutually_exclusive_group()
+    group2 = argparser.add_mutually_exclusive_group()
     argparser.add_argument(
         "--ldapconfig",
         help="Path to YAML LDAP config file",
@@ -937,7 +952,15 @@ def main():
         help="Specifies this is not running in Kubernetes (for debugging)",
         action="store_true",
     )
-    argparser.add_argument(
+    group2.add_argument(
+        "--force-migrate",
+        help=(
+            "For full Kubernetes cluster change: switches every account ",
+            "to use the toolforge context. Requires the --once option",
+        ),
+        action="store_true",
+    )
+    group2.add_argument(
         "--gentle-mode",
         help=(
             "Before general release, keep current context set to default "
@@ -947,6 +970,8 @@ def main():
     )
 
     args = argparser.parse_args()
+    if args.force_migrate and not args.once:
+        argparser.error("--once is required when --force-migrate is set")
 
     loglvl = logging.DEBUG if args.debug else logging.INFO
     logging.basicConfig(format="%(message)s", level=loglvl)
@@ -983,6 +1008,15 @@ def main():
             receive_timeout=60,
         ) as conn:
             tools = get_tools_from_ldap(conn, args.project)
+
+        # If this is just migrating all remaining users (--force-migrate)
+        # we should short-circuit the while True loop as soon as possible to
+        # reduce all the churn.
+        if args.force_migrate:
+            for tool_name in cur_users:
+                tools[tool_name].switch_context()
+
+            break
 
         new_tools = set([tool.name for tool in tools.values()]) - set(cur_users)
         if new_tools:
