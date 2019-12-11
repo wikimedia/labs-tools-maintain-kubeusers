@@ -431,6 +431,7 @@ class K8sAPI:
                 host_network=False,
                 host_pid=False,
                 privileged=False,
+                required_drop_capabilities=["ALL"],
                 read_only_root_filesystem=False,
                 run_as_user=client.ExtensionsV1beta1RunAsUserStrategyOptions(
                     rule="MustRunAs",
