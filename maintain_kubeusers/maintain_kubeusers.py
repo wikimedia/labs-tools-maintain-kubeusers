@@ -1022,6 +1022,12 @@ def main():
         new_tools = set([tool.name for tool in tools.values()]) - set(cur_users)
         if new_tools:
             for tool_name in new_tools:
+                if "_" in tool_name:
+                    # Let's keep the tool quiet so we can catch errors
+                    logging.debug(
+                        "MISNAMED TOOL %s, creating nothing", tool_name
+                    )
+                    continue
                 tools[tool_name].pk = generate_pk()
                 k8s_api.generate_csr(tools[tool_name].pk, tool_name)
                 tools[tool_name].cert = k8s_api.approve_cert(tool_name)
