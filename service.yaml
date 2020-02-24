@@ -157,7 +157,7 @@ spec:
       - name: maintain-kubeusers
         image: docker-registry.tools.wmflabs.org/maintain-kubeusers:latest
         command: ["/app/venv/bin/python"]
-        args: ["/app/maintain_kubeusers.py", "--gentle-mode"]
+        args: ["/app/maintain_kubeusers.py"]
         volumeMounts:
         - mountPath: /data/project
           name: my-host-nfs
