@@ -1,6 +1,6 @@
 # conftest.py
 import pytest
-from .context import maintain_kubeusers
+from .context import User, generate_pk
 
 
 @pytest.fixture(scope="module")
@@ -15,13 +15,13 @@ def vcr_config():
 def test_user(tmp_path, mocker):
     mocker.patch("os.chown", autospec=True)
     mocker.patch("os.fchown", autospec=True)
-    user = maintain_kubeusers.User("blurp", 1002, tmp_path)
+    user = User("blurp", 1002, tmp_path)
     user.cert = b"""
 -----BEGIN CERTIFICATE-----
 Not really a cert
 -----END CERTIFICATE-----
 """
-    user.pk = maintain_kubeusers.generate_pk()
+    user.pk = generate_pk()
     user.create_homedir()
     user.write_kubeconfig(
         "myserver", "FAKE_CA_DATA==", True
