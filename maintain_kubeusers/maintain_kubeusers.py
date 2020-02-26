@@ -376,10 +376,10 @@ class K8sAPI:
                     limits=[
                         client.V1LimitRangeItem(
                             default={"cpu": "500m", "memory": "512Mi"},
-                            default_request={"cpu": "250m", "memory": "256Mi"},
+                            default_request={"cpu": "150m", "memory": "256Mi"},
                             type="Container",
                             max={"cpu": "1", "memory": "4Gi"},
-                            min={"cpu": "100m", "memory": "100Mi"},
+                            min={"cpu": "50m", "memory": "100Mi"},
                         )
                     ]
                 ),
