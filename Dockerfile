@@ -5,8 +5,7 @@ RUN apk add --no-cache --virtual .fetch-deps \
 
 WORKDIR /app
 
-COPY maintain_kubeusers ./
-COPY maintain_kubeusers.py .
+COPY maintain_kubeusers/maintain_kubeusers.py .
 COPY requirements.txt .
 COPY ldap.yaml /etc/
 
