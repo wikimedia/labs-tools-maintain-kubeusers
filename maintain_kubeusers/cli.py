@@ -9,7 +9,11 @@ import yaml
 from kubernetes import config as k_config
 
 from maintain_kubeusers.k8s_api import K8sAPI
-from maintain_kubeusers.utils import generate_pk, get_tools_from_ldap
+from maintain_kubeusers.utils import (
+    generate_pk,
+    get_tools_from_ldap,
+    scrub_tools,
+)
 
 """
 Automate the process of generating user credentials for Toolforge
@@ -121,13 +125,12 @@ def main():
 
             break
 
-        new_tools = set([tool.name for tool in tools.values()]) - set(cur_users)
+        raw_new_tools = set([tool.name for tool in tools.values()]) - set(
+            cur_users
+        )
+        new_tools = scrub_tools(raw_new_tools)
         if new_tools:
             for tool_name in new_tools:
-                if "_" in tool_name:
-                    logging.debug("skipping %s for name violation", tool_name)
-                    continue
-
                 tools[tool_name].pk = generate_pk()
                 k8s_api.generate_csr(tools[tool_name].pk, tool_name)
                 tools[tool_name].cert = k8s_api.approve_cert(tool_name)
