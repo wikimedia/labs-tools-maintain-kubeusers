@@ -12,6 +12,8 @@ import yaml
 from kubernetes import client
 from kubernetes.client.rest import ApiException
 
+from maintain_kubeusers.user import User
+
 
 class K8sAPI:
     def __init__(self):
@@ -42,29 +44,63 @@ class K8sAPI:
         fs = "metadata.name=maintain-kubeusers"
         return self.core.list_namespaced_config_map(ns, field_selector=fs).items
 
-    def get_current_tool_users(self):
+    def get_current_users(self, admins=False):
         # Return all tools that currently have the maintain-kubeusers ConfigMap
         # and tools whose certs expire in 30 days
         namespaces = self.get_tool_namespaces()
-        current = []
-        expiring = []
+        current_tools = []
+        current_admins = []
+        expiring_tools = []
+        expiring_admins = []
         test_time = datetime.utcnow() + timedelta(days=30)
-        for ns in namespaces:
-            cm_list = self._check_confmap(ns)
-            if cm_list:
-                current.append(ns[5:])
-                expiry_time = datetime.strptime(
-                    cm_list[0].data["expires"], "%Y-%m-%dT%H:%M:%S"
-                )
+        if not admins:
+            for ns in namespaces:
+                cm_list = self._check_confmap(ns)
+                if cm_list:
+                    current_tools.append(ns[5:])
+                    expiry_time = datetime.strptime(
+                        cm_list[0].data["expires"], "%Y-%m-%dT%H:%M:%S"
+                    )
+                    if expiry_time <= test_time:
+                        expiring_tools.append(ns[5:])
+
+        adm_cm_list = self._check_confmap("maintain-kubeusers")
+        if adm_cm_list:
+            for admin_name, admin_exp in adm_cm_list[0].data.items():
+                expiry_time = datetime.strptime(admin_exp, "%Y-%m-%dT%H:%M:%S")
+                current_admins.append(admin_name)
                 if expiry_time <= test_time:
-                    expiring.append(ns[5:])
+                    expiring_admins.append(admin_name)
 
-        return current, expiring
+        return (
+            {"tools": current_tools, "admins": current_admins},
+            {"tools": expiring_tools, "admins": expiring_admins},
+        )
 
-    def create_configmap(self, user):
+    def create_configmap(self, user: User) -> str:
         """ To be done after all user generation steps are complete """
         cert_o = x509.load_pem_x509_certificate(user.cert, default_backend())
         expires = cert_o.not_valid_after
+        if user.admin:
+            cm_data = {user.name: expires.isoformat()}
+            admin_cm_list = self._check_confmap("maintain-kubeusers")
+            if not admin_cm_list:
+                config_map = client.V1ConfigMap(
+                    api_version="v1",
+                    kind="ConfigMap",
+                    metadata=client.V1ObjectMeta(name="maintain-kubeusers"),
+                    data=cm_data,
+                )
+                resp = self.core.create_namespaced_config_map(
+                    "maintain-kubeusers", body=config_map
+                )
+                return resp.metadata.name
+
+            resp = self.core.patch_namespaced_config_map(
+                "maintain-kubeusers", "maintain-kubeusers", {"data": cm_data}
+            )
+            return resp.metadata.name
+
         config_map = client.V1ConfigMap(
             api_version="v1",
             kind="ConfigMap",
@@ -81,19 +117,17 @@ class K8sAPI:
         )
         return resp.metadata.name
 
-    def generate_csr(self, private_key, user):
+    def generate_csr(self, private_key, user, admin=False):
         # The CSR must include the groups (which are org fields)
         # and CN of the user
-
+        org_name = "admins" if admin else "toolforge"
         # TODO: exception handling
         csr = (
             x509.CertificateSigningRequestBuilder()
             .subject_name(
                 x509.Name(
                     [
-                        x509.NameAttribute(
-                            NameOID.ORGANIZATION_NAME, "toolforge"
-                        ),
+                        x509.NameAttribute(NameOID.ORGANIZATION_NAME, org_name),
                         x509.NameAttribute(NameOID.COMMON_NAME, user),
                     ]
                 )
@@ -103,7 +137,7 @@ class K8sAPI:
         b64_csr = base64.b64encode(csr.public_bytes(serialization.Encoding.PEM))
         csr_spec = client.V1beta1CertificateSigningRequestSpec(
             request=b64_csr.decode("utf-8"),
-            groups=["system:authenticated", "toolforge"],
+            groups=["system:authenticated", org_name],
             usages=["digital signature", "key encipherment", "client auth"],
         )
         csr_body = client.V1beta1CertificateSigningRequest(
@@ -115,12 +149,11 @@ class K8sAPI:
         self.certs.create_certificate_signing_request(body=csr_body)
         return
 
-    def approve_cert(self, user):
+    def approve_cert(self, user_name, admin=False):
         """ Approve the CSR and return a cert that can be used """
         # TODO: exception handling
-        body = self.certs.read_certificate_signing_request_status(
-            "tool-{}".format(user)
-        )
+        user = user_name if admin else "tool-{}".format(user_name)
+        body = self.certs.read_certificate_signing_request_status(user)
         # create an approval condition
         approval_condition = client.V1beta1CertificateSigningRequestCondition(
             last_update_time=datetime.now(timezone.utc).astimezone(),
@@ -133,20 +166,16 @@ class K8sAPI:
         body.status.conditions = [approval_condition]
         # Patch the Kubernetes CSR object in the certs API
         # The method called to the API is very confusingly named
-        _ = self.certs.replace_certificate_signing_request_approval(
-            "tool-{}".format(user), body
-        )
+        _ = self.certs.replace_certificate_signing_request_approval(user, body)
         # There is a small delay in filling the certificate field, it seems.
         time.sleep(1)
-        api_response = self.certs.read_certificate_signing_request(
-            "tool-{}".format(user)
-        )
+        api_response = self.certs.read_certificate_signing_request(user)
         if api_response.status.certificate is not None:
             # Get the actual cert
             cert = base64.b64decode(api_response.status.certificate)
             # Clean up the API
             self.certs.delete_certificate_signing_request(
-                "tool-{}".format(user), body=client.V1DeleteOptions()
+                user, body=client.V1DeleteOptions()
             )
             return cert
         else:
@@ -379,22 +408,31 @@ class K8sAPI:
         )
 
     def update_expired_ns(self, user):
-        """ Patch the existing NS for the new certificate exipration """
+        """ Patch the existing NS for the new certificate expiration """
         cert_o = x509.load_pem_x509_certificate(user.cert, default_backend())
         expires = cert_o.not_valid_after
-        config_map = client.V1ConfigMap(
-            api_version="v1",
-            kind="ConfigMap",
-            metadata=client.V1ObjectMeta(name="maintain-kubeusers"),
-            data={
-                "status": "user created: {}".format(
-                    datetime.utcnow().isoformat()
-                ),
-                "expires": expires.isoformat(),
-            },
-        )
+        if user.admin:
+            namespace = "maintain-kubeusers"
+            cm_data = {"data": {user.name: expires.isoformat()}}
+            resp = self.core.patch_namespaced_config_map(
+                "maintain-kubeusers", "maintain-kubeusers", cm_data
+            )
+            return resp.metadata.name
+        else:
+            namespace = "tool-{}".format(user.name)
+            config_map = client.V1ConfigMap(
+                api_version="v1",
+                kind="ConfigMap",
+                metadata=client.V1ObjectMeta(name="maintain-kubeusers"),
+                data={
+                    "status": "user created: {}".format(
+                        datetime.utcnow().isoformat()
+                    ),
+                    "expires": expires.isoformat(),
+                },
+            )
         resp = self.core.patch_namespaced_config_map(
-            "maintain-kubeusers", "tool-{}".format(user.name), body=config_map
+            "maintain-kubeusers", namespace, body=config_map
         )
         return resp.metadata.name
 
@@ -500,21 +538,21 @@ class K8sAPI:
             logging.error("Could not create podsecuritypolicy for %s", user)
             raise
 
-    def process_rbac(self, user):
+    def process_rbac(self, user_name):
         try:
             _ = self.rbac.create_namespaced_role(
-                namespace="tool-{}".format(user),
+                namespace="tool-{}".format(user_name),
                 body=client.V1Role(
                     api_version="rbac.authorization.k8s.io/v1",
                     kind="Role",
                     metadata=client.V1ObjectMeta(
-                        name="tool-{}-psp".format(user),
-                        namespace="tool-{}".format(user),
+                        name="tool-{}-psp".format(user_name),
+                        namespace="tool-{}".format(user_name),
                     ),
                     rules=[
                         client.V1PolicyRule(
                             api_groups=["policy"],
-                            resource_names=["tool-{}-psp".format(user)],
+                            resource_names=["tool-{}-psp".format(user_name)],
                             resources=["podsecuritypolicies"],
                             verbs=["use"],
                         )
@@ -523,31 +561,31 @@ class K8sAPI:
             )
         except ApiException as api_ex:
             if api_ex.status == 409 and "AlreadyExists" in api_ex.body:
-                logging.info("Role tool-%s-psp already exists", user)
+                logging.info("Role tool-%s-psp already exists", user_name)
                 return
 
-            logging.error("Could not create psp role for %s", user)
+            logging.error("Could not create psp role for %s", user_name)
             raise
 
         try:
             _ = self.rbac.create_namespaced_role_binding(
-                namespace="tool-{}".format(user),
+                namespace="tool-{}".format(user_name),
                 body=client.V1RoleBinding(
                     api_version="rbac.authorization.k8s.io/v1",
                     kind="RoleBinding",
                     metadata=client.V1ObjectMeta(
-                        name="tool-{}-psp-binding".format(user),
-                        namespace="tool-{}".format(user),
+                        name="tool-{}-psp-binding".format(user_name),
+                        namespace="tool-{}".format(user_name),
                     ),
                     role_ref=client.V1RoleRef(
                         kind="Role",
-                        name="tool-{}-psp".format(user),
+                        name="tool-{}-psp".format(user_name),
                         api_group="rbac.authorization.k8s.io",
                     ),
                     subjects=[
                         client.V1Subject(
                             kind="User",
-                            name=user,
+                            name=user_name,
                             api_group="rbac.authorization.k8s.io",
                         )
                     ],
@@ -556,33 +594,33 @@ class K8sAPI:
         except ApiException as api_ex:
             if api_ex.status == 409 and "AlreadyExists" in api_ex.body:
                 logging.info(
-                    "RoleBinding tool-%s-psp-binding already exists", user
+                    "RoleBinding tool-%s-psp-binding already exists", user_name
                 )
                 return
 
-            logging.error("Could not create psp rolebinding for %s", user)
+            logging.error("Could not create psp rolebinding for %s", user_name)
             raise
 
         try:
             _ = self.rbac.create_namespaced_role_binding(
-                namespace="tool-{}".format(user),
+                namespace="tool-{}".format(user_name),
                 body=client.V1RoleBinding(
                     api_version="rbac.authorization.k8s.io/v1",
                     kind="RoleBinding",
                     metadata=client.V1ObjectMeta(
-                        name="default-{}-psp-binding".format(user),
-                        namespace="tool-{}".format(user),
+                        name="default-{}-psp-binding".format(user_name),
+                        namespace="tool-{}".format(user_name),
                     ),
                     role_ref=client.V1RoleRef(
                         kind="Role",
-                        name="tool-{}-psp".format(user),
+                        name="tool-{}-psp".format(user_name),
                         api_group="rbac.authorization.k8s.io",
                     ),
                     subjects=[
                         client.V1Subject(
                             kind="ServiceAccount",
                             name="default",
-                            namespace="tool-{}".format(user),
+                            namespace="tool-{}".format(user_name),
                         )
                     ],
                 ),
@@ -590,7 +628,8 @@ class K8sAPI:
         except ApiException as api_ex:
             if api_ex.status == 409 and "AlreadyExists" in api_ex.body:
                 logging.info(
-                    "RoleBinding default-%s-psp-binding already exists", user
+                    "RoleBinding default-%s-psp-binding already exists",
+                    user_name,
                 )
                 return
 
@@ -599,19 +638,19 @@ class K8sAPI:
                     "Could not create psp rolebinding for tool-%s:default "
                     "serviceaccount"
                 ),
-                user,
+                user_name,
             )
             raise
 
         try:
             _ = self.rbac.create_namespaced_role_binding(
-                namespace="tool-{}".format(user),
+                namespace="tool-{}".format(user_name),
                 body=client.V1RoleBinding(
                     api_version="rbac.authorization.k8s.io/v1",
                     kind="RoleBinding",
                     metadata=client.V1ObjectMeta(
-                        name="{}-tool-binding".format(user),
-                        namespace="tool-{}".format(user),
+                        name="{}-tool-binding".format(user_name),
+                        namespace="tool-{}".format(user_name),
                     ),
                     role_ref=client.V1RoleRef(
                         kind="ClusterRole",
@@ -621,7 +660,7 @@ class K8sAPI:
                     subjects=[
                         client.V1Subject(
                             kind="User",
-                            name=user,
+                            name=user_name,
                             api_group="rbac.authorization.k8s.io",
                         )
                     ],
@@ -629,15 +668,84 @@ class K8sAPI:
             )
         except ApiException as api_ex:
             if api_ex.status == 409 and "AlreadyExists" in api_ex.body:
-                logging.info("RoleBinding %s-tool-binding already exists", user)
+                logging.info(
+                    "RoleBinding %s-tool-binding already exists", user_name
+                )
                 return
 
-            logging.error("Could not create rolebinding for %s", user)
+            logging.error("Could not create rolebinding for %s", user_name)
+            raise
+
+    def process_admin_rbac(self, username: str) -> None:
+        # Let admins read anything
+        try:
+            _ = self.rbac.create_cluster_role_binding(
+                body=client.V1ClusterRoleBinding(
+                    api_version="rbac.authorization.k8s.io/v1",
+                    kind="ClusterRoleBinding",
+                    metadata=client.V1ObjectMeta(name=f"{username}-binding"),
+                    role_ref=client.V1RoleRef(
+                        kind="ClusterRole",
+                        name="view",
+                        api_group="rbac.authorization.k8s.io",
+                    ),
+                    subjects=[
+                        client.V1Subject(
+                            kind="User",
+                            name=username,
+                            api_group="rbac.authorization.k8s.io",
+                        )
+                    ],
+                )
+            )
+        except ApiException as api_ex:
+            if api_ex.status == 409 and "AlreadyExists" in api_ex.body:
+                logging.info("RoleBinding %s-binding already exists", username)
+                return
+
+            logging.error(
+                "Could not create clusterrolebinding for %s", username
+            )
+            raise
+
+        # Also let admins impersonate anything, allowing full sudo access
+        try:
+            _ = self.rbac.create_cluster_role_binding(
+                body=client.V1ClusterRoleBinding(
+                    api_version="rbac.authorization.k8s.io/v1",
+                    kind="ClusterRoleBinding",
+                    metadata=client.V1ObjectMeta(name=f"{username}-binding"),
+                    role_ref=client.V1RoleRef(
+                        kind="ClusterRole",
+                        name="k8s-admin",
+                        api_group="rbac.authorization.k8s.io",
+                    ),
+                    subjects=[
+                        client.V1Subject(
+                            kind="User",
+                            name=username,
+                            api_group="rbac.authorization.k8s.io",
+                        )
+                    ],
+                )
+            )
+        except ApiException as api_ex:
+            if api_ex.status == 409 and "AlreadyExists" in api_ex.body:
+                logging.info("RoleBinding %s-binding already exists", username)
+                return
+
+            logging.error(
+                "Could not create clusterrolebinding for %s", username
+            )
             raise
 
     def add_user_access(self, user):
-        self.generate_psp(user)
-        self.create_namespace(user.name)
-        self.create_presets(user.name)
-        self.process_rbac(user.name)
+        if not user.admin:
+            self.generate_psp(user)
+            self.create_namespace(user.name)
+            self.create_presets(user.name)
+            self.process_rbac(user.name)
+        else:
+            self.process_admin_rbac(user.name)
+
         self.create_configmap(user)

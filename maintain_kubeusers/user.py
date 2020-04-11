@@ -8,14 +8,29 @@ import yaml
 
 
 class User:
-    """ Simple user object kept intentionally light-weight """
+    """ Simple user object """
 
-    def __init__(self, name, id, home):
+    def __init__(self, name, id, home, admin=False, project="tools"):
         self.name = name
         self.id = id
         self.home = home
+        self.admin = admin
         self.pk = None
         self.cert = None
+        self.project = project
+        self.ctx = (
+            "toolforge" if self.project.startswith("tools") else self.project
+        )
+        self.kubeuser = (
+            f"tf-{self.name}"
+            if self.project.startswith("tools")
+            else f"{self.project}-{self.name}"
+        )
+        self.ns = (
+            f"tool-{self.name}"
+            if self.project.startswith("tools")
+            else "default"
+        )
 
     def read_config_file(self):
         path = os.path.join(self.home, ".kube", "config")
@@ -69,6 +84,9 @@ class User:
 
     def switch_context(self):
         path = os.path.join(self.home, ".kube", "config")
+        if not self.project.startswith("tools"):
+            return
+
         if not os.path.isfile(path):
             return
 
@@ -86,6 +104,7 @@ class User:
         Create homedirs for new users
 
         """
+        mode = 0o700 if self.admin else 0o775
         if not os.path.exists(self.home):
             # Try to not touch it if it already exists
             # This prevents us from messing with permissions while also
@@ -99,13 +118,13 @@ class User:
             # attacker can not just delete and create a symlink to wherever.
             # The chown happens last, so should be ok.
 
-            os.makedirs(self.home, mode=0o775, exist_ok=False)
-            os.chmod(self.home, 0o775 | stat.S_ISGID)
+            os.makedirs(self.home, mode=mode, exist_ok=False)
+            os.chmod(self.home, mode | stat.S_ISGID)
             os.chown(self.home, int(self.id), int(self.id))
 
             logs_dir = os.path.join(self.home, "logs")
-            os.makedirs(logs_dir, mode=0o775, exist_ok=False)
-            os.chmod(logs_dir, 0o775 | stat.S_ISGID)
+            os.makedirs(logs_dir, mode=mode, exist_ok=False)
+            os.chmod(logs_dir, mode | stat.S_ISGID)
             os.chown(self.home, int(self.id), int(self.id))
         else:
             logging.info("Homedir already exists for %s", self.home)
@@ -117,35 +136,35 @@ class User:
                     "server": api_server,
                     "certificate-authority-data": ca_data,
                 },
-                "name": "toolforge",
+                "name": self.ctx,
             }
         )
         config["users"].append(
             {
                 "user": {"client-certificate": certfile, "client-key": keyfile},
-                "name": "tf-{}".format(self.name),
+                "name": self.kubeuser,
             }
         )
         config["contexts"].append(
             {
                 "context": {
-                    "cluster": "toolforge",
-                    "user": "tf-{}".format(self.name),
-                    "namespace": "tool-{}".format(self.name),
+                    "cluster": self.ctx,
+                    "user": self.kubeuser,
+                    "namespace": self.ns,
                 },
-                "name": "toolforge",
+                "name": self.ctx,
             }
         )
 
     def merge_config(self, config, api_server, ca_data, keyfile, certfile):
         for i in range(len(config["clusters"])):
-            if config["clusters"][i]["name"] == "toolforge":
+            if config["clusters"][i]["name"] == self.ctx:
                 config["clusters"][i] = {
                     "cluster": {
                         "server": api_server,
                         "certificate-authority-data": ca_data,
                     },
-                    "name": "toolforge",
+                    "name": self.ctx,
                 }
         for i in range(len(config["users"])):
             if "client-certificate" in config["users"][i]["user"]:
@@ -154,15 +173,15 @@ class User:
                         "client-certificate": certfile,
                         "client-key": keyfile,
                     },
-                    "name": "tf-{}".format(self.name),
+                    "name": self.kubeuser,
                 }
         for i in range(len(config["contexts"])):
-            if config["contexts"][i]["name"] == "toolforge":
+            if config["contexts"][i]["name"] == self.ctx:
                 config["contexts"][i] = {
                     "context": {
-                        "cluster": "toolforge",
-                        "user": "tf-{}".format(self.name),
-                        "namespace": "tool-{}".format(self.name),
+                        "cluster": self.ctx,
+                        "user": self.kubeuser,
+                        "namespace": self.ns,
                     },
                     "name": "toolforge",
                 }
@@ -173,11 +192,13 @@ class User:
         given api server.
         """
         dirpath = os.path.join(self.home, ".kube")
-        certpath = os.path.join(self.home, ".toolskube")
+        cdir_name = ".admkube" if self.admin else ".toolskube"
+        certpath = os.path.join(self.home, cdir_name)
         certfile = os.path.join(certpath, "client.crt")
         keyfile = os.path.join(certpath, "client.key")
         path = os.path.join(dirpath, "config")
         current_context = "default" if gentle else "toolforge"
+        mode = 0o700 if self.admin else 0o775
         # If the path exists, merge the configs and do not force the switch to
         # this cluster
         if os.path.isfile(path):
@@ -217,15 +238,16 @@ class User:
 
         # exist_ok=True is fine here, and not a security issue (Famous
         # last words?).
-        os.makedirs(certpath, mode=0o775, exist_ok=True)
-        os.makedirs(dirpath, mode=0o775, exist_ok=True)
+        os.makedirs(certpath, mode=mode, exist_ok=True)
+        os.makedirs(dirpath, mode=mode, exist_ok=True)
         os.chown(dirpath, int(self.id), int(self.id))
         os.chown(certpath, int(self.id), int(self.id))
         self.write_certs()
         self.write_config_file(config)
 
     def write_certs(self):
-        location = os.path.join(self.home, ".toolskube")
+        cdir_name = ".admkube" if self.admin else ".toolskube"
+        location = os.path.join(self.home, cdir_name)
         try:
             # The x.509 cert is already ready to write
             crt_path = os.path.join(location, "client.crt")

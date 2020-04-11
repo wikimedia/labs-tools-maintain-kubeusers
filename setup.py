@@ -3,6 +3,7 @@
 
 import io
 import os
+from typing import Dict, List
 
 from setuptools import find_packages, setup
 
@@ -18,7 +19,7 @@ VERSION = "0.1.0"
 
 REQUIRED = ["cryptography", "kubernetes", "pyyaml", "ldap3"]
 
-EXTRAS = {}
+EXTRAS: Dict[str, List[str]] = {}
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -31,7 +32,7 @@ except FileNotFoundError:
     long_description = DESCRIPTION
 
 # Load the package's __version__.py module as a dictionary.
-about = {}
+about: Dict[str, str] = {}
 if not VERSION:
     project_slug = NAME.lower().replace("-", "_").replace(" ", "_")
     with open(os.path.join(here, project_slug, "__version__.py")) as f:

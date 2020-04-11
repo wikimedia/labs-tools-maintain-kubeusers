@@ -12,7 +12,8 @@ from maintain_kubeusers.k8s_api import K8sAPI
 from maintain_kubeusers.utils import (
     generate_pk,
     get_tools_from_ldap,
-    scrub_tools,
+    get_admins_from_ldap,
+    process_new_users,
 )
 
 """
@@ -49,6 +50,13 @@ def main():
         "--project",
         help="Project name to fetch LDAP users from",
         default="tools",
+    )
+    argparser.add_argument(
+        "--admins-only",
+        "-a",
+        help="Only manage admin accounts for this project",
+        default=False,
+        action="store_true",
     )
     group1.add_argument(
         "--interval", help="Seconds between between runs", default=60
@@ -98,7 +106,7 @@ def main():
         logging.info("starting a run")
         # Touch a temp file for a Kubernetes liveness check to prevent hangs
         Path("/tmp/run.check").touch()
-        cur_users, expiring_users = k8s_api.get_current_tool_users()
+        cur_users, expiring_users = k8s_api.get_current_users(args.admins_only)
         servers = ldap3.ServerPool(
             [ldap3.Server(s, connect_timeout=1) for s in ldapconfig["servers"]],
             ldap3.ROUND_ROBIN,
@@ -114,46 +122,56 @@ def main():
             raise_exceptions=True,
             receive_timeout=60,
         ) as conn:
-            tools = get_tools_from_ldap(conn, args.project)
+            tools = []
+            if not args.admins_only:
+                tools = get_tools_from_ldap(conn, args.project)
+
+            admins = get_admins_from_ldap(conn, args.project)
 
         # If this is just migrating all remaining users (--force-migrate)
         # we should short-circuit the while True loop as soon as possible to
         # reduce all the churn.
         if args.force_migrate:
-            for tool_name in cur_users:
+            for tool_name in cur_users["tools"]:
                 tools[tool_name].switch_context()
 
             break
 
-        raw_new_tools = set([tool.name for tool in tools.values()]) - set(
-            cur_users
+        if tools:
+            new_tools = process_new_users(
+                tools, cur_users["tools"], k8s_api, args.gentle_mode
+            )
+            if expiring_users["tools"]:
+                for tool_name in expiring_users["tools"]:
+                    tools[tool_name].pk = generate_pk()
+                    k8s_api.generate_csr(tools[tool_name].pk, tool_name)
+                    tools[tool_name].cert = k8s_api.approve_cert(tool_name)
+                    tools[tool_name].create_homedir()
+                    tools[tool_name].write_kubeconfig(
+                        api_server, ca_data, args.gentle_mode
+                    )
+                    k8s_api.update_expired_ns(tools[tool_name])
+                    logging.info("Renewed creds for tool %s", tool_name)
+
+        if admins:
+            new_admins = process_new_users(
+                tools, cur_users["admins"], k8s_api, args.gentle_mode
+            )
+            if expiring_users["admins"]:
+                for admin_name in expiring_users["admins"]:
+                    admins[admin_name].pk = generate_pk()
+                    k8s_api.generate_csr(admins[admin_name].pk, admin_name)
+                    admins[admin_name].cert = k8s_api.approve_cert(admin_name)
+                    admins[admin_name].create_homedir()
+                    admins[admin_name].write_kubeconfig(
+                        api_server, ca_data, args.gentle_mode
+                    )
+                    k8s_api.update_expired_ns(admins[admin_name])
+                    logging.info("Renewed creds for admin user %s", admin_name)
+
+        logging.info(
+            "finished run, wrote %s new accounts", new_tools + new_admins
         )
-        new_tools = scrub_tools(raw_new_tools)
-        if new_tools:
-            for tool_name in new_tools:
-                tools[tool_name].pk = generate_pk()
-                k8s_api.generate_csr(tools[tool_name].pk, tool_name)
-                tools[tool_name].cert = k8s_api.approve_cert(tool_name)
-                tools[tool_name].create_homedir()
-                tools[tool_name].write_kubeconfig(
-                    api_server, ca_data, args.gentle_mode
-                )
-                k8s_api.add_user_access(tools[tool_name])
-                logging.info("Provisioned creds for tool %s", tool_name)
-
-        logging.info("finished run, wrote %s new accounts", len(new_tools))
-
-        if expiring_users:
-            for tool_name in expiring_users:
-                tools[tool_name].pk = generate_pk()
-                k8s_api.generate_csr(tools[tool_name].pk, tool_name)
-                tools[tool_name].cert = k8s_api.approve_cert(tool_name)
-                tools[tool_name].create_homedir()
-                tools[tool_name].write_kubeconfig(
-                    api_server, ca_data, args.gentle_mode
-                )
-                k8s_api.update_expired_ns(tools[tool_name])
-                logging.info("Renewed creds for tool %s", tool_name)
 
         if args.once:
             break

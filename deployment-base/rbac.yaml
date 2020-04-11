@@ -148,6 +148,22 @@ rules:
     - list
     - watch
 ---
+# role for kubernetes project admins
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: k8s-admin
+rules:
+  - apiGroups:
+    - ""
+    resources:
+    - users
+    - groups
+    - serviceaccounts
+    verbs:
+    - impersonate
+
+---
 # user-maintainer role for the service account this runs under
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -158,6 +174,7 @@ rules:
   - rbac.authorization.k8s.io
   resources:
   - rolebindings
+  - clusterrolebindings
   - roles
   verbs:
   - create
@@ -276,4 +293,30 @@ subjects:
 roleRef:
   kind: ClusterRole
   name: tools-user
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: user-maintainer-k8s-admin
+subjects:
+- kind: ServiceAccount
+  namespace: maintain-kubeusers
+  name: user-maintainer
+roleRef:
+  kind: ClusterRole
+  name: k8s-admin
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: user-maintainer-view
+subjects:
+- kind: ServiceAccount
+  namespace: maintain-kubeusers
+  name: user-maintainer
+roleRef:
+  kind: ClusterRole
+  name: view
   apiGroup: rbac.authorization.k8s.io

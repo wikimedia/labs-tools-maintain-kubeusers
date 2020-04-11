@@ -30,6 +30,21 @@ Not really a cert
     return user
 
 
+@pytest.fixture
+def test_admin(tmp_path, mocker):
+    mocker.patch("os.chown", autospec=True)
+    mocker.patch("os.fchown", autospec=True)
+    mocker.patch("os.chmod", autospec=True)
+    admin_user = User("admin", 1003, tmp_path, True)
+    admin_user.cert = b"""
+-----BEGIN CERTIFICATE-----
+Not really a cert
+-----END CERTIFICATE-----
+"""
+    admin_user.pk = generate_pk()
+    return admin_user
+
+
 def pytest_addoption(parser):
     parser.addoption(
         "--in-k8s",
