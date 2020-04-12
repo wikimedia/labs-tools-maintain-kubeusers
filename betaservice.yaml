@@ -52,6 +52,17 @@ rules:
   - update
   - use
 - apiGroups:
+  - policy
+  resources:
+  - podsecuritypolicies
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - use
+- apiGroups:
   - ""
   resources:
   - namespaces

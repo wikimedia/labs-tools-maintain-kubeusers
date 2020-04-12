@@ -18,8 +18,8 @@ class K8sAPI:
         self.core = client.CoreV1Api()
         self.certs = client.CertificatesV1beta1Api()
         self.rbac = client.RbacAuthorizationV1Api()
-        self.extensions = client.ExtensionsV1beta1Api()
         self.settings_api = client.SettingsV1alpha1Api()
+        self.policy = client.PolicyV1beta1Api()
 
     def get_cluster_info(self):
         c_info = self.core.read_namespaced_config_map(
@@ -363,8 +363,8 @@ class K8sAPI:
         return resp.metadata.name
 
     def generate_psp(self, user):
-        policy = client.ExtensionsV1beta1PodSecurityPolicy(
-            api_version="extensions/v1beta1",
+        policy = client.PolicyV1beta1PodSecurityPolicy(
+            api_version="policy/v1beta1",
             kind="PodSecurityPolicy",
             metadata=client.V1ObjectMeta(
                 name="tool-{}-psp".format(user.name),
@@ -373,12 +373,12 @@ class K8sAPI:
                     "seccomp.security.alpha.kubernetes.io/defaultProfileName": "runtime/default",  # noqa: E501
                 },
             ),
-            spec=client.ExtensionsV1beta1PodSecurityPolicySpec(
+            spec=client.PolicyV1beta1PodSecurityPolicySpec(
                 allow_privilege_escalation=False,
-                fs_group=client.ExtensionsV1beta1FSGroupStrategyOptions(
+                fs_group=client.PolicyV1beta1FSGroupStrategyOptions(
                     rule="MustRunAs",
                     ranges=[
-                        client.ExtensionsV1beta1IDRange(
+                        client.PolicyV1beta1IDRange(
                             max=int(user.id), min=int(user.id)
                         )
                     ],
@@ -389,28 +389,28 @@ class K8sAPI:
                 privileged=False,
                 required_drop_capabilities=["ALL"],
                 read_only_root_filesystem=False,
-                run_as_user=client.ExtensionsV1beta1RunAsUserStrategyOptions(
+                run_as_user=client.PolicyV1beta1RunAsUserStrategyOptions(
                     rule="MustRunAs",
                     ranges=[
-                        client.ExtensionsV1beta1IDRange(
+                        client.PolicyV1beta1IDRange(
                             max=int(user.id), min=int(user.id)
                         )
                     ],
                 ),
-                se_linux=client.ExtensionsV1beta1SELinuxStrategyOptions(
+                se_linux=client.PolicyV1beta1SELinuxStrategyOptions(
                     rule="RunAsAny"
                 ),
-                run_as_group=client.ExtensionsV1beta1RunAsGroupStrategyOptions(
+                run_as_group=client.PolicyV1beta1RunAsGroupStrategyOptions(
                     rule="MustRunAs",
                     ranges=[
-                        client.ExtensionsV1beta1IDRange(
+                        client.PolicyV1beta1IDRange(
                             max=int(user.id), min=int(user.id)
                         )
                     ],
                 ),
-                supplemental_groups=client.ExtensionsV1beta1SupplementalGroupsStrategyOptions(  # noqa: E501
+                supplemental_groups=client.PolicyV1beta1SupplementalGroupsStrategyOptions(  # noqa: E501
                     rule="MustRunAs",
-                    ranges=[client.ExtensionsV1beta1IDRange(min=1, max=65535)],
+                    ranges=[client.PolicyV1beta1IDRange(min=1, max=65535)],
                 ),
                 volumes=[
                     "configMap",
@@ -422,35 +422,35 @@ class K8sAPI:
                     "persistentVolumeClaim",
                 ],
                 allowed_host_paths=[
-                    client.ExtensionsV1beta1AllowedHostPath(
+                    client.PolicyV1beta1AllowedHostPath(
                         path_prefix="/var/lib/sss/pipes", read_only=False
                     ),
-                    client.ExtensionsV1beta1AllowedHostPath(
+                    client.PolicyV1beta1AllowedHostPath(
                         path_prefix="/data/project", read_only=False
                     ),
-                    client.ExtensionsV1beta1AllowedHostPath(
+                    client.PolicyV1beta1AllowedHostPath(
                         path_prefix="/data/scratch", read_only=False
                     ),
-                    client.ExtensionsV1beta1AllowedHostPath(
+                    client.PolicyV1beta1AllowedHostPath(
                         path_prefix="/public/dumps", read_only=True
                     ),
-                    client.ExtensionsV1beta1AllowedHostPath(
+                    client.PolicyV1beta1AllowedHostPath(
                         path_prefix="/etc/wmcs-project", read_only=True
                     ),
-                    client.ExtensionsV1beta1AllowedHostPath(
+                    client.PolicyV1beta1AllowedHostPath(
                         path_prefix="/etc/ldap.yaml", read_only=True
                     ),
-                    client.ExtensionsV1beta1AllowedHostPath(
+                    client.PolicyV1beta1AllowedHostPath(
                         path_prefix="/etc/novaobserver.yaml", read_only=True
                     ),
-                    client.ExtensionsV1beta1AllowedHostPath(
+                    client.PolicyV1beta1AllowedHostPath(
                         path_prefix="/etc/ldap.conf", read_only=True
                     ),
                 ],
             ),
         )
         try:
-            _ = self.extensions.create_pod_security_policy(policy)
+            _ = self.policy.create_pod_security_policy(policy)
         except ApiException as api_ex:
             if api_ex.status == 409 and "AlreadyExists" in api_ex.body:
                 logging.info(
@@ -474,7 +474,7 @@ class K8sAPI:
                     ),
                     rules=[
                         client.V1PolicyRule(
-                            api_groups=["extensions"],
+                            api_groups=["policy"],
                             resource_names=["tool-{}-psp".format(user)],
                             resources=["podsecuritypolicies"],
                             verbs=["use"],

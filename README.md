@@ -98,7 +98,7 @@ The steps are below:
 12. Run `docker build -f Dockerfile.test -t mk-test:testcase .` to build the
     container we need.
 13. Run `kubectl apply -f <path to
-   operations/puppet>/modules/toolforge/files/k8s/toolsforge-tool-role.yaml` to add required RBAC for the service account. (You cannot add permissions you do not already have in Kubernetes, so the SA must have the same permissions as a tool in addition to special ones.)
+   operations/puppet>/modules/toolforge/files/k8s/toolforge-tool-roles.yaml` to add required RBAC for the service account. (You cannot add permissions you do not already have in Kubernetes, so the SA must have the same permissions as a tool in addition to special ones.)
 14. Almost there! You are doing great. Now you need to launch the deployment
     with the test suite in place with `kubectl apply -f testservice.yaml`
 15. Presuming that your service launched alright, get the name of the created
