@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maintain-kubeusers
+  namespace: maintain-kubeusers
+  labels:
+    app: maintain-kubeusers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: maintain-kubeusers
+  template:
+    metadata:
+      labels:
+        app: maintain-kubeusers
+    spec:
+      serviceAccountName: user-maintainer
+      volumes:
+      - name: my-host-nfs
+        hostPath:
+          path: /data/project
+          type: Directory
+      containers:
+      - name: maintain-kubeusers
+        imagePullPolicy: Always
+        image: docker-registry.tools.wmflabs.org/maintain-kubeusers:beta
+        command: ["/app/venv/bin/python"]
+        args: ["/app/maintain_kubeusers.py", "--project=toolsbeta"]
+        volumeMounts:
+        - mountPath: /data/project
+          name: my-host-nfs
+        livenessProbe:
+          exec:
+            command:
+            - find
+            - /tmp/run.check
+            - -mmin
+            - '+5'
+            - -exec
+            - rm
+            - /tmp/run.check
+            - ;
+          initialDelaySeconds: 5
+          periodSeconds: 5

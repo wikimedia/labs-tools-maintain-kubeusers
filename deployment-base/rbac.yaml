@@ -1,17 +1,3 @@
-# TODO: define the service, obviously
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: maintain-kubeusers
-  labels:
-    name: maintain-kubeusers
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: user-maintainer
-  namespace: maintain-kubeusers
----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -140,49 +126,3 @@ roleRef:
   kind: ClusterRole
   name: tools-user
   apiGroup: rbac.authorization.k8s.io
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: maintain-kubeusers
-  namespace: maintain-kubeusers
-  labels:
-    app: maintain-kubeusers
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: maintain-kubeusers
-  template:
-    metadata:
-      labels:
-        app: maintain-kubeusers
-    spec:
-      serviceAccountName: user-maintainer
-      volumes:
-      - name: my-host-nfs
-        hostPath:
-          path: /data/project
-          type: Directory
-      containers:
-      - name: maintain-kubeusers
-        image: docker-registry.tools.wmflabs.org/maintain-kubeusers:latest
-        command: ["/app/venv/bin/python"]
-        args: ["/app/maintain_kubeusers.py"]
-        volumeMounts:
-        - mountPath: /data/project
-          name: my-host-nfs
-        livenessProbe:
-          exec:
-            command:
-            - find
-            - /tmp/run.check
-            - -mmin
-            - '+5'
-            - -exec
-            - rm
-            - /tmp/run.check
-            - ;
-          initialDelaySeconds: 5
-          periodSeconds: 5
-

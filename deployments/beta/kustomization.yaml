@@ -1,0 +1,4 @@
+bases:
+- ../../deployment-base
+patchesStrategicMerge:
+- deployment.yaml

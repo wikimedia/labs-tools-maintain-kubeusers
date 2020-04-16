@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maintain-kubeusers
+  namespace: maintain-kubeusers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: maintain-kubeusers
+  template:
+    metadata:
+      labels:
+        app: maintain-kubeusers
+    spec:
+      serviceAccountName: user-maintainer
+      volumes:
+      - name: my-host-nfs
+        hostPath:
+          path: /data/project
+          type: Directory
+      containers:
+      - name: maintain-kubeusers
+        image: docker-registry.tools.wmflabs.org/maintain-kubeusers:latest
+        command: ["/bin/ash"]
+        args: ["-c", "while true; do echo hello; sleep 10;done"]
+        volumeMounts:
+        - mountPath: /data/project
+          name: my-host-nfs

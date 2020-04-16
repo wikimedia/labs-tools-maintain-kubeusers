@@ -1,0 +1,6 @@
+bases:
+- ../../deployment-base
+# Not using now, but it's fun to experiment with
+# nameSuffix: -test
+patchesStrategicMerge:
+- deployment.yaml
