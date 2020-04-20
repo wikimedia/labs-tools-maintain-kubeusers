@@ -59,7 +59,6 @@ system setup (with an RFC that is no longer valid enabled because that's how
 WMCS LDAP is set up) and a properly spun up minikube. To do this you have
 a few prerequisites that must be available.
 
-- A checkout of [operations/puppet](https://gerrit.wikimedia.org/r/admin/projects/operations/puppet)
 - Minikube installed (not started yet)
 - A docker client executable on your local machine.
 
@@ -68,12 +67,9 @@ The steps are below:
 1. Start minikube with `minikube start --kubernetes-version=1.15.5 --extra-config=apiserver.runtime-config=settings.k8s.io/v1alpha1=true --extra-config=apiserver.enable-admission-plugins=PodSecurityPolicy,PodPreset`. It
    will fail to finish initializing because PodSecurityPolicy complicates
    everything until the next step.
-2. Run `kubectl apply -f <path to
-   operations/puppet>/modules/toolforge/files/k8s/psp/base-pod-security-policies.yaml`
-   to establish a PSP for the admin systems.
-3. Test that your minikube is now happy by running `kubectl get pods -n
+2. Run `kubectl apply -k deployments/test` to establish a PSP for the admin systems as well as the other k8s resources needed for the tests.
+3. Test that your minikube's basic system is now happy by running `kubectl get pods -n
    kube-system` and `kubectl get nodes`
-
 4. In that shell or opening another one with `minikube ssh`, create the
     directory you will need to stand in for NFS (just so the app can write to
     something). `sudo mkdir /data/project`
@@ -82,30 +78,26 @@ The steps are below:
     daemon, not whatever other one your shell might have access to. Use the
     shell you ran this in for the next few commands.
 6. Run `docker build -f Dockerfile.test -t mk-test:testcase .` to build the
-    container we need.
-7. Run `kubectl apply -f <path to
-   operations/puppet>/modules/toolforge/files/k8s/toolforge-tool-roles.yaml` to add required RBAC for the service account. (You cannot add permissions you do not already have in Kubernetes, so the SA must have the same permissions as a tool in addition to special ones.)
-8. Almost there! You are doing great. Now you need to launch the deployment
-    with the test suite in place with `kubectl apply -k deployments/test`
-9. Presuming that your service launched alright, get the name of the created
+    container we need (and fix the failing pods in the `maintain-kubeusers` namespace).
+7. Presuming that your service launched alright, get the name of the created
     pod with `kubectl get pods -n maintain-kubeusers` and then get a shell on
     it with `kubectl -n maintain-kubeusers exec -it <pod name> -- /bin/ash`.
-10. You should now be on a nice root command prompt inside your new service's
+8. You should now be on a nice root command prompt inside your new service's
     pod! After this, things become a bit more familiar in terms of python
     testing.
-11. Run `source venv/bin/activate`
-12. Start recording tests! Delete the cassettes in the pod shell with `rm tests/cassettes/*` just to make sure you have a clean slate and run `pytest --in-k8s`.  This will
+9. Run `source venv/bin/activate`
+10. Start recording tests! Delete the cassettes in the pod shell with `rm tests/cassettes/*` just to make sure you have a clean slate and run `pytest --in-k8s`.  This will
     **fail** on one of the API tests.  The reason is that this doesn't have an
     excellent teardown when actually running against an API server just yet.
     It should have only failed on a single test.
-13. In another terminal on your local machine run `kubectl delete ns
+11. In another terminal on your local machine run `kubectl delete ns
     tool-blurp` to clean up what is upsetting that last test.
-14. In your kubernetes pod terminal run `rm tests/cassettes/test_tool_renewal.yaml`. Now record only that test as a VCR cassette with `pytest --in-k8s -k "test_tool_renewal"`.  If that succeeded, you have
+12. In your kubernetes pod terminal run `rm tests/cassettes/test_tool_renewal.yaml`. Now record only that test as a VCR cassette with `pytest --in-k8s -k "test_tool_renewal"`.  If that succeeded, you have
     a good set of mocks ("cassettes") to run later.
-15. You now need to get those cassettes from the pod to your host and into the
+13. You now need to get those cassettes from the pod to your host and into the
     git repository. There are several ways to do that. The easy and reliable way is to copy them all to `/data/project` inside the pod like `cp -r tests/cassettes /data/project/` to get them on the minikube VM.  Then, log out of your pod terminal (since that should all be done if all your tests passed), delete the cassettes in your active repo (`rm tests/cassettes/*`), and replace them from the minikube vm with `scp -i $(minikube ssh-key) docker@$(minikube ip):/data/project/cassettes/* tests/cassettes/`
-16. Before you commit all this run `tox` on the changed repo to make sure the tests do, in fact pass now.
-17. Don't forget to check in the new cassettes with your commit review so CI
+14. Before you commit all this run `tox` on the changed repo to make sure the tests do, in fact pass now.
+15. Don't forget to check in the new cassettes with your commit review so CI
     will pass your tests!
 
 ### Doing development with a "real" LDAP environment

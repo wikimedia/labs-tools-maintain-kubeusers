@@ -4,3 +4,7 @@ bases:
 # nameSuffix: -test
 patchesStrategicMerge:
 - deployment.yaml
+# This is just so the test environment will work right. It is the same as the
+# base psps in puppet.
+resources:
+  - privileged-psp.yaml
