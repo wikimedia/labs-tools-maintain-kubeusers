@@ -1,5 +1,6 @@
 # conftest.py
 import pytest
+import ldap3
 from .context import User, generate_pk
 
 
@@ -41,3 +42,16 @@ def pytest_addoption(parser):
 @pytest.fixture(scope="session")
 def are_we_in_k8s(request):
     return request.config.getoption("--in-k8s")
+
+
+@pytest.fixture
+def ldap_conn():
+    server = ldap3.Server("ldap-server.example.com")
+    return ldap3.Connection(
+        server,
+        read_only=True,
+        user="cn=test,ou=testprofile,dc=wikimedia,dc=org",
+        password="notreal",
+        raise_exceptions=True,
+        receive_timeout=60,
+    )

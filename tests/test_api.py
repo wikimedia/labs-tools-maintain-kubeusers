@@ -1,20 +1,39 @@
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from datetime import datetime
+import time
 import pytest
+from .context import K8sAPI, generate_pk, k_config, client, ApiException
 
-from .context import K8sAPI, generate_pk, k_config, client
 
-
-@pytest.fixture(scope="module")
-def api_object(are_we_in_k8s):
+@pytest.fixture()
+def api_object(are_we_in_k8s, test_user):
     if are_we_in_k8s:
         k_config.load_incluster_config()
     else:
-        k_config.load_kube_config(
-            config_file="tests/dummy_config"
+        k_config.load_kube_config(config_file="tests/dummy_config")
+    api = K8sAPI()
+    yield api
+    # If we created a namespace, delete it to clean up
+    try:
+        _ = api.core.delete_namespace(
+            "tool-{}".format(test_user.name),
+            grace_period_seconds=0,
+            propagation_policy="Foreground",
         )
-    return K8sAPI()
+    except ApiException:  # If there was no namespace, we are ok with that.
+        pass
+    try:
+        _ = api.policy.delete_pod_security_policy(
+            "tool-{}-psp".format(test_user.name),
+            grace_period_seconds=0,
+            propagation_policy="Foreground",
+        )
+    except ApiException:  # If there was no PSP, we are ok with that.
+        pass
+    # If recording the cassettes, you need to wait for namespaces to be deleted
+    if are_we_in_k8s:
+        time.sleep(5)
 
 
 @pytest.mark.vcr()
@@ -49,13 +68,9 @@ def test_tool_renewal(api_object, test_user):
     config_map = client.V1ConfigMap(
         api_version="v1",
         kind="ConfigMap",
-        metadata=client.V1ObjectMeta(
-            name="maintain-kubeusers"
-        ),
+        metadata=client.V1ObjectMeta(name="maintain-kubeusers"),
         data={
-            "status": "user created: {}".format(
-                datetime.utcnow().isoformat()
-            ),
+            "status": "user created: {}".format(datetime.utcnow().isoformat()),
             "expires": "2018-08-14T22:31:00",
         },
     )

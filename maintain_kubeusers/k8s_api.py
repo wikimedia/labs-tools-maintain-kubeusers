@@ -92,7 +92,7 @@ class K8sAPI:
                 x509.Name(
                     [
                         x509.NameAttribute(
-                            NameOID.ORGANIZATION_NAME, u"toolforge"
+                            NameOID.ORGANIZATION_NAME, "toolforge"
                         ),
                         x509.NameAttribute(NameOID.COMMON_NAME, user),
                     ]
