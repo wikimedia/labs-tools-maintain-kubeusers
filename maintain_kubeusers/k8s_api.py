@@ -178,6 +178,26 @@ class K8sAPI:
                                 ),
                             ),
                             client.V1Volume(
+                                name="dumpsrc1",
+                                host_path=client.V1HostPathVolumeSource(
+                                    path=(
+                                        "/mnt/nfs/dumps-"
+                                        "labstore1007.wikimedia.org"
+                                    ),
+                                    type="Directory",
+                                ),
+                            ),
+                            client.V1Volume(
+                                name="dumpsrc2",
+                                host_path=client.V1HostPathVolumeSource(
+                                    path=(
+                                        "/mnt/nfs/dumps-"
+                                        "labstore1006.wikimedia.org"
+                                    ),
+                                    type="Directory",
+                                ),
+                            ),
+                            client.V1Volume(
                                 name="home",
                                 host_path=client.V1HostPathVolumeSource(
                                     path="/data/project", type="Directory"
@@ -224,6 +244,22 @@ class K8sAPI:
                             client.V1VolumeMount(
                                 name="dumps",
                                 mount_path="/public/dumps",
+                                read_only=True,
+                            ),
+                            client.V1VolumeMount(
+                                name="dumpsrc1",
+                                mount_path=(
+                                    "/mnt/nfs/dumps-"
+                                    "labstore1007.wikimedia.orgs"
+                                ),
+                                read_only=True,
+                            ),
+                            client.V1VolumeMount(
+                                name="dumpsrc2",
+                                mount_path=(
+                                    "/mnt/nfs/dumps-"
+                                    "labstore1006.wikimedia.org"
+                                ),
                                 read_only=True,
                             ),
                             client.V1VolumeMount(
@@ -433,6 +469,9 @@ class K8sAPI:
                     ),
                     client.PolicyV1beta1AllowedHostPath(
                         path_prefix="/public/dumps", read_only=True
+                    ),
+                    client.PolicyV1beta1AllowedHostPath(
+                        path_prefix="/mnt/nfs", read_only=True
                     ),
                     client.PolicyV1beta1AllowedHostPath(
                         path_prefix="/etc/wmcs-project", read_only=True
