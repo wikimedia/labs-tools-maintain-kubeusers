@@ -155,7 +155,7 @@ def main():
 
         if admins:
             new_admins = process_new_users(
-                tools, cur_users["admins"], k8s_api, args.gentle_mode
+                admins, cur_users["admins"], k8s_api, args.gentle_mode
             )
             if expiring_users["admins"]:
                 for admin_name in expiring_users["admins"]:
