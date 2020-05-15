@@ -683,7 +683,9 @@ class K8sAPI:
                 body=client.V1ClusterRoleBinding(
                     api_version="rbac.authorization.k8s.io/v1",
                     kind="ClusterRoleBinding",
-                    metadata=client.V1ObjectMeta(name=f"{username}-binding"),
+                    metadata=client.V1ObjectMeta(
+                        name=f"{username}-view-binding"
+                    ),
                     role_ref=client.V1RoleRef(
                         kind="ClusterRole",
                         name="view",
@@ -700,11 +702,14 @@ class K8sAPI:
             )
         except ApiException as api_ex:
             if api_ex.status == 409 and "AlreadyExists" in api_ex.body:
-                logging.info("RoleBinding %s-binding already exists", username)
+                logging.info(
+                    "ClusterRoleBinding %s-view-binding already exists",
+                    username,
+                )
                 return
 
             logging.error(
-                "Could not create clusterrolebinding for %s", username
+                "Could not create view clusterrolebinding for %s", username
             )
             raise
 
@@ -731,11 +736,13 @@ class K8sAPI:
             )
         except ApiException as api_ex:
             if api_ex.status == 409 and "AlreadyExists" in api_ex.body:
-                logging.info("RoleBinding %s-binding already exists", username)
+                logging.info(
+                    "ClusterRoleBinding %s-binding already exists", username
+                )
                 return
 
             logging.error(
-                "Could not create clusterrolebinding for %s", username
+                "Could not create admin clusterrolebinding for %s", username
             )
             raise
 
