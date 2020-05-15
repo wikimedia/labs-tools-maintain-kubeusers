@@ -17,9 +17,13 @@ spec:
     spec:
       serviceAccountName: user-maintainer
       volumes:
-      - name: my-host-nfs
+      - name: my-host-project
         hostPath:
           path: /data/project
+          type: Directory
+      - name: my-host-home
+        hostPath:
+          path: /home
           type: Directory
       containers:
       - name: maintain-kubeusers
@@ -29,7 +33,9 @@ spec:
         args: ["/app/maintain_kubeusers.py", "--project=paws", "--admins-only"]
         volumeMounts:
         - mountPath: /data/project
-          name: my-host-nfs
+          name: my-host-project
+        - mountPath: /home
+          name: my-host-home
         livenessProbe:
           exec:
             command:
