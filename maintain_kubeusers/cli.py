@@ -128,6 +128,9 @@ def main():
 
             admins = get_admins_from_ldap(conn, args.project)
 
+        # Initialize these to zero in cases where something is missing.
+        new_tools = 0
+        new_admins = 0
         # If this is just migrating all remaining users (--force-migrate)
         # we should short-circuit the while True loop as soon as possible to
         # reduce all the churn.
