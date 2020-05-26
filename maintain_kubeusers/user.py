@@ -197,7 +197,7 @@ class User:
         certfile = os.path.join(certpath, "client.crt")
         keyfile = os.path.join(certpath, "client.key")
         path = os.path.join(dirpath, "config")
-        current_context = "default" if gentle else "toolforge"
+        current_context = "default" if gentle else self.ctx
         mode = 0o700 if self.admin else 0o775
         # If the path exists, merge the configs and do not force the switch to
         # this cluster
