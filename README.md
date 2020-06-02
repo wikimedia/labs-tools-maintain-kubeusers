@@ -36,6 +36,26 @@ and push it `docker push docker-registry.tools.wmflabs.org/maintain-kubeusers:la
 Then as admin on the tools kubernetes cluster, go to a checkout of this repo
 and run `kubectl apply -k deployments/toolforge`
 
+## In-cluster operations via shell
+
+For bootstrapping a large cluster or similar, you may want to run things by hand
+for a variety of reasons. This requires that you set up a deployment with 
+something like `kubectl apply -k deployments/toolforge` and then either let
+the deployment run or delete it (`kubectl -n maintain-kubeusers delete deployments maintain-kubeusers`)
+if you don't want it to get in the way.  You can always re-apply the deployment
+later. Then, once your environment is set up, run `kubectl apply -f operations-pod.yaml`.
+This will launch a single pod intended for command line use that is **not** running
+the service, but it has all permissions needed to do so. You have root, so you
+can use the [apk](https://wiki.alpinelinux.org/wiki/Alpine_Linux_package_management) tool
+to install software as needed. This can be useful for checking cluster service issues.
+Once it is running you connect with `kubectl -n maintain-kubeusers exec -it operations-pod -- /bin/ash`
+
+Please note, individually created pods are not idempotent, like deployments. You
+cannot run `kubectl apply -f operations-pod.yaml` again until you delete the pod.
+Also, if you delete the pod, a new one won't reappear until you create it. There
+is no need to maintain a pod at all times, and it may be unhelpful since it won't
+get updates until you re-create it anyway.
+
 ## Running tests
 
 Tests are run using [tox](https://tox.readthedocs.io/en/latest/), normally,
