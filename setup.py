@@ -11,7 +11,7 @@ from setuptools import find_packages, setup
 NAME = "maintain_kubeuser"
 DESCRIPTION = ("Automatically maintain the set of x.509 certificates for users")
 (" in Toolforge Kubernetes based on LDAP.")
-URL = "https://gerrit.wikimedia.org/labs/tools/maintain-kubeusers"
+URL = "https://gerrit.wikimedia.org/g/labs/tools/maintain-kubeusers"
 EMAIL = "cloud-admin@wikimedia.org"
 AUTHOR = "Wikimedia Cloud Services Team"
 REQUIRES_PYTHON = ">=3.6.0"
