@@ -20,7 +20,7 @@ def generate_pk() -> rsa.RSAPrivateKey:
 
 
 def scrub_tools(toolset: Set[str]) -> Set[str]:
-    """ tool names must conform to RFC 1123 as a DNS label
+    """tool names must conform to RFC 1123 as a DNS label
     For our purposes, they must also be no more than 54 characters in length.
     In some cases, dots are allowed, but it shouldn't be in the tool name.
     """

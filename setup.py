@@ -35,8 +35,8 @@ except FileNotFoundError:
 about: Dict[str, str] = {}
 if not VERSION:
     project_slug = NAME.lower().replace("-", "_").replace(" ", "_")
-    with open(os.path.join(here, project_slug, "__version__.py")) as f:
-        exec(f.read(), about)
+    with open(os.path.join(here, project_slug, "__version__.py")) as f_version:
+        exec(f_version.read(), about)
 else:
     about["__version__"] = VERSION
 
