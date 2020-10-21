@@ -676,6 +676,75 @@ class K8sAPI:
             logging.error("Could not create rolebinding for %s", user_name)
             raise
 
+    def process_buildpack_rbac(self, user_name):
+        # Toolforge buildpack role
+        try:
+            _ = self.rbac.create_namespaced_role(
+                namespace="tool-{}".format(user_name),
+                body=client.V1Role(
+                    api_version="rbac.authorization.k8s.io/v1",
+                    kind="Role",
+                    metadata=client.V1ObjectMeta(
+                        name="tfb-{}-psp".format(user_name),
+                        namespace="tool-{}".format(user_name),
+                    ),
+                    rules=[
+                        client.V1PolicyRule(
+                            api_groups=["extensions"],
+                            resource_names=["toolforge-tfb-psp"],
+                            resources=["podsecuritypolicies"],
+                            verbs=["use"],
+                        )
+                    ],
+                ),
+            )
+        except ApiException as api_ex:
+            if api_ex.status == 409 and "AlreadyExists" in api_ex.body:
+                logging.info("Role tfb-%s-psp already exists", user_name)
+                return
+
+            logging.error(
+                "Could not create toolforge-tfb-psp role for %s", user_name
+            )
+            raise
+
+        # Toolforge buildpack role binding
+        try:
+            _ = self.rbac.create_namespaced_role_binding(
+                namespace="tool-{}".format(user_name),
+                body=client.V1RoleBinding(
+                    api_version="rbac.authorization.k8s.io/v1",
+                    kind="RoleBinding",
+                    metadata=client.V1ObjectMeta(
+                        name="tfb-{}-psp-binding".format(user_name),
+                        namespace="tool-{}".format(user_name),
+                    ),
+                    role_ref=client.V1RoleRef(
+                        kind="Role",
+                        name="tfb-{}-psp".format(user_name),
+                        api_group="rbac.authorization.k8s.io",
+                    ),
+                    subjects=[
+                        client.V1Subject(
+                            kind="User",
+                            name=user_name,
+                            api_group="rbac.authorization.k8s.io",
+                        )
+                    ],
+                ),
+            )
+        except ApiException as api_ex:
+            if api_ex.status == 409 and "AlreadyExists" in api_ex.body:
+                logging.info(
+                    "RoleBinding tfb-%s-psp-binding already exists", user_name
+                )
+                return
+
+            logging.error(
+                "Could not create tfb-psp rolebinding for %s", user_name
+            )
+            raise
+
     def process_admin_rbac(self, username: str) -> None:
         # Let admins read anything
         try:
@@ -752,6 +821,7 @@ class K8sAPI:
             self.create_namespace(user.name)
             self.create_presets(user.name)
             self.process_rbac(user.name)
+            self.process_buildpack_rbac(user.name)
         else:
             self.process_admin_rbac(user.name)
 

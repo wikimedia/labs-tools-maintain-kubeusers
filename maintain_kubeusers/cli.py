@@ -76,6 +76,14 @@ def main():
         action="store_true",
     )
     group2.add_argument(
+        "--force-buildpack-psp",
+        help=(
+            "Add the new buildpack PSP roles to existing accounts. Requires "
+            "the --once option"
+        ),
+        action="store_true",
+    )
+    group2.add_argument(
         "--gentle-mode",
         help=(
             "Before general release, keep current context set to default "
@@ -87,6 +95,8 @@ def main():
     args = argparser.parse_args()
     if args.force_migrate and not args.once:
         argparser.error("--once is required when --force-migrate is set")
+    elif args.force_buildpack_psp and not args.once:
+        argparser.error("--once is required when --force-buildpack-psp is set")
 
     loglvl = logging.DEBUG if args.debug else logging.INFO
     logging.basicConfig(format="%(message)s", level=loglvl)
@@ -137,6 +147,14 @@ def main():
         if args.force_migrate:
             for tool_name in cur_users["tools"]:
                 tools[tool_name].switch_context()
+
+            break
+
+        # If --force-buildpack-psp is used, backfill the the rbac for all
+        # tools and then short-circuit the while True loop.
+        if args.force_buildpack_psp:
+            for tool_name in cur_users["tools"]:
+                k8s_api.process_buildpack_rbac(tool_name)
 
             break
 
