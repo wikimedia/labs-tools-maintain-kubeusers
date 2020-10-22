@@ -70,8 +70,8 @@ def main():
     group2.add_argument(
         "--force-migrate",
         help=(
-            "For full Kubernetes cluster change: switches every account ",
-            "to use the toolforge context. Requires the --once option",
+            "For full Kubernetes cluster change: switches every account "
+            "to use the toolforge context. Requires the --once option"
         ),
         action="store_true",
     )
