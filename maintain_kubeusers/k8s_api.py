@@ -117,11 +117,7 @@ class K8sAPI:
         )
         return resp.metadata.name
 
-    def generate_csr(self, private_key, user, admin=False):
-        # The CSR must include the groups (which are org fields)
-        # and CN of the user
-        org_name = "admins" if admin else "toolforge"
-        # TODO: exception handling
+    def create_new_csr(self, private_key, user, org_name):
         csr = (
             x509.CertificateSigningRequestBuilder()
             .subject_name(
@@ -147,6 +143,28 @@ class K8sAPI:
             spec=csr_spec,
         )
         self.certs.create_certificate_signing_request(body=csr_body)
+
+    def generate_csr(self, private_key, user, admin=False):
+        # The CSR must include the groups (which are org fields)
+        # and CN of the user
+        org_name = "admins" if admin else "toolforge"
+        try:
+            self.create_new_csr(private_key, user, org_name)
+        except ApiException as api_ex:
+            # If maintain_kubeusers dies, a CSR may need cleaning up T271847
+            if api_ex.status == 409 and "AlreadyExists" in api_ex.body:
+                logging.info(
+                    "CSR for tool-%s already exists, deleting",
+                    user,
+                )
+                # Clean up and try again
+                self.certs.delete_certificate_signing_request(
+                    user, body=client.V1DeleteOptions()
+                )
+                self.create_new_csr(private_key, user, org_name)
+                return
+            logging.error("Could not CSR for %s", user)
+            raise
         return
 
     def approve_cert(self, user_name, admin=False):
