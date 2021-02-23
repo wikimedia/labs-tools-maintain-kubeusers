@@ -297,7 +297,7 @@ class K8sAPI:
                                 name="dumpsrc1",
                                 mount_path=(
                                     "/mnt/nfs/dumps-"
-                                    "labstore1007.wikimedia.orgs"
+                                    "labstore1007.wikimedia.org"
                                 ),
                                 read_only=True,
                             ),
