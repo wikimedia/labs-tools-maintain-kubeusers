@@ -159,7 +159,7 @@ class K8sAPI:
                 )
                 # Clean up and try again
                 self.certs.delete_certificate_signing_request(
-                    user, body=client.V1DeleteOptions()
+                    "tool-{}".format(user), body=client.V1DeleteOptions()
                 )
                 self.create_new_csr(private_key, user, org_name)
                 return
