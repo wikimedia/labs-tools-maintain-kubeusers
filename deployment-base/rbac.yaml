@@ -147,6 +147,14 @@ rules:
     - get
     - list
     - watch
+  - apiGroups:
+    - metrics.k8s.io
+    resources:
+    - pods
+    verbs:
+    - get
+    - list
+    - watch
 ---
 # role for kubernetes project admins
 apiVersion: rbac.authorization.k8s.io/v1
