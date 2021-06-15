@@ -11,9 +11,12 @@ from maintain_kubeusers.k8s_api import (  # noqa: E402,F401
     K8sAPI,
     client,
     ApiException,
+    x509,
 )
 from maintain_kubeusers.utils import (  # noqa: E402,F401
     generate_pk,
     get_tools_from_ldap,
     get_admins_from_ldap,
+    process_new_users,
+    process_disabled_users,
 )

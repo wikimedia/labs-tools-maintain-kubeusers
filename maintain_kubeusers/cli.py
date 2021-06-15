@@ -14,6 +14,7 @@ from maintain_kubeusers.utils import (
     get_tools_from_ldap,
     get_admins_from_ldap,
     process_new_users,
+    process_disabled_users,
 )
 
 """
@@ -190,8 +191,14 @@ def main():
                     k8s_api.update_expired_ns(admins[admin_name])
                     logging.info("Renewed creds for admin user %s", admin_name)
 
+        disabled_tools = process_disabled_users(
+            tools, cur_users["tools"], k8s_api
+        )
+
         logging.info(
-            "finished run, wrote %s new accounts", new_tools + new_admins
+            "finished run, wrote %s new accounts, disabled %s accounts",
+            new_tools + new_admins,
+            disabled_tools,
         )
 
         if args.once:

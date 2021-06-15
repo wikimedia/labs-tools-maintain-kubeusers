@@ -3,46 +3,56 @@ from cryptography.hazmat.backends import default_backend
 from datetime import datetime
 import time
 import pytest
-from .context import K8sAPI, k_config, client, ApiException
+from .context import (
+    K8sAPI,
+    k_config,
+    client,
+    ApiException,
+    process_new_users,
+    process_disabled_users,
+)
 
 
 @pytest.fixture()
-def api_object(are_we_in_k8s, test_user):
+def api_object(are_we_in_k8s, test_user, test_disabled_user):
     if are_we_in_k8s:
         k_config.load_incluster_config()
     else:
         k_config.load_kube_config(config_file="tests/dummy_config")
     api = K8sAPI()
     yield api
+    users = [test_user, test_disabled_user]
     # If we created a namespace, delete it to clean up
-    try:
-        _ = api.core.delete_namespace(
-            "tool-{}".format(test_user.name),
-            grace_period_seconds=0,
-            propagation_policy="Foreground",
-        )
-    except ApiException:  # If there was no namespace, we are ok with that.
-        pass
-    # If we created an admin configmap, delete it to clean up
-    try:
-        _ = api.core.delete_namespaced_config_map(
-            "maintain-kubeusers", "maintain-kubeusers",
-            grace_period_seconds=0,
-            propagation_policy="Foreground",
-        )
-    except ApiException:  # If there was no namespace, we are ok with that.
-        pass
-    try:
-        _ = api.policy.delete_pod_security_policy(
-            "tool-{}-psp".format(test_user.name),
-            grace_period_seconds=0,
-            propagation_policy="Foreground",
-        )
-    except ApiException:  # If there was no PSP, we are ok with that.
-        pass
-    # If recording the cassettes, you need to wait for namespaces to be deleted
-    if are_we_in_k8s:
-        time.sleep(5)
+    for t_user in users:
+        try:
+            _ = api.core.delete_namespace(
+                "tool-{}".format(t_user.name),
+                grace_period_seconds=0,
+                propagation_policy="Foreground",
+            )
+        except ApiException:  # If there was no namespace, we are ok with that.
+            pass
+        # If we created an admin configmap, delete it to clean up
+        try:
+            _ = api.core.delete_namespaced_config_map(
+                "maintain-kubeusers",
+                "maintain-kubeusers",
+                grace_period_seconds=0,
+                propagation_policy="Foreground",
+            )
+        except ApiException:  # If there was no namespace, we are ok with that.
+            pass
+        try:
+            _ = api.policy.delete_pod_security_policy(
+                "tool-{}-psp".format(t_user.name),
+                grace_period_seconds=0,
+                propagation_policy="Foreground",
+            )
+        except ApiException:  # If there was no PSP, we are ok with that.
+            pass
+        # If recording the cassettes, you need to wait for namespaces deletes
+        if are_we_in_k8s:
+            time.sleep(5)
 
 
 @pytest.mark.vcr()
@@ -111,3 +121,66 @@ def test_admin_renewal(api_object, test_admin):
     api_object.update_expired_ns(test_admin)
     _, expired = api_object.get_current_users()
     assert test_admin.name not in expired["admins"]
+
+
+class MockCertObj:
+    def __init__(self):
+        self.not_valid_after = datetime(2030, 5, 17)
+
+
+@pytest.mark.vcr()
+def test_process_new_users(
+    monkeypatch, api_object, test_user, test_disabled_user, mocker
+):
+    mocker.patch("pathlib.Path.touch", autospec=True)
+
+    def mock_load_cert(*args, **kwargs):
+        return MockCertObj()
+
+    monkeypatch.setattr(x509, "load_pem_x509_certificate", mock_load_cert)
+
+    # Add blurp but not blorp
+    current, _ = api_object.get_current_users()
+    new_tools = process_new_users(
+        {"blurp": test_user, "blorp": test_disabled_user},
+        current["tools"],
+        api_object,
+        False,
+    )
+
+    assert new_tools == 1
+    current, _ = api_object.get_current_users()
+    assert "blurp" in current["tools"]
+    assert "blorp" not in current["tools"]
+
+    # Add nothing, remove nothing
+    disabled_tools = process_disabled_users(
+        {"blurp": test_user, "blorp": test_disabled_user},
+        current["tools"],
+        api_object,
+    )
+    assert disabled_tools == 0
+    new_tools = process_new_users(
+        {"blurp": test_user, "blorp": test_disabled_user},
+        current["tools"],
+        api_object,
+        False,
+    )
+    assert new_tools == 0
+    assert "blurp" in current["tools"]
+    assert "blorp" not in current["tools"]
+
+    # Remove blurp
+    test_user.pwdAccountLockedTime = "000001010000Z"
+    disabled_tools = process_disabled_users(
+        {"blurp": test_user, "blorp": test_disabled_user},
+        current["tools"],
+        api_object,
+    )
+
+    time.sleep(5)
+
+    assert disabled_tools == 1
+    current, _ = api_object.get_current_users()
+    assert "blurp" not in current["tools"]
+    assert "blorp" not in current["tools"]

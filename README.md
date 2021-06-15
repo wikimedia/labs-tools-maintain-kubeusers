@@ -84,8 +84,8 @@ a few prerequisites that must be available.
 
 The steps are below:
 
-1. Start minikube with `minikube start --kubernetes-version=1.15.5 --extra-config=apiserver.runtime-config=settings.k8s.io/v1alpha1=true --extra-config=apiserver.enable-admission-plugins=PodSecurityPolicy,PodPreset`. It
-   will fail to finish initializing because PodSecurityPolicy complicates
+1. Start minikube with `minikube start --kubernetes-version=1.18.20 --extra-config=apiserver.runtime-config=settings.k8s.io/v1alpha1=true --extra-config=apiserver.enable-admission-plugins=PodSecurityPolicy,PodPreset`. It
+   **will fail** to finish initializing because PodSecurityPolicy complicates
    everything until the next step.
 2. Run `kubectl apply -k deployments/test` to establish a PSP for the admin systems as well as the other k8s resources needed for the tests.
 3. Test that your minikube's basic system is now happy by running `kubectl get pods -n
@@ -97,16 +97,18 @@ The steps are below:
     checkout, run `eval $(minikube docker-env)` to use minikube's docker
     daemon, not whatever other one your shell might have access to. Use the
     shell you ran this in for the next few commands.
-6. Run `docker build -f Dockerfile.test -t mk-test:testcase .` to build the
+6. Make a ldap.yaml file at the root of the repo locally. You can copy one from any
+   toolforge node.
+7. Run `docker build -f Dockerfile.test -t mk-test:testcase .` to build the
     container we need (and fix the failing pods in the `maintain-kubeusers` namespace).
-7. Presuming that your service launched alright, get the name of the created
+8. Presuming that your service launched alright, get the name of the created
     pod with `kubectl get pods -n maintain-kubeusers` and then get a shell on
     it with `kubectl -n maintain-kubeusers exec -it <pod name> -- /bin/ash`.
-8. You should now be on a nice root command prompt inside your new service's
+9. You should now be on a nice root command prompt inside your new service's
     pod! After this, things become a bit more familiar in terms of python
     testing.
-9. Run `source venv/bin/activate`
-10. Start recording tests! Delete the cassettes in the pod shell with `rm tests/cassettes/*` just to make sure you have a clean slate and run `pytest --in-k8s`.
+10. Run `source venv/bin/activate`
+11. Start recording tests! Delete the cassettes in the pod shell with `rm tests/cassettes/*` just to make sure you have a clean slate and run `pytest --in-k8s`.
 11. You now need to get those cassettes from the pod to your host and into the
     git repository. There are several ways to do that. The easy and reliable way is to copy them all to `/data/project` inside the pod like `cp -r tests/cassettes /data/project/` to get them on the minikube VM.  Then, log out of your pod terminal (since that should all be done if all your tests passed), delete the cassettes in your active repo (`rm tests/cassettes/*`), and replace them from the minikube vm with `scp -oStrictHostKeyChecking=no -i $(minikube ssh-key) docker@$(minikube ip):/data/project/cassettes/* tests/cassettes/`
 12. Before you commit all this run `tox` on the changed repo to make sure the tests do, in fact pass now.

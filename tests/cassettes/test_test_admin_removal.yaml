@@ -1,0 +1,1118 @@
+interactions:
+- request:
+    body: '{"apiVersion": "certificates.k8s.io/v1beta1", "kind": "CertificateSigningRequest",
+      "metadata": {"name": "tool-admin"}, "spec": {"groups": ["system:authenticated",
+      "toolforge"], "request": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWVqQ0NBbUlDQVFBd0pERVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTR3REFZRFZRUUREQVZoWkcxcApiakNDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFMQXorMm9aK0RqL2tlMnVrVkdoCnNRalFBSmZHL0pma1lGRU8ycFRoTll6OHNHWitUMElBMTc5T1NiUXE2KzhGUUExeEFuVDVYV2NSUVA5QVBQZG8KQnNmaGZIODBTeXlEck9FOU9DQXhDOEZoL0M5dllhUk5jL0R5VWVTenQ4RkwvQSt5ZFp2eTNaSmVZOUZlc01ndQptMFB0QlJXZW5DMDdtd0ZoTnRybXJmK3lMV0ZXOGU4N05vMmNaMHBhTlA1N3FpOEZwbC9xU3lMaVJSR0k2WWVqClNnWjhhUnBmR3hXWkpXN0NVbjVjMytCbEpyUTRNWnByYnlPTk84aksxK0U0TnVvUHBremZxcWhYeWtEdHp2bVUKcHY2VmRGcll3N1c1M2o3MlVoRFZXV2RMRTR3SER3ejNZLzl0Ry9QdXBaT0ZaV0xUYmtnN0xUNVhhUnQzQ0RSaQpaT3VKOGVPTnNFWkZvUlROTUhUVW9nSnY3U3VKVlZrejNFajVQYzJmaGJEL3k3ajFINlR5YkdLRmp4RG5hMEU4ClRtUHRQK2grK09jZEVxanB6WnFHRFZ3L1B0MmlPendHa0tzRkprT21tTklJUWZYU1VnZ3RFWTNibG1FejhNU0EKbXBITXdtWm1oQVlJMG1qeXh2am1qY01Ra0VmRnZVTDBuMWJQcW8xWUtVUldKZWRVZkkyNlR1NjZLUm1LdER3OQpZTFRKTHA2YUx4aE1idzFJNnVVWHRvYjZ4UGlDbUduVlBNY1YrV1dzNzBxUXU1WnFTQit4VzNtT0E3Y1VMbDNQCll4dGRpOGcxRVJ0VFJ2RUZ2SVppZVEzeWxnei9mOEVNL1Y1djZwcnBaM2xWSVF5RWF0WllhWmo0SldaSGFWUXoKWVBrZ3ZjR1paQ2dZbEpzOFpGY1Awc0pyQWdNQkFBR2dFVEFQQmdrcWhraUc5dzBCQ1E0eEFqQUFNQTBHQ1NxRwpTSWIzRFFFQkN3VUFBNElDQVFDc2g2WHBXOExZdjRXTzlvNmJZL2c3Wk84d3dBQTRhR0I0TkZ5eFYvZGdwemk0CkFNczU0RXdjR0dMV3NmYzd3WnpDYVg2ajJzV1grNnMvRjFWYjMyY0hSQ3BuVkNidDhlZ3VqSE53bkh4ZGs2czcKcVFmQWZVRnBSVk5vVXNablVCaHEvVDQ2QkdMWTVyUi82NVVySXNGd2pxeXEvV3NBMHE2VDNidlhIQmowTGJlSApEUnhteGxxS2JseUhyL3FFdUtjTWlKZ1VucUY1eTdMdGhvdXVpc2krb0Mxb2R0eE5kUnc1dEE5UkVzb2c3cmIxClVPV3c0VWtDdGtjaXIvMzNwaUhRS0xVaEF3NDV5M0FmTERzamVYdFdVbS9zbzkxNndrTlNPVTYvTmtiRGNqRXYKN3dDVU51aW5iV0FtZCtXSk0wQXlPZ25uTTc4eEpHY1hKNWZUb0R2bGtTamhnMHhqQndTZTNVZ3oreVdMbjU1LwpkM2NIRU1DWUh1TE1Ta0dadVloUkpvYlNsZ1JURTNrWnZDK3JpeEJRcDNnUHRwOWhLQjluM3RYNlRGZVAwWVQwCllURkM2S1ZjQzVlbWdtNlAwNlNPT2YvU0x2TUp2RXQ4blZTRUU3cDM5SXptd2Y1SitIbDQ3b1NJY3YxVG11UmYKSFl4M0RKcEFoK3IyS1d5OE9NcTVXT2dXSHlKeVN0b2plbWFqUyttMHBrcjArMjR4dDdjQUhtZWsyWUpERW9MagpkUjE4MlpLc2lwbGhTVGFUSkk2Wk1YSHpKL3FDRVM0SlVSOFd2eDNlc25ZbmtJYmNGOXZ0V0IvazB0K3pyaXQ5Cm9NaGw4QW1XQkhoZ3Q1NXhXMXlTalhVTWtvcGRGMWdBRjNSaU92cEkxR3dKcnBRcFNpSVQvVzB6aVJES25nPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==",
+      "usages": ["digital signature", "key encipherment", "client auth"]}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: POST
+    uri: https://10.96.0.1/apis/certificates.k8s.io/v1beta1/certificatesigningrequests
+  response:
+    body:
+      string: '{"kind":"CertificateSigningRequest","apiVersion":"certificates.k8s.io/v1beta1","metadata":{"name":"tool-admin","selfLink":"/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-admin","uid":"5f18121a-875d-47ac-9928-4e22f0b1c5d5","resourceVersion":"12689","creationTimestamp":"2021-07-13T03:56:01Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"certificates.k8s.io/v1beta1","time":"2021-07-13T03:56:01Z","fieldsType":"FieldsV1","fieldsV1":{"f:spec":{"f:groups":{},"f:request":{},"f:signerName":{},"f:usages":{}}}}]},"spec":{"request":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWVqQ0NBbUlDQVFBd0pERVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTR3REFZRFZRUUREQVZoWkcxcApiakNDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFMQXorMm9aK0RqL2tlMnVrVkdoCnNRalFBSmZHL0pma1lGRU8ycFRoTll6OHNHWitUMElBMTc5T1NiUXE2KzhGUUExeEFuVDVYV2NSUVA5QVBQZG8KQnNmaGZIODBTeXlEck9FOU9DQXhDOEZoL0M5dllhUk5jL0R5VWVTenQ4RkwvQSt5ZFp2eTNaSmVZOUZlc01ndQptMFB0QlJXZW5DMDdtd0ZoTnRybXJmK3lMV0ZXOGU4N05vMmNaMHBhTlA1N3FpOEZwbC9xU3lMaVJSR0k2WWVqClNnWjhhUnBmR3hXWkpXN0NVbjVjMytCbEpyUTRNWnByYnlPTk84aksxK0U0TnVvUHBremZxcWhYeWtEdHp2bVUKcHY2VmRGcll3N1c1M2o3MlVoRFZXV2RMRTR3SER3ejNZLzl0Ry9QdXBaT0ZaV0xUYmtnN0xUNVhhUnQzQ0RSaQpaT3VKOGVPTnNFWkZvUlROTUhUVW9nSnY3U3VKVlZrejNFajVQYzJmaGJEL3k3ajFINlR5YkdLRmp4RG5hMEU4ClRtUHRQK2grK09jZEVxanB6WnFHRFZ3L1B0MmlPendHa0tzRkprT21tTklJUWZYU1VnZ3RFWTNibG1FejhNU0EKbXBITXdtWm1oQVlJMG1qeXh2am1qY01Ra0VmRnZVTDBuMWJQcW8xWUtVUldKZWRVZkkyNlR1NjZLUm1LdER3OQpZTFRKTHA2YUx4aE1idzFJNnVVWHRvYjZ4UGlDbUduVlBNY1YrV1dzNzBxUXU1WnFTQit4VzNtT0E3Y1VMbDNQCll4dGRpOGcxRVJ0VFJ2RUZ2SVppZVEzeWxnei9mOEVNL1Y1djZwcnBaM2xWSVF5RWF0WllhWmo0SldaSGFWUXoKWVBrZ3ZjR1paQ2dZbEpzOFpGY1Awc0pyQWdNQkFBR2dFVEFQQmdrcWhraUc5dzBCQ1E0eEFqQUFNQTBHQ1NxRwpTSWIzRFFFQkN3VUFBNElDQVFDc2g2WHBXOExZdjRXTzlvNmJZL2c3Wk84d3dBQTRhR0I0TkZ5eFYvZGdwemk0CkFNczU0RXdjR0dMV3NmYzd3WnpDYVg2ajJzV1grNnMvRjFWYjMyY0hSQ3BuVkNidDhlZ3VqSE53bkh4ZGs2czcKcVFmQWZVRnBSVk5vVXNablVCaHEvVDQ2QkdMWTVyUi82NVVySXNGd2pxeXEvV3NBMHE2VDNidlhIQmowTGJlSApEUnhteGxxS2JseUhyL3FFdUtjTWlKZ1VucUY1eTdMdGhvdXVpc2krb0Mxb2R0eE5kUnc1dEE5UkVzb2c3cmIxClVPV3c0VWtDdGtjaXIvMzNwaUhRS0xVaEF3NDV5M0FmTERzamVYdFdVbS9zbzkxNndrTlNPVTYvTmtiRGNqRXYKN3dDVU51aW5iV0FtZCtXSk0wQXlPZ25uTTc4eEpHY1hKNWZUb0R2bGtTamhnMHhqQndTZTNVZ3oreVdMbjU1LwpkM2NIRU1DWUh1TE1Ta0dadVloUkpvYlNsZ1JURTNrWnZDK3JpeEJRcDNnUHRwOWhLQjluM3RYNlRGZVAwWVQwCllURkM2S1ZjQzVlbWdtNlAwNlNPT2YvU0x2TUp2RXQ4blZTRUU3cDM5SXptd2Y1SitIbDQ3b1NJY3YxVG11UmYKSFl4M0RKcEFoK3IyS1d5OE9NcTVXT2dXSHlKeVN0b2plbWFqUyttMHBrcjArMjR4dDdjQUhtZWsyWUpERW9MagpkUjE4MlpLc2lwbGhTVGFUSkk2Wk1YSHpKL3FDRVM0SlVSOFd2eDNlc25ZbmtJYmNGOXZ0V0IvazB0K3pyaXQ5Cm9NaGw4QW1XQkhoZ3Q1NXhXMXlTalhVTWtvcGRGMWdBRjNSaU92cEkxR3dKcnBRcFNpSVQvVzB6aVJES25nPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==","signerName":"kubernetes.io/legacy-unknown","usages":["digital
+        signature","key encipherment","client auth"],"username":"system:serviceaccount:maintain-kubeusers:user-maintainer","uid":"5a9fcb9f-da5e-43ca-acdb-4cb36fe515d5","groups":["system:serviceaccounts","system:serviceaccounts:maintain-kubeusers","system:authenticated"]},"status":{}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:01 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 201
+      message: Created
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-admin/status
+  response:
+    body:
+      string: '{"kind":"CertificateSigningRequest","apiVersion":"certificates.k8s.io/v1beta1","metadata":{"name":"tool-admin","selfLink":"/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-admin/status","uid":"5f18121a-875d-47ac-9928-4e22f0b1c5d5","resourceVersion":"12689","creationTimestamp":"2021-07-13T03:56:01Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"certificates.k8s.io/v1beta1","time":"2021-07-13T03:56:01Z","fieldsType":"FieldsV1","fieldsV1":{"f:spec":{"f:groups":{},"f:request":{},"f:signerName":{},"f:usages":{}}}}]},"spec":{"request":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWVqQ0NBbUlDQVFBd0pERVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTR3REFZRFZRUUREQVZoWkcxcApiakNDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFMQXorMm9aK0RqL2tlMnVrVkdoCnNRalFBSmZHL0pma1lGRU8ycFRoTll6OHNHWitUMElBMTc5T1NiUXE2KzhGUUExeEFuVDVYV2NSUVA5QVBQZG8KQnNmaGZIODBTeXlEck9FOU9DQXhDOEZoL0M5dllhUk5jL0R5VWVTenQ4RkwvQSt5ZFp2eTNaSmVZOUZlc01ndQptMFB0QlJXZW5DMDdtd0ZoTnRybXJmK3lMV0ZXOGU4N05vMmNaMHBhTlA1N3FpOEZwbC9xU3lMaVJSR0k2WWVqClNnWjhhUnBmR3hXWkpXN0NVbjVjMytCbEpyUTRNWnByYnlPTk84aksxK0U0TnVvUHBremZxcWhYeWtEdHp2bVUKcHY2VmRGcll3N1c1M2o3MlVoRFZXV2RMRTR3SER3ejNZLzl0Ry9QdXBaT0ZaV0xUYmtnN0xUNVhhUnQzQ0RSaQpaT3VKOGVPTnNFWkZvUlROTUhUVW9nSnY3U3VKVlZrejNFajVQYzJmaGJEL3k3ajFINlR5YkdLRmp4RG5hMEU4ClRtUHRQK2grK09jZEVxanB6WnFHRFZ3L1B0MmlPendHa0tzRkprT21tTklJUWZYU1VnZ3RFWTNibG1FejhNU0EKbXBITXdtWm1oQVlJMG1qeXh2am1qY01Ra0VmRnZVTDBuMWJQcW8xWUtVUldKZWRVZkkyNlR1NjZLUm1LdER3OQpZTFRKTHA2YUx4aE1idzFJNnVVWHRvYjZ4UGlDbUduVlBNY1YrV1dzNzBxUXU1WnFTQit4VzNtT0E3Y1VMbDNQCll4dGRpOGcxRVJ0VFJ2RUZ2SVppZVEzeWxnei9mOEVNL1Y1djZwcnBaM2xWSVF5RWF0WllhWmo0SldaSGFWUXoKWVBrZ3ZjR1paQ2dZbEpzOFpGY1Awc0pyQWdNQkFBR2dFVEFQQmdrcWhraUc5dzBCQ1E0eEFqQUFNQTBHQ1NxRwpTSWIzRFFFQkN3VUFBNElDQVFDc2g2WHBXOExZdjRXTzlvNmJZL2c3Wk84d3dBQTRhR0I0TkZ5eFYvZGdwemk0CkFNczU0RXdjR0dMV3NmYzd3WnpDYVg2ajJzV1grNnMvRjFWYjMyY0hSQ3BuVkNidDhlZ3VqSE53bkh4ZGs2czcKcVFmQWZVRnBSVk5vVXNablVCaHEvVDQ2QkdMWTVyUi82NVVySXNGd2pxeXEvV3NBMHE2VDNidlhIQmowTGJlSApEUnhteGxxS2JseUhyL3FFdUtjTWlKZ1VucUY1eTdMdGhvdXVpc2krb0Mxb2R0eE5kUnc1dEE5UkVzb2c3cmIxClVPV3c0VWtDdGtjaXIvMzNwaUhRS0xVaEF3NDV5M0FmTERzamVYdFdVbS9zbzkxNndrTlNPVTYvTmtiRGNqRXYKN3dDVU51aW5iV0FtZCtXSk0wQXlPZ25uTTc4eEpHY1hKNWZUb0R2bGtTamhnMHhqQndTZTNVZ3oreVdMbjU1LwpkM2NIRU1DWUh1TE1Ta0dadVloUkpvYlNsZ1JURTNrWnZDK3JpeEJRcDNnUHRwOWhLQjluM3RYNlRGZVAwWVQwCllURkM2S1ZjQzVlbWdtNlAwNlNPT2YvU0x2TUp2RXQ4blZTRUU3cDM5SXptd2Y1SitIbDQ3b1NJY3YxVG11UmYKSFl4M0RKcEFoK3IyS1d5OE9NcTVXT2dXSHlKeVN0b2plbWFqUyttMHBrcjArMjR4dDdjQUhtZWsyWUpERW9MagpkUjE4MlpLc2lwbGhTVGFUSkk2Wk1YSHpKL3FDRVM0SlVSOFd2eDNlc25ZbmtJYmNGOXZ0V0IvazB0K3pyaXQ5Cm9NaGw4QW1XQkhoZ3Q1NXhXMXlTalhVTWtvcGRGMWdBRjNSaU92cEkxR3dKcnBRcFNpSVQvVzB6aVJES25nPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==","signerName":"kubernetes.io/legacy-unknown","usages":["digital
+        signature","key encipherment","client auth"],"username":"system:serviceaccount:maintain-kubeusers:user-maintainer","uid":"5a9fcb9f-da5e-43ca-acdb-4cb36fe515d5","groups":["system:serviceaccounts","system:serviceaccounts:maintain-kubeusers","system:authenticated"]},"status":{}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:01 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"apiVersion": "certificates.k8s.io/v1beta1", "kind": "CertificateSigningRequest",
+      "metadata": {"creationTimestamp": "2021-07-13T03:56:01+00:00", "managedFields":
+      [{"apiVersion": "certificates.k8s.io/v1beta1", "fieldsType": "FieldsV1", "fieldsV1":
+      {"f:spec": {"f:groups": {}, "f:request": {}, "f:signerName": {}, "f:usages":
+      {}}}, "manager": "OpenAPI-Generator", "operation": "Update", "time": "2021-07-13T03:56:01+00:00"}],
+      "name": "tool-admin", "resourceVersion": "12689", "selfLink": "/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-admin/status",
+      "uid": "5f18121a-875d-47ac-9928-4e22f0b1c5d5"}, "spec": {"groups": ["system:serviceaccounts",
+      "system:serviceaccounts:maintain-kubeusers", "system:authenticated"], "request":
+      "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWVqQ0NBbUlDQVFBd0pERVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTR3REFZRFZRUUREQVZoWkcxcApiakNDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFMQXorMm9aK0RqL2tlMnVrVkdoCnNRalFBSmZHL0pma1lGRU8ycFRoTll6OHNHWitUMElBMTc5T1NiUXE2KzhGUUExeEFuVDVYV2NSUVA5QVBQZG8KQnNmaGZIODBTeXlEck9FOU9DQXhDOEZoL0M5dllhUk5jL0R5VWVTenQ4RkwvQSt5ZFp2eTNaSmVZOUZlc01ndQptMFB0QlJXZW5DMDdtd0ZoTnRybXJmK3lMV0ZXOGU4N05vMmNaMHBhTlA1N3FpOEZwbC9xU3lMaVJSR0k2WWVqClNnWjhhUnBmR3hXWkpXN0NVbjVjMytCbEpyUTRNWnByYnlPTk84aksxK0U0TnVvUHBremZxcWhYeWtEdHp2bVUKcHY2VmRGcll3N1c1M2o3MlVoRFZXV2RMRTR3SER3ejNZLzl0Ry9QdXBaT0ZaV0xUYmtnN0xUNVhhUnQzQ0RSaQpaT3VKOGVPTnNFWkZvUlROTUhUVW9nSnY3U3VKVlZrejNFajVQYzJmaGJEL3k3ajFINlR5YkdLRmp4RG5hMEU4ClRtUHRQK2grK09jZEVxanB6WnFHRFZ3L1B0MmlPendHa0tzRkprT21tTklJUWZYU1VnZ3RFWTNibG1FejhNU0EKbXBITXdtWm1oQVlJMG1qeXh2am1qY01Ra0VmRnZVTDBuMWJQcW8xWUtVUldKZWRVZkkyNlR1NjZLUm1LdER3OQpZTFRKTHA2YUx4aE1idzFJNnVVWHRvYjZ4UGlDbUduVlBNY1YrV1dzNzBxUXU1WnFTQit4VzNtT0E3Y1VMbDNQCll4dGRpOGcxRVJ0VFJ2RUZ2SVppZVEzeWxnei9mOEVNL1Y1djZwcnBaM2xWSVF5RWF0WllhWmo0SldaSGFWUXoKWVBrZ3ZjR1paQ2dZbEpzOFpGY1Awc0pyQWdNQkFBR2dFVEFQQmdrcWhraUc5dzBCQ1E0eEFqQUFNQTBHQ1NxRwpTSWIzRFFFQkN3VUFBNElDQVFDc2g2WHBXOExZdjRXTzlvNmJZL2c3Wk84d3dBQTRhR0I0TkZ5eFYvZGdwemk0CkFNczU0RXdjR0dMV3NmYzd3WnpDYVg2ajJzV1grNnMvRjFWYjMyY0hSQ3BuVkNidDhlZ3VqSE53bkh4ZGs2czcKcVFmQWZVRnBSVk5vVXNablVCaHEvVDQ2QkdMWTVyUi82NVVySXNGd2pxeXEvV3NBMHE2VDNidlhIQmowTGJlSApEUnhteGxxS2JseUhyL3FFdUtjTWlKZ1VucUY1eTdMdGhvdXVpc2krb0Mxb2R0eE5kUnc1dEE5UkVzb2c3cmIxClVPV3c0VWtDdGtjaXIvMzNwaUhRS0xVaEF3NDV5M0FmTERzamVYdFdVbS9zbzkxNndrTlNPVTYvTmtiRGNqRXYKN3dDVU51aW5iV0FtZCtXSk0wQXlPZ25uTTc4eEpHY1hKNWZUb0R2bGtTamhnMHhqQndTZTNVZ3oreVdMbjU1LwpkM2NIRU1DWUh1TE1Ta0dadVloUkpvYlNsZ1JURTNrWnZDK3JpeEJRcDNnUHRwOWhLQjluM3RYNlRGZVAwWVQwCllURkM2S1ZjQzVlbWdtNlAwNlNPT2YvU0x2TUp2RXQ4blZTRUU3cDM5SXptd2Y1SitIbDQ3b1NJY3YxVG11UmYKSFl4M0RKcEFoK3IyS1d5OE9NcTVXT2dXSHlKeVN0b2plbWFqUyttMHBrcjArMjR4dDdjQUhtZWsyWUpERW9MagpkUjE4MlpLc2lwbGhTVGFUSkk2Wk1YSHpKL3FDRVM0SlVSOFd2eDNlc25ZbmtJYmNGOXZ0V0IvazB0K3pyaXQ5Cm9NaGw4QW1XQkhoZ3Q1NXhXMXlTalhVTWtvcGRGMWdBRjNSaU92cEkxR3dKcnBRcFNpSVQvVzB6aVJES25nPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==",
+      "uid": "5a9fcb9f-da5e-43ca-acdb-4cb36fe515d5", "usages": ["digital signature",
+      "key encipherment", "client auth"], "username": "system:serviceaccount:maintain-kubeusers:user-maintainer"},
+      "status": {"conditions": [{"lastUpdateTime": "2021-07-13T03:56:01.654664+00:00",
+      "message": "This certificate was approved by maintain_kubeusers", "reason":
+      "Authorized User", "type": "Approved"}]}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: PUT
+    uri: https://10.96.0.1/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-admin/approval
+  response:
+    body:
+      string: '{"kind":"CertificateSigningRequest","apiVersion":"certificates.k8s.io/v1beta1","metadata":{"name":"tool-admin","selfLink":"/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-admin/approval","uid":"5f18121a-875d-47ac-9928-4e22f0b1c5d5","resourceVersion":"12690","creationTimestamp":"2021-07-13T03:56:01Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"certificates.k8s.io/v1beta1","time":"2021-07-13T03:56:01Z","fieldsType":"FieldsV1","fieldsV1":{"f:spec":{"f:groups":{},"f:request":{},"f:signerName":{},"f:usages":{}},"f:status":{"f:conditions":{}}}}]},"spec":{"request":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWVqQ0NBbUlDQVFBd0pERVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTR3REFZRFZRUUREQVZoWkcxcApiakNDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFMQXorMm9aK0RqL2tlMnVrVkdoCnNRalFBSmZHL0pma1lGRU8ycFRoTll6OHNHWitUMElBMTc5T1NiUXE2KzhGUUExeEFuVDVYV2NSUVA5QVBQZG8KQnNmaGZIODBTeXlEck9FOU9DQXhDOEZoL0M5dllhUk5jL0R5VWVTenQ4RkwvQSt5ZFp2eTNaSmVZOUZlc01ndQptMFB0QlJXZW5DMDdtd0ZoTnRybXJmK3lMV0ZXOGU4N05vMmNaMHBhTlA1N3FpOEZwbC9xU3lMaVJSR0k2WWVqClNnWjhhUnBmR3hXWkpXN0NVbjVjMytCbEpyUTRNWnByYnlPTk84aksxK0U0TnVvUHBremZxcWhYeWtEdHp2bVUKcHY2VmRGcll3N1c1M2o3MlVoRFZXV2RMRTR3SER3ejNZLzl0Ry9QdXBaT0ZaV0xUYmtnN0xUNVhhUnQzQ0RSaQpaT3VKOGVPTnNFWkZvUlROTUhUVW9nSnY3U3VKVlZrejNFajVQYzJmaGJEL3k3ajFINlR5YkdLRmp4RG5hMEU4ClRtUHRQK2grK09jZEVxanB6WnFHRFZ3L1B0MmlPendHa0tzRkprT21tTklJUWZYU1VnZ3RFWTNibG1FejhNU0EKbXBITXdtWm1oQVlJMG1qeXh2am1qY01Ra0VmRnZVTDBuMWJQcW8xWUtVUldKZWRVZkkyNlR1NjZLUm1LdER3OQpZTFRKTHA2YUx4aE1idzFJNnVVWHRvYjZ4UGlDbUduVlBNY1YrV1dzNzBxUXU1WnFTQit4VzNtT0E3Y1VMbDNQCll4dGRpOGcxRVJ0VFJ2RUZ2SVppZVEzeWxnei9mOEVNL1Y1djZwcnBaM2xWSVF5RWF0WllhWmo0SldaSGFWUXoKWVBrZ3ZjR1paQ2dZbEpzOFpGY1Awc0pyQWdNQkFBR2dFVEFQQmdrcWhraUc5dzBCQ1E0eEFqQUFNQTBHQ1NxRwpTSWIzRFFFQkN3VUFBNElDQVFDc2g2WHBXOExZdjRXTzlvNmJZL2c3Wk84d3dBQTRhR0I0TkZ5eFYvZGdwemk0CkFNczU0RXdjR0dMV3NmYzd3WnpDYVg2ajJzV1grNnMvRjFWYjMyY0hSQ3BuVkNidDhlZ3VqSE53bkh4ZGs2czcKcVFmQWZVRnBSVk5vVXNablVCaHEvVDQ2QkdMWTVyUi82NVVySXNGd2pxeXEvV3NBMHE2VDNidlhIQmowTGJlSApEUnhteGxxS2JseUhyL3FFdUtjTWlKZ1VucUY1eTdMdGhvdXVpc2krb0Mxb2R0eE5kUnc1dEE5UkVzb2c3cmIxClVPV3c0VWtDdGtjaXIvMzNwaUhRS0xVaEF3NDV5M0FmTERzamVYdFdVbS9zbzkxNndrTlNPVTYvTmtiRGNqRXYKN3dDVU51aW5iV0FtZCtXSk0wQXlPZ25uTTc4eEpHY1hKNWZUb0R2bGtTamhnMHhqQndTZTNVZ3oreVdMbjU1LwpkM2NIRU1DWUh1TE1Ta0dadVloUkpvYlNsZ1JURTNrWnZDK3JpeEJRcDNnUHRwOWhLQjluM3RYNlRGZVAwWVQwCllURkM2S1ZjQzVlbWdtNlAwNlNPT2YvU0x2TUp2RXQ4blZTRUU3cDM5SXptd2Y1SitIbDQ3b1NJY3YxVG11UmYKSFl4M0RKcEFoK3IyS1d5OE9NcTVXT2dXSHlKeVN0b2plbWFqUyttMHBrcjArMjR4dDdjQUhtZWsyWUpERW9MagpkUjE4MlpLc2lwbGhTVGFUSkk2Wk1YSHpKL3FDRVM0SlVSOFd2eDNlc25ZbmtJYmNGOXZ0V0IvazB0K3pyaXQ5Cm9NaGw4QW1XQkhoZ3Q1NXhXMXlTalhVTWtvcGRGMWdBRjNSaU92cEkxR3dKcnBRcFNpSVQvVzB6aVJES25nPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==","signerName":"kubernetes.io/legacy-unknown","usages":["digital
+        signature","key encipherment","client auth"],"username":"system:serviceaccount:maintain-kubeusers:user-maintainer","uid":"5a9fcb9f-da5e-43ca-acdb-4cb36fe515d5","groups":["system:serviceaccounts","system:serviceaccounts:maintain-kubeusers","system:authenticated"]},"status":{"conditions":[{"type":"Approved","reason":"Authorized
+        User","message":"This certificate was approved by maintain_kubeusers","lastUpdateTime":"2021-07-13T03:56:01Z"}]}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:01 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-admin
+  response:
+    body:
+      string: '{"kind":"CertificateSigningRequest","apiVersion":"certificates.k8s.io/v1beta1","metadata":{"name":"tool-admin","selfLink":"/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-admin","uid":"5f18121a-875d-47ac-9928-4e22f0b1c5d5","resourceVersion":"12691","creationTimestamp":"2021-07-13T03:56:01Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"certificates.k8s.io/v1beta1","time":"2021-07-13T03:56:01Z","fieldsType":"FieldsV1","fieldsV1":{"f:spec":{"f:groups":{},"f:request":{},"f:signerName":{},"f:usages":{}},"f:status":{"f:conditions":{}}}},{"manager":"kube-controller-manager","operation":"Update","apiVersion":"certificates.k8s.io/v1beta1","time":"2021-07-13T03:56:01Z","fieldsType":"FieldsV1","fieldsV1":{"f:status":{"f:certificate":{}}}}]},"spec":{"request":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWVqQ0NBbUlDQVFBd0pERVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTR3REFZRFZRUUREQVZoWkcxcApiakNDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFMQXorMm9aK0RqL2tlMnVrVkdoCnNRalFBSmZHL0pma1lGRU8ycFRoTll6OHNHWitUMElBMTc5T1NiUXE2KzhGUUExeEFuVDVYV2NSUVA5QVBQZG8KQnNmaGZIODBTeXlEck9FOU9DQXhDOEZoL0M5dllhUk5jL0R5VWVTenQ4RkwvQSt5ZFp2eTNaSmVZOUZlc01ndQptMFB0QlJXZW5DMDdtd0ZoTnRybXJmK3lMV0ZXOGU4N05vMmNaMHBhTlA1N3FpOEZwbC9xU3lMaVJSR0k2WWVqClNnWjhhUnBmR3hXWkpXN0NVbjVjMytCbEpyUTRNWnByYnlPTk84aksxK0U0TnVvUHBremZxcWhYeWtEdHp2bVUKcHY2VmRGcll3N1c1M2o3MlVoRFZXV2RMRTR3SER3ejNZLzl0Ry9QdXBaT0ZaV0xUYmtnN0xUNVhhUnQzQ0RSaQpaT3VKOGVPTnNFWkZvUlROTUhUVW9nSnY3U3VKVlZrejNFajVQYzJmaGJEL3k3ajFINlR5YkdLRmp4RG5hMEU4ClRtUHRQK2grK09jZEVxanB6WnFHRFZ3L1B0MmlPendHa0tzRkprT21tTklJUWZYU1VnZ3RFWTNibG1FejhNU0EKbXBITXdtWm1oQVlJMG1qeXh2am1qY01Ra0VmRnZVTDBuMWJQcW8xWUtVUldKZWRVZkkyNlR1NjZLUm1LdER3OQpZTFRKTHA2YUx4aE1idzFJNnVVWHRvYjZ4UGlDbUduVlBNY1YrV1dzNzBxUXU1WnFTQit4VzNtT0E3Y1VMbDNQCll4dGRpOGcxRVJ0VFJ2RUZ2SVppZVEzeWxnei9mOEVNL1Y1djZwcnBaM2xWSVF5RWF0WllhWmo0SldaSGFWUXoKWVBrZ3ZjR1paQ2dZbEpzOFpGY1Awc0pyQWdNQkFBR2dFVEFQQmdrcWhraUc5dzBCQ1E0eEFqQUFNQTBHQ1NxRwpTSWIzRFFFQkN3VUFBNElDQVFDc2g2WHBXOExZdjRXTzlvNmJZL2c3Wk84d3dBQTRhR0I0TkZ5eFYvZGdwemk0CkFNczU0RXdjR0dMV3NmYzd3WnpDYVg2ajJzV1grNnMvRjFWYjMyY0hSQ3BuVkNidDhlZ3VqSE53bkh4ZGs2czcKcVFmQWZVRnBSVk5vVXNablVCaHEvVDQ2QkdMWTVyUi82NVVySXNGd2pxeXEvV3NBMHE2VDNidlhIQmowTGJlSApEUnhteGxxS2JseUhyL3FFdUtjTWlKZ1VucUY1eTdMdGhvdXVpc2krb0Mxb2R0eE5kUnc1dEE5UkVzb2c3cmIxClVPV3c0VWtDdGtjaXIvMzNwaUhRS0xVaEF3NDV5M0FmTERzamVYdFdVbS9zbzkxNndrTlNPVTYvTmtiRGNqRXYKN3dDVU51aW5iV0FtZCtXSk0wQXlPZ25uTTc4eEpHY1hKNWZUb0R2bGtTamhnMHhqQndTZTNVZ3oreVdMbjU1LwpkM2NIRU1DWUh1TE1Ta0dadVloUkpvYlNsZ1JURTNrWnZDK3JpeEJRcDNnUHRwOWhLQjluM3RYNlRGZVAwWVQwCllURkM2S1ZjQzVlbWdtNlAwNlNPT2YvU0x2TUp2RXQ4blZTRUU3cDM5SXptd2Y1SitIbDQ3b1NJY3YxVG11UmYKSFl4M0RKcEFoK3IyS1d5OE9NcTVXT2dXSHlKeVN0b2plbWFqUyttMHBrcjArMjR4dDdjQUhtZWsyWUpERW9MagpkUjE4MlpLc2lwbGhTVGFUSkk2Wk1YSHpKL3FDRVM0SlVSOFd2eDNlc25ZbmtJYmNGOXZ0V0IvazB0K3pyaXQ5Cm9NaGw4QW1XQkhoZ3Q1NXhXMXlTalhVTWtvcGRGMWdBRjNSaU92cEkxR3dKcnBRcFNpSVQvVzB6aVJES25nPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==","signerName":"kubernetes.io/legacy-unknown","usages":["digital
+        signature","key encipherment","client auth"],"username":"system:serviceaccount:maintain-kubeusers:user-maintainer","uid":"5a9fcb9f-da5e-43ca-acdb-4cb36fe515d5","groups":["system:serviceaccounts","system:serviceaccounts:maintain-kubeusers","system:authenticated"]},"status":{"conditions":[{"type":"Approved","reason":"Authorized
+        User","message":"This certificate was approved by maintain_kubeusers","lastUpdateTime":"2021-07-13T03:56:01Z"}],"certificate":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVHVENDQXdHZ0F3SUJBZ0lRY2hqZERmZ2lGV2t5alBtTDgwNUk3ekFOQmdrcWhraUc5dzBCQVFzRkFEQVYKTVJNd0VRWURWUVFERXdwdGFXNXBhM1ZpWlVOQk1CNFhEVEl4TURjeE16QXpOVEV3TVZvWERUSXlNRGN4TXpBegpOVEV3TVZvd0pERVNNQkFHQTFVRUNoTUpkRzl2YkdadmNtZGxNUTR3REFZRFZRUURFd1ZoWkcxcGJqQ0NBaUl3CkRRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFMQXorMm9aK0RqL2tlMnVrVkdoc1FqUUFKZkcKL0pma1lGRU8ycFRoTll6OHNHWitUMElBMTc5T1NiUXE2KzhGUUExeEFuVDVYV2NSUVA5QVBQZG9Cc2ZoZkg4MApTeXlEck9FOU9DQXhDOEZoL0M5dllhUk5jL0R5VWVTenQ4RkwvQSt5ZFp2eTNaSmVZOUZlc01ndW0wUHRCUldlCm5DMDdtd0ZoTnRybXJmK3lMV0ZXOGU4N05vMmNaMHBhTlA1N3FpOEZwbC9xU3lMaVJSR0k2WWVqU2daOGFScGYKR3hXWkpXN0NVbjVjMytCbEpyUTRNWnByYnlPTk84aksxK0U0TnVvUHBremZxcWhYeWtEdHp2bVVwdjZWZEZyWQp3N1c1M2o3MlVoRFZXV2RMRTR3SER3ejNZLzl0Ry9QdXBaT0ZaV0xUYmtnN0xUNVhhUnQzQ0RSaVpPdUo4ZU9OCnNFWkZvUlROTUhUVW9nSnY3U3VKVlZrejNFajVQYzJmaGJEL3k3ajFINlR5YkdLRmp4RG5hMEU4VG1QdFAraCsKK09jZEVxanB6WnFHRFZ3L1B0MmlPendHa0tzRkprT21tTklJUWZYU1VnZ3RFWTNibG1FejhNU0FtcEhNd21abQpoQVlJMG1qeXh2am1qY01Ra0VmRnZVTDBuMWJQcW8xWUtVUldKZWRVZkkyNlR1NjZLUm1LdER3OVlMVEpMcDZhCkx4aE1idzFJNnVVWHRvYjZ4UGlDbUduVlBNY1YrV1dzNzBxUXU1WnFTQit4VzNtT0E3Y1VMbDNQWXh0ZGk4ZzEKRVJ0VFJ2RUZ2SVppZVEzeWxnei9mOEVNL1Y1djZwcnBaM2xWSVF5RWF0WllhWmo0SldaSGFWUXpZUGtndmNHWgpaQ2dZbEpzOFpGY1Awc0pyQWdNQkFBR2pWakJVTUE0R0ExVWREd0VCL3dRRUF3SUZvREFUQmdOVkhTVUVEREFLCkJnZ3JCZ0VGQlFjREFqQU1CZ05WSFJNQkFmOEVBakFBTUI4R0ExVWRJd1FZTUJhQUZHQ2Q1SCt3cjA1am9IMHQKZDhiTjlwODZkRml2TUEwR0NTcUdTSWIzRFFFQkN3VUFBNElCQVFBbmR6OUJXT1RzRFF5VVFKS0NYSWVPMTUzZQpYc3VnbmlkdHhQYkxPSjJEZDlkQXZoUGl3UjNvL3hNTUxoODFoeU42OGNQWGZZZzl5ZzJaWUlJL3czQnczR3U3Cm5OY3BJWmZGd2tIZm1xMS9XK0JkdHhDeS9mbU5GNFNQUFppQjZxSW13UVpCV3kwYTMwTVNQZlBmWHJWNkkvc1MKNm82YzkzcTZaL0MyUTVRZExlVzYwa0toa2xGV2l6bW5VcVdKTGlrLzVwY3gxRmJ6b205b3BhRDN2MVlzMkFMMQpWaGFNY2ovYUprcFQwY0FJNFhKN3VRbDNibUk5L0ZhNTBENVZVUlJXVVBDanVwWUhVaWx3VE1lTSt6SGZQZEUyCkFjbkJFbEcvNWxDTFBUSlhlTi9mVWRGZlRPWlhBR3VlM2VoRlRWenVaUUIwd1RKck9IeE9MUjFRbDlKVgotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg=="}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:02 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-admin
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Success","details":{"name":"tool-admin","group":"certificates.k8s.io","kind":"certificatesigningrequests","uid":"5f18121a-875d-47ac-9928-4e22f0b1c5d5"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '212'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:02 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"apiVersion": "rbac.authorization.k8s.io/v1", "kind": "ClusterRoleBinding",
+      "metadata": {"name": "admin-view-binding"}, "roleRef": {"apiGroup": "rbac.authorization.k8s.io",
+      "kind": "ClusterRole", "name": "view"}, "subjects": [{"apiGroup": "rbac.authorization.k8s.io",
+      "kind": "User", "name": "admin"}]}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: POST
+    uri: https://10.96.0.1/apis/rbac.authorization.k8s.io/v1/clusterrolebindings
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"clusterrolebindings.rbac.authorization.k8s.io
+        \"admin-view-binding\" already exists","reason":"AlreadyExists","details":{"name":"admin-view-binding","group":"rbac.authorization.k8s.io","kind":"clusterrolebindings"},"code":409}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '306'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:02 GMT
+    status:
+      code: 409
+      message: Conflict
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/api/v1/namespaces/maintain-kubeusers/configmaps?fieldSelector=metadata.name%3Dmaintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"ConfigMapList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces/maintain-kubeusers/configmaps","resourceVersion":"12692"},"items":[]}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '155'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:02 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"apiVersion": "v1", "data": {"admin": "2022-07-13T03:51:01"}, "kind":
+      "ConfigMap", "metadata": {"name": "maintain-kubeusers"}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: POST
+    uri: https://10.96.0.1/api/v1/namespaces/maintain-kubeusers/configmaps
+  response:
+    body:
+      string: '{"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"maintain-kubeusers","namespace":"maintain-kubeusers","selfLink":"/api/v1/namespaces/maintain-kubeusers/configmaps/maintain-kubeusers","uid":"52c49206-e8b1-4c14-804b-89f8aac2549e","resourceVersion":"12694","creationTimestamp":"2021-07-13T03:56:02Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"v1","time":"2021-07-13T03:56:02Z","fieldsType":"FieldsV1","fieldsV1":{"f:data":{".":{},"f:admin":{}}}}]},"data":{"admin":"2022-07-13T03:51:01"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '534'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:02 GMT
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"apiVersion": "certificates.k8s.io/v1beta1", "kind": "CertificateSigningRequest",
+      "metadata": {"name": "tool-admin2"}, "spec": {"groups": ["system:authenticated",
+      "toolforge"], "request": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWV6Q0NBbU1DQVFBd0pURVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTh3RFFZRFZRUUREQVpoWkcxcApiakl3Z2dJaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQ0R3QXdnZ0lLQW9JQ0FRQ3J2bkFjN3Q5YWJRdUNBNkFZCks5NDcrRGdhN0IrcERqbVJ6dFVmZ1l1Q1RIcFJadjVFZ2Rhd3hvUnpxNnBtT1l4aEMrUTN5bWVSdnpJR2FKQXIKRlo2THRlQ2d4NkpaMkhuTGVDbk9wemp0UnlPTUR2cWJ4SlFmcklDZzhTcUxQUE1LWEd4N1NMNnBlNHhPSlN1cApaWUQ5Tit4azJMUzE5Y29sTnlqSG9TY3YzT21JSTZsRnZDRUVZaE1PVy9iUjNBbVp5VjRZRDJvc0l2bWcwN25lCkhJU1FQNDk2aUxRS2UvMWp4d0RwQ2YvaDBvTklqUFlVZU5EUVNEbUR5US9XVWFkZUpjUWI0NExiaUJzWDh5STYKVjJiMk5xQXEweGNXV0FwdmFHeVd5YWlDQzYrckNBaVhRME9LbnRodUc5NGx4c1VJbkVEVHhCaGRZWklSY3hLdwpwU2JBN2hWZzVnRWlvRHBwOThGMC92N2Q5eENOTWhQQ3FKby9tRE9wck1GbERISEhqZzZnWVg4ZnhnbmJFWTQ0ClZUWFdVRE5mS0VocDRzblBrY0E5RFNBcTZDYUtDa2NuTk40aER0NEF2WXRicE1OTXhoSVhEZFhLdVEwcW9wai8KZ0JGdGRJNU9jZUJwUTFQdGZBNXNHVnZQWXZBcUl5NnZOWlRuRlN3MG4rT3BUdGdweExkL0hZa1V0TU5pd3JyNwoyUGtaTmdLOUVKeGJqOGVSTU5TTDY0OThBYkVCKzhZMW1WQUJRRUhmZzRlcEFyS3Mrdi9ZN1k2b2lVc1E5MDJZCk1aK2podUh5b24rbnd6N3RIZlhReE1Cd01WeElLNlJBalJKSE8valdtK0V4RENkbndkTHU5RUlGeWdnME9aeDAKaDU5eUsxTnN6eHFkcmFLOThrb0dEaENpQndJREFRQUJvQkV3RHdZSktvWklodmNOQVFrT01RSXdBREFOQmdrcQpoa2lHOXcwQkFRc0ZBQU9DQWdFQW5FcUwyNTdTVEhsTFppaTNYTzRwYmc3VWtpeEE4dzhEWGNBQi9JWmZGUmdTCmo2VW0vUnF0Z1QwMFU2ekNLMGtFMXl3Mk5JcCt3d2Q5UlEzc3lXdDJKZ3Z1U2Q1dFErd29TeWd6dWlaZmZhc24Kc2hrNVdtd2g1b1dCYzQwcFZKTjhrckc4bjcyeTMrRzdIMXNZL3hKZ0lBQnI4VVN0ZzQ1N1R3UWhnSzdyeXBmaQpWcVgvVnBvNmNNLzlHN2NXUTFtd1d3ZmUvSG9IV3RoelptQkxqUEVUVlZyUlh1cHVPejNuZXcwYVZpdm4zOGF3CkhxVVQ1cTZLdjB1UzZoZnBONU4ySVRsTUNZQTNTNm04Z1BVVFE1cjlpdUZhUVZpWkEvVENVRm1TdkgzMGgwa2UKbmlIOSsyOVV3OFozTWI3b1RvY25vRVA1eElNdlpzdmx5Z1BmMXlMam8wU0dIeDZ4engyZmZFWkNOMXBGWjRuSAo3RlVnQUNXRkt3Q3Zxay9GbU9hdGg0cGd2Y3dBNFFYcisyV0hGZmIwbTVNUTRXVVppL2UzTlZQaElNVlhJdHQyCnJZYzdQc1lUOWJtU3h0QUhLSlVXWFpWMFkrdVVrV3FTZ3lhRGJ5VjRRWnhBTDdFYzNmRGlCWXBpZGQxUzdmWEsKckdqOFhXRnZUcFhtMjl6bTI4Y0pWcFFHOXIyVVVsdndESGZyZ3ZndEpnb0E1U2d3OWdVTE8wZHZNUEx4bnIydAp2dEFnbWdpcDFocEdydDk2SXRSV0tUZTVhb2VTeTNlRVdsWW1BaUZFeXh5VVByUnZudkFVK2o4OUpVWFZqTzljCk9NWThCRVdIVzZnVUNrZU94STgxNE1Mc3JQcWJyWTFhdW5ESzhoTGhod0o0NVNEczJXd0RsQWRnb281QTkrND0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==",
+      "usages": ["digital signature", "key encipherment", "client auth"]}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: POST
+    uri: https://10.96.0.1/apis/certificates.k8s.io/v1beta1/certificatesigningrequests
+  response:
+    body:
+      string: '{"kind":"CertificateSigningRequest","apiVersion":"certificates.k8s.io/v1beta1","metadata":{"name":"tool-admin2","selfLink":"/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-admin2","uid":"3aa7ba34-2942-4f75-b97e-16c61ce98d99","resourceVersion":"12695","creationTimestamp":"2021-07-13T03:56:02Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"certificates.k8s.io/v1beta1","time":"2021-07-13T03:56:02Z","fieldsType":"FieldsV1","fieldsV1":{"f:spec":{"f:groups":{},"f:request":{},"f:signerName":{},"f:usages":{}}}}]},"spec":{"request":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWV6Q0NBbU1DQVFBd0pURVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTh3RFFZRFZRUUREQVpoWkcxcApiakl3Z2dJaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQ0R3QXdnZ0lLQW9JQ0FRQ3J2bkFjN3Q5YWJRdUNBNkFZCks5NDcrRGdhN0IrcERqbVJ6dFVmZ1l1Q1RIcFJadjVFZ2Rhd3hvUnpxNnBtT1l4aEMrUTN5bWVSdnpJR2FKQXIKRlo2THRlQ2d4NkpaMkhuTGVDbk9wemp0UnlPTUR2cWJ4SlFmcklDZzhTcUxQUE1LWEd4N1NMNnBlNHhPSlN1cApaWUQ5Tit4azJMUzE5Y29sTnlqSG9TY3YzT21JSTZsRnZDRUVZaE1PVy9iUjNBbVp5VjRZRDJvc0l2bWcwN25lCkhJU1FQNDk2aUxRS2UvMWp4d0RwQ2YvaDBvTklqUFlVZU5EUVNEbUR5US9XVWFkZUpjUWI0NExiaUJzWDh5STYKVjJiMk5xQXEweGNXV0FwdmFHeVd5YWlDQzYrckNBaVhRME9LbnRodUc5NGx4c1VJbkVEVHhCaGRZWklSY3hLdwpwU2JBN2hWZzVnRWlvRHBwOThGMC92N2Q5eENOTWhQQ3FKby9tRE9wck1GbERISEhqZzZnWVg4ZnhnbmJFWTQ0ClZUWFdVRE5mS0VocDRzblBrY0E5RFNBcTZDYUtDa2NuTk40aER0NEF2WXRicE1OTXhoSVhEZFhLdVEwcW9wai8KZ0JGdGRJNU9jZUJwUTFQdGZBNXNHVnZQWXZBcUl5NnZOWlRuRlN3MG4rT3BUdGdweExkL0hZa1V0TU5pd3JyNwoyUGtaTmdLOUVKeGJqOGVSTU5TTDY0OThBYkVCKzhZMW1WQUJRRUhmZzRlcEFyS3Mrdi9ZN1k2b2lVc1E5MDJZCk1aK2podUh5b24rbnd6N3RIZlhReE1Cd01WeElLNlJBalJKSE8valdtK0V4RENkbndkTHU5RUlGeWdnME9aeDAKaDU5eUsxTnN6eHFkcmFLOThrb0dEaENpQndJREFRQUJvQkV3RHdZSktvWklodmNOQVFrT01RSXdBREFOQmdrcQpoa2lHOXcwQkFRc0ZBQU9DQWdFQW5FcUwyNTdTVEhsTFppaTNYTzRwYmc3VWtpeEE4dzhEWGNBQi9JWmZGUmdTCmo2VW0vUnF0Z1QwMFU2ekNLMGtFMXl3Mk5JcCt3d2Q5UlEzc3lXdDJKZ3Z1U2Q1dFErd29TeWd6dWlaZmZhc24Kc2hrNVdtd2g1b1dCYzQwcFZKTjhrckc4bjcyeTMrRzdIMXNZL3hKZ0lBQnI4VVN0ZzQ1N1R3UWhnSzdyeXBmaQpWcVgvVnBvNmNNLzlHN2NXUTFtd1d3ZmUvSG9IV3RoelptQkxqUEVUVlZyUlh1cHVPejNuZXcwYVZpdm4zOGF3CkhxVVQ1cTZLdjB1UzZoZnBONU4ySVRsTUNZQTNTNm04Z1BVVFE1cjlpdUZhUVZpWkEvVENVRm1TdkgzMGgwa2UKbmlIOSsyOVV3OFozTWI3b1RvY25vRVA1eElNdlpzdmx5Z1BmMXlMam8wU0dIeDZ4engyZmZFWkNOMXBGWjRuSAo3RlVnQUNXRkt3Q3Zxay9GbU9hdGg0cGd2Y3dBNFFYcisyV0hGZmIwbTVNUTRXVVppL2UzTlZQaElNVlhJdHQyCnJZYzdQc1lUOWJtU3h0QUhLSlVXWFpWMFkrdVVrV3FTZ3lhRGJ5VjRRWnhBTDdFYzNmRGlCWXBpZGQxUzdmWEsKckdqOFhXRnZUcFhtMjl6bTI4Y0pWcFFHOXIyVVVsdndESGZyZ3ZndEpnb0E1U2d3OWdVTE8wZHZNUEx4bnIydAp2dEFnbWdpcDFocEdydDk2SXRSV0tUZTVhb2VTeTNlRVdsWW1BaUZFeXh5VVByUnZudkFVK2o4OUpVWFZqTzljCk9NWThCRVdIVzZnVUNrZU94STgxNE1Mc3JQcWJyWTFhdW5ESzhoTGhod0o0NVNEczJXd0RsQWRnb281QTkrND0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==","signerName":"kubernetes.io/legacy-unknown","usages":["digital
+        signature","key encipherment","client auth"],"username":"system:serviceaccount:maintain-kubeusers:user-maintainer","uid":"5a9fcb9f-da5e-43ca-acdb-4cb36fe515d5","groups":["system:serviceaccounts","system:serviceaccounts:maintain-kubeusers","system:authenticated"]},"status":{}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:02 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 201
+      message: Created
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-admin2/status
+  response:
+    body:
+      string: '{"kind":"CertificateSigningRequest","apiVersion":"certificates.k8s.io/v1beta1","metadata":{"name":"tool-admin2","selfLink":"/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-admin2/status","uid":"3aa7ba34-2942-4f75-b97e-16c61ce98d99","resourceVersion":"12695","creationTimestamp":"2021-07-13T03:56:02Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"certificates.k8s.io/v1beta1","time":"2021-07-13T03:56:02Z","fieldsType":"FieldsV1","fieldsV1":{"f:spec":{"f:groups":{},"f:request":{},"f:signerName":{},"f:usages":{}}}}]},"spec":{"request":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWV6Q0NBbU1DQVFBd0pURVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTh3RFFZRFZRUUREQVpoWkcxcApiakl3Z2dJaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQ0R3QXdnZ0lLQW9JQ0FRQ3J2bkFjN3Q5YWJRdUNBNkFZCks5NDcrRGdhN0IrcERqbVJ6dFVmZ1l1Q1RIcFJadjVFZ2Rhd3hvUnpxNnBtT1l4aEMrUTN5bWVSdnpJR2FKQXIKRlo2THRlQ2d4NkpaMkhuTGVDbk9wemp0UnlPTUR2cWJ4SlFmcklDZzhTcUxQUE1LWEd4N1NMNnBlNHhPSlN1cApaWUQ5Tit4azJMUzE5Y29sTnlqSG9TY3YzT21JSTZsRnZDRUVZaE1PVy9iUjNBbVp5VjRZRDJvc0l2bWcwN25lCkhJU1FQNDk2aUxRS2UvMWp4d0RwQ2YvaDBvTklqUFlVZU5EUVNEbUR5US9XVWFkZUpjUWI0NExiaUJzWDh5STYKVjJiMk5xQXEweGNXV0FwdmFHeVd5YWlDQzYrckNBaVhRME9LbnRodUc5NGx4c1VJbkVEVHhCaGRZWklSY3hLdwpwU2JBN2hWZzVnRWlvRHBwOThGMC92N2Q5eENOTWhQQ3FKby9tRE9wck1GbERISEhqZzZnWVg4ZnhnbmJFWTQ0ClZUWFdVRE5mS0VocDRzblBrY0E5RFNBcTZDYUtDa2NuTk40aER0NEF2WXRicE1OTXhoSVhEZFhLdVEwcW9wai8KZ0JGdGRJNU9jZUJwUTFQdGZBNXNHVnZQWXZBcUl5NnZOWlRuRlN3MG4rT3BUdGdweExkL0hZa1V0TU5pd3JyNwoyUGtaTmdLOUVKeGJqOGVSTU5TTDY0OThBYkVCKzhZMW1WQUJRRUhmZzRlcEFyS3Mrdi9ZN1k2b2lVc1E5MDJZCk1aK2podUh5b24rbnd6N3RIZlhReE1Cd01WeElLNlJBalJKSE8valdtK0V4RENkbndkTHU5RUlGeWdnME9aeDAKaDU5eUsxTnN6eHFkcmFLOThrb0dEaENpQndJREFRQUJvQkV3RHdZSktvWklodmNOQVFrT01RSXdBREFOQmdrcQpoa2lHOXcwQkFRc0ZBQU9DQWdFQW5FcUwyNTdTVEhsTFppaTNYTzRwYmc3VWtpeEE4dzhEWGNBQi9JWmZGUmdTCmo2VW0vUnF0Z1QwMFU2ekNLMGtFMXl3Mk5JcCt3d2Q5UlEzc3lXdDJKZ3Z1U2Q1dFErd29TeWd6dWlaZmZhc24Kc2hrNVdtd2g1b1dCYzQwcFZKTjhrckc4bjcyeTMrRzdIMXNZL3hKZ0lBQnI4VVN0ZzQ1N1R3UWhnSzdyeXBmaQpWcVgvVnBvNmNNLzlHN2NXUTFtd1d3ZmUvSG9IV3RoelptQkxqUEVUVlZyUlh1cHVPejNuZXcwYVZpdm4zOGF3CkhxVVQ1cTZLdjB1UzZoZnBONU4ySVRsTUNZQTNTNm04Z1BVVFE1cjlpdUZhUVZpWkEvVENVRm1TdkgzMGgwa2UKbmlIOSsyOVV3OFozTWI3b1RvY25vRVA1eElNdlpzdmx5Z1BmMXlMam8wU0dIeDZ4engyZmZFWkNOMXBGWjRuSAo3RlVnQUNXRkt3Q3Zxay9GbU9hdGg0cGd2Y3dBNFFYcisyV0hGZmIwbTVNUTRXVVppL2UzTlZQaElNVlhJdHQyCnJZYzdQc1lUOWJtU3h0QUhLSlVXWFpWMFkrdVVrV3FTZ3lhRGJ5VjRRWnhBTDdFYzNmRGlCWXBpZGQxUzdmWEsKckdqOFhXRnZUcFhtMjl6bTI4Y0pWcFFHOXIyVVVsdndESGZyZ3ZndEpnb0E1U2d3OWdVTE8wZHZNUEx4bnIydAp2dEFnbWdpcDFocEdydDk2SXRSV0tUZTVhb2VTeTNlRVdsWW1BaUZFeXh5VVByUnZudkFVK2o4OUpVWFZqTzljCk9NWThCRVdIVzZnVUNrZU94STgxNE1Mc3JQcWJyWTFhdW5ESzhoTGhod0o0NVNEczJXd0RsQWRnb281QTkrND0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==","signerName":"kubernetes.io/legacy-unknown","usages":["digital
+        signature","key encipherment","client auth"],"username":"system:serviceaccount:maintain-kubeusers:user-maintainer","uid":"5a9fcb9f-da5e-43ca-acdb-4cb36fe515d5","groups":["system:serviceaccounts","system:serviceaccounts:maintain-kubeusers","system:authenticated"]},"status":{}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:02 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"apiVersion": "certificates.k8s.io/v1beta1", "kind": "CertificateSigningRequest",
+      "metadata": {"creationTimestamp": "2021-07-13T03:56:02+00:00", "managedFields":
+      [{"apiVersion": "certificates.k8s.io/v1beta1", "fieldsType": "FieldsV1", "fieldsV1":
+      {"f:spec": {"f:groups": {}, "f:request": {}, "f:signerName": {}, "f:usages":
+      {}}}, "manager": "OpenAPI-Generator", "operation": "Update", "time": "2021-07-13T03:56:02+00:00"}],
+      "name": "tool-admin2", "resourceVersion": "12695", "selfLink": "/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-admin2/status",
+      "uid": "3aa7ba34-2942-4f75-b97e-16c61ce98d99"}, "spec": {"groups": ["system:serviceaccounts",
+      "system:serviceaccounts:maintain-kubeusers", "system:authenticated"], "request":
+      "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWV6Q0NBbU1DQVFBd0pURVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTh3RFFZRFZRUUREQVpoWkcxcApiakl3Z2dJaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQ0R3QXdnZ0lLQW9JQ0FRQ3J2bkFjN3Q5YWJRdUNBNkFZCks5NDcrRGdhN0IrcERqbVJ6dFVmZ1l1Q1RIcFJadjVFZ2Rhd3hvUnpxNnBtT1l4aEMrUTN5bWVSdnpJR2FKQXIKRlo2THRlQ2d4NkpaMkhuTGVDbk9wemp0UnlPTUR2cWJ4SlFmcklDZzhTcUxQUE1LWEd4N1NMNnBlNHhPSlN1cApaWUQ5Tit4azJMUzE5Y29sTnlqSG9TY3YzT21JSTZsRnZDRUVZaE1PVy9iUjNBbVp5VjRZRDJvc0l2bWcwN25lCkhJU1FQNDk2aUxRS2UvMWp4d0RwQ2YvaDBvTklqUFlVZU5EUVNEbUR5US9XVWFkZUpjUWI0NExiaUJzWDh5STYKVjJiMk5xQXEweGNXV0FwdmFHeVd5YWlDQzYrckNBaVhRME9LbnRodUc5NGx4c1VJbkVEVHhCaGRZWklSY3hLdwpwU2JBN2hWZzVnRWlvRHBwOThGMC92N2Q5eENOTWhQQ3FKby9tRE9wck1GbERISEhqZzZnWVg4ZnhnbmJFWTQ0ClZUWFdVRE5mS0VocDRzblBrY0E5RFNBcTZDYUtDa2NuTk40aER0NEF2WXRicE1OTXhoSVhEZFhLdVEwcW9wai8KZ0JGdGRJNU9jZUJwUTFQdGZBNXNHVnZQWXZBcUl5NnZOWlRuRlN3MG4rT3BUdGdweExkL0hZa1V0TU5pd3JyNwoyUGtaTmdLOUVKeGJqOGVSTU5TTDY0OThBYkVCKzhZMW1WQUJRRUhmZzRlcEFyS3Mrdi9ZN1k2b2lVc1E5MDJZCk1aK2podUh5b24rbnd6N3RIZlhReE1Cd01WeElLNlJBalJKSE8valdtK0V4RENkbndkTHU5RUlGeWdnME9aeDAKaDU5eUsxTnN6eHFkcmFLOThrb0dEaENpQndJREFRQUJvQkV3RHdZSktvWklodmNOQVFrT01RSXdBREFOQmdrcQpoa2lHOXcwQkFRc0ZBQU9DQWdFQW5FcUwyNTdTVEhsTFppaTNYTzRwYmc3VWtpeEE4dzhEWGNBQi9JWmZGUmdTCmo2VW0vUnF0Z1QwMFU2ekNLMGtFMXl3Mk5JcCt3d2Q5UlEzc3lXdDJKZ3Z1U2Q1dFErd29TeWd6dWlaZmZhc24Kc2hrNVdtd2g1b1dCYzQwcFZKTjhrckc4bjcyeTMrRzdIMXNZL3hKZ0lBQnI4VVN0ZzQ1N1R3UWhnSzdyeXBmaQpWcVgvVnBvNmNNLzlHN2NXUTFtd1d3ZmUvSG9IV3RoelptQkxqUEVUVlZyUlh1cHVPejNuZXcwYVZpdm4zOGF3CkhxVVQ1cTZLdjB1UzZoZnBONU4ySVRsTUNZQTNTNm04Z1BVVFE1cjlpdUZhUVZpWkEvVENVRm1TdkgzMGgwa2UKbmlIOSsyOVV3OFozTWI3b1RvY25vRVA1eElNdlpzdmx5Z1BmMXlMam8wU0dIeDZ4engyZmZFWkNOMXBGWjRuSAo3RlVnQUNXRkt3Q3Zxay9GbU9hdGg0cGd2Y3dBNFFYcisyV0hGZmIwbTVNUTRXVVppL2UzTlZQaElNVlhJdHQyCnJZYzdQc1lUOWJtU3h0QUhLSlVXWFpWMFkrdVVrV3FTZ3lhRGJ5VjRRWnhBTDdFYzNmRGlCWXBpZGQxUzdmWEsKckdqOFhXRnZUcFhtMjl6bTI4Y0pWcFFHOXIyVVVsdndESGZyZ3ZndEpnb0E1U2d3OWdVTE8wZHZNUEx4bnIydAp2dEFnbWdpcDFocEdydDk2SXRSV0tUZTVhb2VTeTNlRVdsWW1BaUZFeXh5VVByUnZudkFVK2o4OUpVWFZqTzljCk9NWThCRVdIVzZnVUNrZU94STgxNE1Mc3JQcWJyWTFhdW5ESzhoTGhod0o0NVNEczJXd0RsQWRnb281QTkrND0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==",
+      "uid": "5a9fcb9f-da5e-43ca-acdb-4cb36fe515d5", "usages": ["digital signature",
+      "key encipherment", "client auth"], "username": "system:serviceaccount:maintain-kubeusers:user-maintainer"},
+      "status": {"conditions": [{"lastUpdateTime": "2021-07-13T03:56:02.738287+00:00",
+      "message": "This certificate was approved by maintain_kubeusers", "reason":
+      "Authorized User", "type": "Approved"}]}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: PUT
+    uri: https://10.96.0.1/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-admin2/approval
+  response:
+    body:
+      string: '{"kind":"CertificateSigningRequest","apiVersion":"certificates.k8s.io/v1beta1","metadata":{"name":"tool-admin2","selfLink":"/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-admin2/approval","uid":"3aa7ba34-2942-4f75-b97e-16c61ce98d99","resourceVersion":"12696","creationTimestamp":"2021-07-13T03:56:02Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"certificates.k8s.io/v1beta1","time":"2021-07-13T03:56:02Z","fieldsType":"FieldsV1","fieldsV1":{"f:spec":{"f:groups":{},"f:request":{},"f:signerName":{},"f:usages":{}},"f:status":{"f:conditions":{}}}}]},"spec":{"request":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWV6Q0NBbU1DQVFBd0pURVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTh3RFFZRFZRUUREQVpoWkcxcApiakl3Z2dJaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQ0R3QXdnZ0lLQW9JQ0FRQ3J2bkFjN3Q5YWJRdUNBNkFZCks5NDcrRGdhN0IrcERqbVJ6dFVmZ1l1Q1RIcFJadjVFZ2Rhd3hvUnpxNnBtT1l4aEMrUTN5bWVSdnpJR2FKQXIKRlo2THRlQ2d4NkpaMkhuTGVDbk9wemp0UnlPTUR2cWJ4SlFmcklDZzhTcUxQUE1LWEd4N1NMNnBlNHhPSlN1cApaWUQ5Tit4azJMUzE5Y29sTnlqSG9TY3YzT21JSTZsRnZDRUVZaE1PVy9iUjNBbVp5VjRZRDJvc0l2bWcwN25lCkhJU1FQNDk2aUxRS2UvMWp4d0RwQ2YvaDBvTklqUFlVZU5EUVNEbUR5US9XVWFkZUpjUWI0NExiaUJzWDh5STYKVjJiMk5xQXEweGNXV0FwdmFHeVd5YWlDQzYrckNBaVhRME9LbnRodUc5NGx4c1VJbkVEVHhCaGRZWklSY3hLdwpwU2JBN2hWZzVnRWlvRHBwOThGMC92N2Q5eENOTWhQQ3FKby9tRE9wck1GbERISEhqZzZnWVg4ZnhnbmJFWTQ0ClZUWFdVRE5mS0VocDRzblBrY0E5RFNBcTZDYUtDa2NuTk40aER0NEF2WXRicE1OTXhoSVhEZFhLdVEwcW9wai8KZ0JGdGRJNU9jZUJwUTFQdGZBNXNHVnZQWXZBcUl5NnZOWlRuRlN3MG4rT3BUdGdweExkL0hZa1V0TU5pd3JyNwoyUGtaTmdLOUVKeGJqOGVSTU5TTDY0OThBYkVCKzhZMW1WQUJRRUhmZzRlcEFyS3Mrdi9ZN1k2b2lVc1E5MDJZCk1aK2podUh5b24rbnd6N3RIZlhReE1Cd01WeElLNlJBalJKSE8valdtK0V4RENkbndkTHU5RUlGeWdnME9aeDAKaDU5eUsxTnN6eHFkcmFLOThrb0dEaENpQndJREFRQUJvQkV3RHdZSktvWklodmNOQVFrT01RSXdBREFOQmdrcQpoa2lHOXcwQkFRc0ZBQU9DQWdFQW5FcUwyNTdTVEhsTFppaTNYTzRwYmc3VWtpeEE4dzhEWGNBQi9JWmZGUmdTCmo2VW0vUnF0Z1QwMFU2ekNLMGtFMXl3Mk5JcCt3d2Q5UlEzc3lXdDJKZ3Z1U2Q1dFErd29TeWd6dWlaZmZhc24Kc2hrNVdtd2g1b1dCYzQwcFZKTjhrckc4bjcyeTMrRzdIMXNZL3hKZ0lBQnI4VVN0ZzQ1N1R3UWhnSzdyeXBmaQpWcVgvVnBvNmNNLzlHN2NXUTFtd1d3ZmUvSG9IV3RoelptQkxqUEVUVlZyUlh1cHVPejNuZXcwYVZpdm4zOGF3CkhxVVQ1cTZLdjB1UzZoZnBONU4ySVRsTUNZQTNTNm04Z1BVVFE1cjlpdUZhUVZpWkEvVENVRm1TdkgzMGgwa2UKbmlIOSsyOVV3OFozTWI3b1RvY25vRVA1eElNdlpzdmx5Z1BmMXlMam8wU0dIeDZ4engyZmZFWkNOMXBGWjRuSAo3RlVnQUNXRkt3Q3Zxay9GbU9hdGg0cGd2Y3dBNFFYcisyV0hGZmIwbTVNUTRXVVppL2UzTlZQaElNVlhJdHQyCnJZYzdQc1lUOWJtU3h0QUhLSlVXWFpWMFkrdVVrV3FTZ3lhRGJ5VjRRWnhBTDdFYzNmRGlCWXBpZGQxUzdmWEsKckdqOFhXRnZUcFhtMjl6bTI4Y0pWcFFHOXIyVVVsdndESGZyZ3ZndEpnb0E1U2d3OWdVTE8wZHZNUEx4bnIydAp2dEFnbWdpcDFocEdydDk2SXRSV0tUZTVhb2VTeTNlRVdsWW1BaUZFeXh5VVByUnZudkFVK2o4OUpVWFZqTzljCk9NWThCRVdIVzZnVUNrZU94STgxNE1Mc3JQcWJyWTFhdW5ESzhoTGhod0o0NVNEczJXd0RsQWRnb281QTkrND0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==","signerName":"kubernetes.io/legacy-unknown","usages":["digital
+        signature","key encipherment","client auth"],"username":"system:serviceaccount:maintain-kubeusers:user-maintainer","uid":"5a9fcb9f-da5e-43ca-acdb-4cb36fe515d5","groups":["system:serviceaccounts","system:serviceaccounts:maintain-kubeusers","system:authenticated"]},"status":{"conditions":[{"type":"Approved","reason":"Authorized
+        User","message":"This certificate was approved by maintain_kubeusers","lastUpdateTime":"2021-07-13T03:56:02Z"}]}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:02 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-admin2
+  response:
+    body:
+      string: '{"kind":"CertificateSigningRequest","apiVersion":"certificates.k8s.io/v1beta1","metadata":{"name":"tool-admin2","selfLink":"/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-admin2","uid":"3aa7ba34-2942-4f75-b97e-16c61ce98d99","resourceVersion":"12697","creationTimestamp":"2021-07-13T03:56:02Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"certificates.k8s.io/v1beta1","time":"2021-07-13T03:56:02Z","fieldsType":"FieldsV1","fieldsV1":{"f:spec":{"f:groups":{},"f:request":{},"f:signerName":{},"f:usages":{}},"f:status":{"f:conditions":{}}}},{"manager":"kube-controller-manager","operation":"Update","apiVersion":"certificates.k8s.io/v1beta1","time":"2021-07-13T03:56:02Z","fieldsType":"FieldsV1","fieldsV1":{"f:status":{"f:certificate":{}}}}]},"spec":{"request":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWV6Q0NBbU1DQVFBd0pURVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTh3RFFZRFZRUUREQVpoWkcxcApiakl3Z2dJaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQ0R3QXdnZ0lLQW9JQ0FRQ3J2bkFjN3Q5YWJRdUNBNkFZCks5NDcrRGdhN0IrcERqbVJ6dFVmZ1l1Q1RIcFJadjVFZ2Rhd3hvUnpxNnBtT1l4aEMrUTN5bWVSdnpJR2FKQXIKRlo2THRlQ2d4NkpaMkhuTGVDbk9wemp0UnlPTUR2cWJ4SlFmcklDZzhTcUxQUE1LWEd4N1NMNnBlNHhPSlN1cApaWUQ5Tit4azJMUzE5Y29sTnlqSG9TY3YzT21JSTZsRnZDRUVZaE1PVy9iUjNBbVp5VjRZRDJvc0l2bWcwN25lCkhJU1FQNDk2aUxRS2UvMWp4d0RwQ2YvaDBvTklqUFlVZU5EUVNEbUR5US9XVWFkZUpjUWI0NExiaUJzWDh5STYKVjJiMk5xQXEweGNXV0FwdmFHeVd5YWlDQzYrckNBaVhRME9LbnRodUc5NGx4c1VJbkVEVHhCaGRZWklSY3hLdwpwU2JBN2hWZzVnRWlvRHBwOThGMC92N2Q5eENOTWhQQ3FKby9tRE9wck1GbERISEhqZzZnWVg4ZnhnbmJFWTQ0ClZUWFdVRE5mS0VocDRzblBrY0E5RFNBcTZDYUtDa2NuTk40aER0NEF2WXRicE1OTXhoSVhEZFhLdVEwcW9wai8KZ0JGdGRJNU9jZUJwUTFQdGZBNXNHVnZQWXZBcUl5NnZOWlRuRlN3MG4rT3BUdGdweExkL0hZa1V0TU5pd3JyNwoyUGtaTmdLOUVKeGJqOGVSTU5TTDY0OThBYkVCKzhZMW1WQUJRRUhmZzRlcEFyS3Mrdi9ZN1k2b2lVc1E5MDJZCk1aK2podUh5b24rbnd6N3RIZlhReE1Cd01WeElLNlJBalJKSE8valdtK0V4RENkbndkTHU5RUlGeWdnME9aeDAKaDU5eUsxTnN6eHFkcmFLOThrb0dEaENpQndJREFRQUJvQkV3RHdZSktvWklodmNOQVFrT01RSXdBREFOQmdrcQpoa2lHOXcwQkFRc0ZBQU9DQWdFQW5FcUwyNTdTVEhsTFppaTNYTzRwYmc3VWtpeEE4dzhEWGNBQi9JWmZGUmdTCmo2VW0vUnF0Z1QwMFU2ekNLMGtFMXl3Mk5JcCt3d2Q5UlEzc3lXdDJKZ3Z1U2Q1dFErd29TeWd6dWlaZmZhc24Kc2hrNVdtd2g1b1dCYzQwcFZKTjhrckc4bjcyeTMrRzdIMXNZL3hKZ0lBQnI4VVN0ZzQ1N1R3UWhnSzdyeXBmaQpWcVgvVnBvNmNNLzlHN2NXUTFtd1d3ZmUvSG9IV3RoelptQkxqUEVUVlZyUlh1cHVPejNuZXcwYVZpdm4zOGF3CkhxVVQ1cTZLdjB1UzZoZnBONU4ySVRsTUNZQTNTNm04Z1BVVFE1cjlpdUZhUVZpWkEvVENVRm1TdkgzMGgwa2UKbmlIOSsyOVV3OFozTWI3b1RvY25vRVA1eElNdlpzdmx5Z1BmMXlMam8wU0dIeDZ4engyZmZFWkNOMXBGWjRuSAo3RlVnQUNXRkt3Q3Zxay9GbU9hdGg0cGd2Y3dBNFFYcisyV0hGZmIwbTVNUTRXVVppL2UzTlZQaElNVlhJdHQyCnJZYzdQc1lUOWJtU3h0QUhLSlVXWFpWMFkrdVVrV3FTZ3lhRGJ5VjRRWnhBTDdFYzNmRGlCWXBpZGQxUzdmWEsKckdqOFhXRnZUcFhtMjl6bTI4Y0pWcFFHOXIyVVVsdndESGZyZ3ZndEpnb0E1U2d3OWdVTE8wZHZNUEx4bnIydAp2dEFnbWdpcDFocEdydDk2SXRSV0tUZTVhb2VTeTNlRVdsWW1BaUZFeXh5VVByUnZudkFVK2o4OUpVWFZqTzljCk9NWThCRVdIVzZnVUNrZU94STgxNE1Mc3JQcWJyWTFhdW5ESzhoTGhod0o0NVNEczJXd0RsQWRnb281QTkrND0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==","signerName":"kubernetes.io/legacy-unknown","usages":["digital
+        signature","key encipherment","client auth"],"username":"system:serviceaccount:maintain-kubeusers:user-maintainer","uid":"5a9fcb9f-da5e-43ca-acdb-4cb36fe515d5","groups":["system:serviceaccounts","system:serviceaccounts:maintain-kubeusers","system:authenticated"]},"status":{"conditions":[{"type":"Approved","reason":"Authorized
+        User","message":"This certificate was approved by maintain_kubeusers","lastUpdateTime":"2021-07-13T03:56:02Z"}],"certificate":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVHakNDQXdLZ0F3SUJBZ0lRTzN4V05zWFBxeWQxUVRLclVhc2hmVEFOQmdrcWhraUc5dzBCQVFzRkFEQVYKTVJNd0VRWURWUVFERXdwdGFXNXBhM1ZpWlVOQk1CNFhEVEl4TURjeE16QXpOVEV3TWxvWERUSXlNRGN4TXpBegpOVEV3TWxvd0pURVNNQkFHQTFVRUNoTUpkRzl2YkdadmNtZGxNUTh3RFFZRFZRUURFd1poWkcxcGJqSXdnZ0lpCk1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQ0R3QXdnZ0lLQW9JQ0FRQ3J2bkFjN3Q5YWJRdUNBNkFZSzk0NytEZ2EKN0IrcERqbVJ6dFVmZ1l1Q1RIcFJadjVFZ2Rhd3hvUnpxNnBtT1l4aEMrUTN5bWVSdnpJR2FKQXJGWjZMdGVDZwp4NkpaMkhuTGVDbk9wemp0UnlPTUR2cWJ4SlFmcklDZzhTcUxQUE1LWEd4N1NMNnBlNHhPSlN1cFpZRDlOK3hrCjJMUzE5Y29sTnlqSG9TY3YzT21JSTZsRnZDRUVZaE1PVy9iUjNBbVp5VjRZRDJvc0l2bWcwN25lSElTUVA0OTYKaUxRS2UvMWp4d0RwQ2YvaDBvTklqUFlVZU5EUVNEbUR5US9XVWFkZUpjUWI0NExiaUJzWDh5STZWMmIyTnFBcQoweGNXV0FwdmFHeVd5YWlDQzYrckNBaVhRME9LbnRodUc5NGx4c1VJbkVEVHhCaGRZWklSY3hLd3BTYkE3aFZnCjVnRWlvRHBwOThGMC92N2Q5eENOTWhQQ3FKby9tRE9wck1GbERISEhqZzZnWVg4ZnhnbmJFWTQ0VlRYV1VETmYKS0VocDRzblBrY0E5RFNBcTZDYUtDa2NuTk40aER0NEF2WXRicE1OTXhoSVhEZFhLdVEwcW9wai9nQkZ0ZEk1TwpjZUJwUTFQdGZBNXNHVnZQWXZBcUl5NnZOWlRuRlN3MG4rT3BUdGdweExkL0hZa1V0TU5pd3JyNzJQa1pOZ0s5CkVKeGJqOGVSTU5TTDY0OThBYkVCKzhZMW1WQUJRRUhmZzRlcEFyS3Mrdi9ZN1k2b2lVc1E5MDJZTVoramh1SHkKb24rbnd6N3RIZlhReE1Cd01WeElLNlJBalJKSE8valdtK0V4RENkbndkTHU5RUlGeWdnME9aeDBoNTl5SzFOcwp6eHFkcmFLOThrb0dEaENpQndJREFRQUJvMVl3VkRBT0JnTlZIUThCQWY4RUJBTUNCYUF3RXdZRFZSMGxCQXd3CkNnWUlLd1lCQlFVSEF3SXdEQVlEVlIwVEFRSC9CQUl3QURBZkJnTlZIU01FR0RBV2dCUmduZVIvc0s5T1k2QjkKTFhmR3pmYWZPblJZcnpBTkJna3Foa2lHOXcwQkFRc0ZBQU9DQVFFQUhkNmpMZ2pPanJud0o0QTBNOWx4UDE0UwpxUnJqNnBUTlZvaGViSS9iOG9kczBKVjQ3VXZ0Y2w0T2ZHYTkveWhlRXR1UmxRWmhtSkZRTjVmRHdRYWlQQUhRCmd3V3hkN2YwTllFRU8yUm8vbTNWZ29oVi9HaGlUdzFrc3RtNXZpckh2aWtzNmMwNGFUV09ZYnh2bkxuaEhjRC8KL1RjaFhvRGRwZ3RaZ1FDVWhUTkdkVDdKMUtiZTRTY1VQdmJ6SmhkY0VHdGVkZWM2SEVWVU11eEZEWFhkcGc5SwoxRzAxWjF1d2ViNGNSTDA0MGxqN2NBYXB5MkljNFd1ZkNIWVlZMmxLTlhOMnp5WFl2SDRmRzZLREE3MURtR0FHCmZVcXZNTUhJUjhzR0phclB0aDgzQ0VtOGN3UDN4NDdIYmFJZks5UkZNMzBIbW5ScGIvMHZKd24wTWdnT1RBPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-admin2
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Success","details":{"name":"tool-admin2","group":"certificates.k8s.io","kind":"certificatesigningrequests","uid":"3aa7ba34-2942-4f75-b97e-16c61ce98d99"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '213'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"apiVersion": "rbac.authorization.k8s.io/v1", "kind": "ClusterRoleBinding",
+      "metadata": {"name": "admin2-view-binding"}, "roleRef": {"apiGroup": "rbac.authorization.k8s.io",
+      "kind": "ClusterRole", "name": "view"}, "subjects": [{"apiGroup": "rbac.authorization.k8s.io",
+      "kind": "User", "name": "admin2"}]}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: POST
+    uri: https://10.96.0.1/apis/rbac.authorization.k8s.io/v1/clusterrolebindings
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"clusterrolebindings.rbac.authorization.k8s.io
+        \"admin2-view-binding\" already exists","reason":"AlreadyExists","details":{"name":"admin2-view-binding","group":"rbac.authorization.k8s.io","kind":"clusterrolebindings"},"code":409}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '308'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+    status:
+      code: 409
+      message: Conflict
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/api/v1/namespaces/maintain-kubeusers/configmaps?fieldSelector=metadata.name%3Dmaintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"ConfigMapList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces/maintain-kubeusers/configmaps","resourceVersion":"12699"},"items":[{"metadata":{"name":"maintain-kubeusers","namespace":"maintain-kubeusers","selfLink":"/api/v1/namespaces/maintain-kubeusers/configmaps/maintain-kubeusers","uid":"52c49206-e8b1-4c14-804b-89f8aac2549e","resourceVersion":"12694","creationTimestamp":"2021-07-13T03:56:02Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"v1","time":"2021-07-13T03:56:02Z","fieldsType":"FieldsV1","fieldsV1":{"f:data":{".":{},"f:admin":{}}}}]},"data":{"admin":"2022-07-13T03:51:01"}}]}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '651'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"data": {"admin2": "2022-07-13T03:51:02"}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/strategic-merge-patch+json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: PATCH
+    uri: https://10.96.0.1/api/v1/namespaces/maintain-kubeusers/configmaps/maintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"maintain-kubeusers","namespace":"maintain-kubeusers","selfLink":"/api/v1/namespaces/maintain-kubeusers/configmaps/maintain-kubeusers","uid":"52c49206-e8b1-4c14-804b-89f8aac2549e","resourceVersion":"12700","creationTimestamp":"2021-07-13T03:56:02Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"v1","time":"2021-07-13T03:56:03Z","fieldsType":"FieldsV1","fieldsV1":{"f:data":{".":{},"f:admin":{},"f:admin2":{}}}}]},"data":{"admin":"2022-07-13T03:51:01","admin2":"2022-07-13T03:51:02"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '579'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/api/v1/namespaces?labelSelector=tenancy%3Dtool
+  response:
+    body:
+      string: '{"kind":"NamespaceList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces","resourceVersion":"12700"},"items":[]}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '125'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/api/v1/namespaces/maintain-kubeusers/configmaps?fieldSelector=metadata.name%3Dmaintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"ConfigMapList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces/maintain-kubeusers/configmaps","resourceVersion":"12700"},"items":[{"metadata":{"name":"maintain-kubeusers","namespace":"maintain-kubeusers","selfLink":"/api/v1/namespaces/maintain-kubeusers/configmaps/maintain-kubeusers","uid":"52c49206-e8b1-4c14-804b-89f8aac2549e","resourceVersion":"12700","creationTimestamp":"2021-07-13T03:56:02Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"v1","time":"2021-07-13T03:56:03Z","fieldsType":"FieldsV1","fieldsV1":{"f:data":{".":{},"f:admin":{},"f:admin2":{}}}}]},"data":{"admin":"2022-07-13T03:51:01","admin2":"2022-07-13T03:51:02"}}]}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '696'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/api/v1/namespaces/kube-public/configmaps/cluster-info
+  response:
+    body:
+      string: '{"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"cluster-info","namespace":"kube-public","selfLink":"/api/v1/namespaces/kube-public/configmaps/cluster-info","uid":"f94c4848-b93a-452d-8fa6-e8d579cb286c","resourceVersion":"312","creationTimestamp":"2021-07-12T18:25:57Z","managedFields":[{"manager":"kubeadm","operation":"Update","apiVersion":"v1","time":"2021-07-12T18:25:57Z","fieldsType":"FieldsV1","fieldsV1":{"f:data":{".":{},"f:kubeconfig":{}}}},{"manager":"kube-controller-manager","operation":"Update","apiVersion":"v1","time":"2021-07-12T18:26:14Z","fieldsType":"FieldsV1","fieldsV1":{"f:data":{"f:jws-kubeconfig-7flljm":{}}}}]},"data":{"jws-kubeconfig-7flljm":"eyJhbGciOiJIUzI1NiIsImtpZCI6IjdmbGxqbSJ9..3zm1TICYasP5Sop23L38hSGWNJZoZI_blYn-3Ku7pY0","kubeconfig":"apiVersion:
+        v1\nclusters:\n- cluster:\n    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCakNDQWU2Z0F3SUJBZ0lCQVRBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwdGFXNXAKYTNWaVpVTkJNQjRYRFRJeE1EWXlPVEUzTURVd05sb1hEVE14TURZeU9ERTNNRFV3Tmxvd0ZURVRNQkVHQTFVRQpBeE1LYldsdWFXdDFZbVZEUVRDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBSzB0ClZzMXBkWTJzc3RYdXlaVk9tZkpBb0JxTlNBY1JPVW5MbzVMcXI4Z3ZKaWpnNmZ0MTlIdUZiUWY5OG96SmQwOXMKcFRBNmV5c05aMVFaTHo3eEJTZ0Qyb1cwc2p0a2tma0FKUDFTdWdNeEV2ZVIwbFAzTWZjL1NGSEtpUkdDbVd1Uwp3cXRBYUhqWUhzM2NWazdhbkxtejY5dUtjUXdCRkVZTG4wakNQZnkxdTJFaGVVd2xaTkpTTDhDWEpGTm9rV01lCkFIekZVdzFvUkFFNG5qRERnQ0xHUXVxdVd0Y0I0K2FRbTRZb0oyckFwNVFieTl5dkluMnlDK2lXcTN5Q08vdHcKZ29uU2EwcHFFSWptZ01nNmZzditPUEpSS09QZHEvYm42eFRaSjh4YWVkOXU5UzRFcWtaZU1XdDZETTRzS2hnUgpmL3lWQTdodUxqWHE4aDlQU3ljQ0F3RUFBYU5oTUY4d0RnWURWUjBQQVFIL0JBUURBZ0trTUIwR0ExVWRKUVFXCk1CUUdDQ3NHQVFVRkJ3TUNCZ2dyQmdFRkJRY0RBVEFQQmdOVkhSTUJBZjhFQlRBREFRSC9NQjBHQTFVZERnUVcKQkJSZ25lUi9zSzlPWTZCOUxYZkd6ZmFmT25SWXJ6QU5CZ2txaGtpRzl3MEJBUXNGQUFPQ0FRRUFleEw2NWxudgpEeFdQTTczSnViaGtsUjRvT0ovQVNndHRpcjVXdEMwQ2NSZ2hUSHgrODU4a1E2Ym5wZHEyZjlMOUtCczdWRXliCmlLdGk0VlNxQk1Hb2tEU0xCU24zcTlkdW1SSUJPL0I4bGNKaUJVbFFTazhaQ2JKTTB1VE5TSWdDV0RuUDZlV0oKZGVFcHRUcHRobFlhZzB4eldMMXhGVHRMY3duT25nblVDNVJRZWY0ZWdQUU1hN3J1U3BiaWZUYk92Wm44Q0xSYgpZOCtSUkpwUkVMamxBOTEvQ2NXc2Ewemp6cXhEUnhDcGxCeHVxQys1dGdhbEVWQ3gvY0s4emwyWlBsbHRvbGVOCkN6WTlFVWJrNXZ2QlorT2FMNk95UVZIV2lUejRDcGhZQlo2cE9hTUlVWFN6MmxoS0U2QWxGZS9UMVZNSE8xeWoKcnBrczM4KzAya3RqQ3c9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==\n    server:
+        https://control-plane.minikube.internal:8443\n  name: \"\"\ncontexts: null\ncurrent-context:
+        \"\"\nkind: Config\npreferences: {}\nusers: null\n"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"apiVersion": "v1"}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/apis/rbac.authorization.k8s.io/v1/namespaces/tool-admin/rolebindings/admin-tool-binding
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"rolebindings.rbac.authorization.k8s.io
+        \"admin-tool-binding\" not found","reason":"NotFound","details":{"name":"admin-tool-binding","group":"rbac.authorization.k8s.io","kind":"rolebindings"},"code":404}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '282'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/apis/policy/v1beta1/podsecuritypolicies/tool-admin-psp
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podsecuritypolicies.policy
+        \"tool-admin-psp\" not found","reason":"NotFound","details":{"name":"tool-admin-psp","group":"policy","kind":"podsecuritypolicies"},"code":404}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '250'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/api/v1/namespaces/tool-admin
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"namespaces
+        \"tool-admin\" not found","reason":"NotFound","details":{"name":"tool-admin","kind":"namespaces"},"code":404}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '200'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/api/v1/namespaces/tool-admin/configmaps/maintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"configmaps
+        \"maintain-kubeusers\" not found","reason":"NotFound","details":{"name":"maintain-kubeusers","kind":"configmaps"},"code":404}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '216'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/api/v1/namespaces/maintain-kubeusers/configmaps?fieldSelector=metadata.name%3Dmaintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"ConfigMapList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces/maintain-kubeusers/configmaps","resourceVersion":"12700"},"items":[{"metadata":{"name":"maintain-kubeusers","namespace":"maintain-kubeusers","selfLink":"/api/v1/namespaces/maintain-kubeusers/configmaps/maintain-kubeusers","uid":"52c49206-e8b1-4c14-804b-89f8aac2549e","resourceVersion":"12700","creationTimestamp":"2021-07-13T03:56:02Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"v1","time":"2021-07-13T03:56:03Z","fieldsType":"FieldsV1","fieldsV1":{"f:data":{".":{},"f:admin":{},"f:admin2":{}}}}]},"data":{"admin":"2022-07-13T03:51:01","admin2":"2022-07-13T03:51:02"}}]}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '696'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/api/v1/namespaces/maintain-kubeusers/configmaps/maintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Success","details":{"name":"maintain-kubeusers","kind":"configmaps","uid":"52c49206-e8b1-4c14-804b-89f8aac2549e"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '174'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"apiVersion": "v1", "data": {"admin2": "2022-07-13T03:51:02"}, "kind":
+      "ConfigMap", "metadata": {"name": "maintain-kubeusers"}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: POST
+    uri: https://10.96.0.1/api/v1/namespaces/maintain-kubeusers/configmaps
+  response:
+    body:
+      string: '{"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"maintain-kubeusers","namespace":"maintain-kubeusers","selfLink":"/api/v1/namespaces/maintain-kubeusers/configmaps/maintain-kubeusers","uid":"29be8e05-901a-4007-afce-da0196937901","resourceVersion":"12702","creationTimestamp":"2021-07-13T03:56:03Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"v1","time":"2021-07-13T03:56:03Z","fieldsType":"FieldsV1","fieldsV1":{"f:data":{".":{},"f:admin2":{}}}}]},"data":{"admin2":"2022-07-13T03:51:02"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '536'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+    status:
+      code: 201
+      message: Created
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/api/v1/namespaces/maintain-kubeusers/configmaps?fieldSelector=metadata.name%3Dmaintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"ConfigMapList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces/maintain-kubeusers/configmaps","resourceVersion":"12702"},"items":[{"metadata":{"name":"maintain-kubeusers","namespace":"maintain-kubeusers","selfLink":"/api/v1/namespaces/maintain-kubeusers/configmaps/maintain-kubeusers","uid":"29be8e05-901a-4007-afce-da0196937901","resourceVersion":"12702","creationTimestamp":"2021-07-13T03:56:03Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"v1","time":"2021-07-13T03:56:03Z","fieldsType":"FieldsV1","fieldsV1":{"f:data":{".":{},"f:admin2":{}}}}]},"data":{"admin2":"2022-07-13T03:51:02"}}]}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '653'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/api/v1/namespaces?labelSelector=tenancy%3Dtool
+  response:
+    body:
+      string: '{"kind":"NamespaceList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces","resourceVersion":"12702"},"items":[]}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '125'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/api/v1/namespaces/maintain-kubeusers/configmaps?fieldSelector=metadata.name%3Dmaintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"ConfigMapList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces/maintain-kubeusers/configmaps","resourceVersion":"12702"},"items":[{"metadata":{"name":"maintain-kubeusers","namespace":"maintain-kubeusers","selfLink":"/api/v1/namespaces/maintain-kubeusers/configmaps/maintain-kubeusers","uid":"29be8e05-901a-4007-afce-da0196937901","resourceVersion":"12702","creationTimestamp":"2021-07-13T03:56:03Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"v1","time":"2021-07-13T03:56:03Z","fieldsType":"FieldsV1","fieldsV1":{"f:data":{".":{},"f:admin2":{}}}}]},"data":{"admin2":"2022-07-13T03:51:02"}}]}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '653'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/api/v1/namespaces/tool-blurp?gracePeriodSeconds=0&propagationPolicy=Foreground
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"namespaces
+        \"tool-blurp\" not found","reason":"NotFound","details":{"name":"tool-blurp","kind":"namespaces"},"code":404}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '200'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/api/v1/namespaces/maintain-kubeusers/configmaps/maintain-kubeusers?gracePeriodSeconds=0&propagationPolicy=Foreground
+  response:
+    body:
+      string: '{"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"maintain-kubeusers","namespace":"maintain-kubeusers","selfLink":"/api/v1/namespaces/maintain-kubeusers/configmaps/maintain-kubeusers","uid":"29be8e05-901a-4007-afce-da0196937901","resourceVersion":"12703","creationTimestamp":"2021-07-13T03:56:03Z","deletionTimestamp":"2021-07-13T03:56:03Z","deletionGracePeriodSeconds":0,"finalizers":["foregroundDeletion"],"managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"v1","time":"2021-07-13T03:56:03Z","fieldsType":"FieldsV1","fieldsV1":{"f:data":{".":{},"f:admin2":{}}}}]},"data":{"admin2":"2022-07-13T03:51:02"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '646'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/apis/policy/v1beta1/podsecuritypolicies/tool-blurp-psp?gracePeriodSeconds=0&propagationPolicy=Foreground
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podsecuritypolicies.policy
+        \"tool-blurp-psp\" not found","reason":"NotFound","details":{"name":"tool-blurp-psp","group":"policy","kind":"podsecuritypolicies"},"code":404}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '250'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:03 GMT
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/api/v1/namespaces/tool-blorp?gracePeriodSeconds=0&propagationPolicy=Foreground
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"namespaces
+        \"tool-blorp\" not found","reason":"NotFound","details":{"name":"tool-blorp","kind":"namespaces"},"code":404}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '200'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:08 GMT
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/api/v1/namespaces/maintain-kubeusers/configmaps/maintain-kubeusers?gracePeriodSeconds=0&propagationPolicy=Foreground
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"configmaps
+        \"maintain-kubeusers\" not found","reason":"NotFound","details":{"name":"maintain-kubeusers","kind":"configmaps"},"code":404}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '216'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:08 GMT
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/apis/policy/v1beta1/podsecuritypolicies/tool-blorp-psp?gracePeriodSeconds=0&propagationPolicy=Foreground
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podsecuritypolicies.policy
+        \"tool-blorp-psp\" not found","reason":"NotFound","details":{"name":"tool-blorp-psp","group":"policy","kind":"podsecuritypolicies"},"code":404}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '250'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 13 Jul 2021 03:56:08 GMT
+    status:
+      code: 404
+      message: Not Found
+version: 1

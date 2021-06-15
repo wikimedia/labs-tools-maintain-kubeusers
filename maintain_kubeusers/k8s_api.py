@@ -117,6 +117,20 @@ class K8sAPI:
         )
         return resp.metadata.name
 
+    def delete_configmap(self, user_name):
+        try:
+            self.core.delete_namespaced_config_map(
+                "maintain-kubeusers",
+                "tool-{}".format(user_name),
+            )
+        except ApiException as api_ex:
+            if api_ex.status == 404:
+                logging.info("Configmap for tool-%s already deleted", user_name)
+                return
+
+            logging.error("Could not delete configmap for %s", user_name)
+            raise
+
     def create_new_csr(self, private_key, user, org_name):
         csr = (
             x509.CertificateSigningRequestBuilder()
@@ -153,10 +167,7 @@ class K8sAPI:
         except ApiException as api_ex:
             # If maintain_kubeusers dies, a CSR may need cleaning up T271847
             if api_ex.status == 409 and "AlreadyExists" in api_ex.body:
-                logging.info(
-                    "CSR for tool-%s already exists, deleting",
-                    user,
-                )
+                logging.info("CSR for tool-%s already exists, deleting", user)
                 # Clean up and try again
                 self.certs.delete_certificate_signing_request(
                     "tool-{}".format(user), body=client.V1DeleteOptions()
@@ -425,6 +436,40 @@ class K8sAPI:
             ),
         )
 
+    def delete_role_binding(self, user_name):
+        try:
+            _ = self.rbac.delete_namespaced_role_binding(
+                name="{}-tool-binding".format(user_name),
+                namespace="tool-{}".format(user_name),
+                body=client.V1DeleteOptions(api_version="v1"),
+            )
+        except ApiException as api_ex:
+            if api_ex.status == 404:
+                logging.info(
+                    "RoleBinding %s-tool-binding already deleted", user_name
+                )
+                return
+
+            logging.error("Could not delete rolebinding for %s", user_name)
+            raise
+
+    def delete_namespace(self, user):
+        """
+        Deletes the namespace for the given user
+        """
+        namestr = "tool-{}".format(user)
+        try:
+            _ = self.core.delete_namespace(
+                namestr,
+            )
+        except ApiException as api_ex:
+            if api_ex.status == 404:
+                logging.info("Namespace tool-%s already deleted", user)
+                return
+
+            logging.error("Could not delete namespace for %s", user)
+            raise
+
     def update_expired_ns(self, user):
         """Patch the existing NS for the new certificate expiration"""
         cert_o = x509.load_pem_x509_certificate(user.cert, default_backend())
@@ -453,6 +498,18 @@ class K8sAPI:
             "maintain-kubeusers", namespace, body=config_map
         )
         return resp.metadata.name
+
+    def delete_psp(self, username):
+        try:
+            _ = self.policy.delete_pod_security_policy(
+                "tool-{}-psp".format(username),
+            )
+        except ApiException as api_ex:
+            if api_ex.status == 404:
+                logging.info("psp for tool-%s already deleted", username)
+                return
+            logging.error("Could not delete psp for %s", username)
+            raise
 
     def generate_psp(self, user):
         policy = client.PolicyV1beta1PodSecurityPolicy(
@@ -844,3 +901,9 @@ class K8sAPI:
             self.process_admin_rbac(user.name)
 
         self.create_configmap(user)
+
+    def disable_user_access(self, username):
+        self.delete_role_binding(username)
+        self.delete_psp(username)
+        self.delete_namespace(username)
+        self.delete_configmap(username)

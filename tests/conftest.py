@@ -16,7 +16,17 @@ def vcr_config():
 def test_user(tmp_path, mocker):
     mocker.patch("os.chown", autospec=True)
     mocker.patch("os.fchown", autospec=True)
-    user = User("blurp", 1002, tmp_path)
+    mocker.patch("os.chmod", autospec=True)
+    mocker.patch("os.fchmod", autospec=True)
+    user = User(
+        "blurp",
+        1002,
+        tmp_path / "blurp",
+        None,
+        None,
+        False,
+        "tools",
+    )
     user.cert = b"""
 -----BEGIN CERTIFICATE-----
 Not really a cert
@@ -24,9 +34,33 @@ Not really a cert
 """
     user.pk = generate_pk()
     user.create_homedir()
-    user.write_kubeconfig(
-        "myserver", "FAKE_CA_DATA==", True
+    user.write_kubeconfig("myserver", "FAKE_CA_DATA==", True)
+    return user
+
+
+@pytest.fixture
+def test_disabled_user(tmp_path, mocker):
+    mocker.patch("os.chown", autospec=True)
+    mocker.patch("os.fchown", autospec=True)
+    mocker.patch("os.chmod", autospec=True)
+    mocker.patch("os.fchmod", autospec=True)
+    user = User(
+        "blorp",
+        1002,
+        tmp_path / "blorp",
+        "000001010000Z",
+        "cn=disabled,ou=ppolicies,dc=wikimedia,dc=org",
+        False,
+        "tools",
     )
+    user.cert = b"""
+-----BEGIN CERTIFICATE-----
+Not really a cert
+-----END CERTIFICATE-----
+"""
+    user.pk = generate_pk()
+    user.create_homedir()
+    user.write_kubeconfig("myserver", "FAKE_CA_DATA==", True)
     return user
 
 
@@ -35,7 +69,7 @@ def test_admin(tmp_path, mocker):
     mocker.patch("os.chown", autospec=True)
     mocker.patch("os.fchown", autospec=True)
     mocker.patch("os.chmod", autospec=True)
-    admin_user = User("admin", 1003, tmp_path, True)
+    admin_user = User("admin", 1003, tmp_path, None, None, True)
     admin_user.cert = b"""
 -----BEGIN CERTIFICATE-----
 Not really a cert

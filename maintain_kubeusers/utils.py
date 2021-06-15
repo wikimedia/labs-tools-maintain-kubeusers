@@ -4,6 +4,8 @@ import ldap3
 
 import re
 import logging
+import os
+import pathlib
 from typing import Dict, Set, List
 
 from maintain_kubeusers.user import User
@@ -28,6 +30,10 @@ def scrub_tools(toolset: Set[str]) -> Set[str]:
     return set([x for x in toolset if dns_regex.match(x) and len(x) < 54])
 
 
+TOOL_HOME_DIR = "/data/project/"
+DISABLED_K8S_FILE = "k8s.disabled"
+
+
 def process_new_users(
     user_list: UserDict, current_users: List[str], k8s_api: K8sAPI, gentle: bool
 ) -> int:
@@ -36,17 +42,50 @@ def process_new_users(
         current_users
     )
     new_users = scrub_tools(raw_new_users)
+    new_user_count = 0
     if new_users:
         for user_name in new_users:
-            user_list[user_name].pk = generate_pk()
-            k8s_api.generate_csr(user_list[user_name].pk, user_name)
-            user_list[user_name].cert = k8s_api.approve_cert(user_name)
-            user_list[user_name].create_homedir()
-            user_list[user_name].write_kubeconfig(api_server, ca_data, gentle)
-            k8s_api.add_user_access(user_list[user_name])
-            logging.info("Provisioned creds for user %s", user_name)
+            if not user_list[user_name].is_disabled():
+                new_user_count += 1
+                user_list[user_name].pk = generate_pk()
+                k8s_api.generate_csr(user_list[user_name].pk, user_name)
+                user_list[user_name].cert = k8s_api.approve_cert(user_name)
+                user_list[user_name].create_homedir()
+                user_list[user_name].write_kubeconfig(
+                    api_server, ca_data, gentle
+                )
+                k8s_api.add_user_access(user_list[user_name])
+                logging.info("Provisioned creds for user %s", user_name)
 
-    return len(new_users)
+                disabled_flag = os.path.join(
+                    TOOL_HOME_DIR, user_name, DISABLED_K8S_FILE
+                )
+                if os.path.exists(disabled_flag):
+                    os.remove(disabled_flag)
+
+    return new_user_count
+
+
+def process_disabled_users(
+    user_list: UserDict, current_users: List[str], k8s_api: K8sAPI
+) -> int:
+    disabled_users = [
+        tool.name for tool in user_list.values() if tool.is_disabled()
+    ]
+
+    # Don't disable users that aren't in current_users.
+    #  The & here is 'intersection'
+    raw_users_to_disable = set(disabled_users) & set(current_users)
+
+    users_to_disable = scrub_tools(raw_users_to_disable)
+
+    for user in users_to_disable:
+        k8s_api.disable_user_access(user)
+
+        disabled_flag = os.path.join(TOOL_HOME_DIR, user, DISABLED_K8S_FILE)
+        pathlib.Path(disabled_flag).touch()
+
+    return len(users_to_disable)
 
 
 def get_tools_from_ldap(conn: ldap3.Connection, projectname: str) -> UserDict:
@@ -58,6 +97,7 @@ def get_tools_from_ldap(conn: ldap3.Connection, projectname: str) -> UserDict:
         "ou=people,ou=servicegroups,dc=wikimedia,dc=org",
         "(&(objectClass=posixAccount)(cn={}.*))".format(projectname),
         search_scope=ldap3.SUBTREE,
+        get_operational_attributes=True,
         attributes=["cn", "uidNumber", "homeDirectory"],
         time_limit=5,
         paged_size=500,
@@ -69,6 +109,8 @@ def get_tools_from_ldap(conn: ldap3.Connection, projectname: str) -> UserDict:
             attrs["uidNumber"],
             attrs["homeDirectory"],
             project=projectname,
+            pwdAccountLockedTime=attrs.get("pwdAccountLockedTime", None),
+            pwdPolicySubentry=attrs.get("pwdPolicySubentry", None),
         )
         tools[tool.name] = tool
 
@@ -84,6 +126,7 @@ def get_admins_from_ldap(conn: ldap3.Connection, projectname: str) -> UserDict:
         "ou=servicegroups,dc=wikimedia,dc=org",
         "(&(objectClass=posixGroup)(cn={}.admin))".format(projectname),
         search_scope=ldap3.SUBTREE,
+        get_operational_attributes=True,
         attributes=["member"],
         time_limit=5,
         paged_size=500,
@@ -104,6 +147,8 @@ def get_admins_from_ldap(conn: ldap3.Connection, projectname: str) -> UserDict:
                 attrs["uid"][0],
                 attrs["uidNumber"],
                 attrs["homeDirectory"],
+                attrs.get("pwdAccountLockedTime", None),
+                attrs.get("pwdPolicySubentry", None),
                 True,
                 project=projectname,
             )

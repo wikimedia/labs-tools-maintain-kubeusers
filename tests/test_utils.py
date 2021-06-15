@@ -15,6 +15,7 @@ def test_tools_search(monkeypatch, ldap_conn):
         ]
         for group in groups:
             yield group
+
     monkeypatch.setattr(
         ldap_conn.extend.standard, "paged_search", mock_pg_search
     )
@@ -43,9 +44,7 @@ def test_admin_search(monkeypatch, ldap_conn):
         # Escaping all those parens in python sucks
         early_str = re.escape("(&(objectClass=posixAccount)(")
         regex_str = early_str + r"([\w=]+).*"
-        mem_uid_raw = re.sub(
-            regex_str, r"\1", args[1]
-        )
+        mem_uid_raw = re.sub(regex_str, r"\1", args[1])
         mem_uid = mem_uid_raw.split("=")[1]
         member = {
             "attributes": {

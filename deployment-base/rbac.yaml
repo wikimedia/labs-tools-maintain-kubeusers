@@ -191,6 +191,7 @@ rules:
   - patch
   - update
   - watch
+  - delete
 - apiGroups:
   - settings.k8s.io
   resources:
@@ -202,6 +203,7 @@ rules:
   - patch
   - update
   - watch
+  - delete
 - apiGroups:
   - extensions
   resources:
@@ -213,6 +215,7 @@ rules:
   - patch
   - update
   - use
+  - delete
 - apiGroups:
   - policy
   resources:
@@ -224,6 +227,7 @@ rules:
   - patch
   - update
   - use
+  - delete
 - apiGroups:
   - ""
   resources:

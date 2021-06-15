@@ -10,7 +10,16 @@ import yaml
 class User:
     """Simple user object"""
 
-    def __init__(self, name, id, home, admin=False, project="tools"):
+    def __init__(
+        self,
+        name,
+        id,
+        home,
+        pwdAccountLockedTime,
+        pwdPolicySubentry,
+        admin=False,
+        project="tools",
+    ):
         self.name = name
         self.id = id
         self.home = home
@@ -18,6 +27,8 @@ class User:
         self.pk = None
         self.cert = None
         self.project = project
+        self.pwdPolicySubentry = pwdPolicySubentry
+        self.pwdAccountLockedTime = pwdAccountLockedTime
         self.ctx = (
             "toolforge" if self.project.startswith("tools") else self.project
         )
@@ -30,6 +41,11 @@ class User:
             f"tool-{self.name}"
             if self.project.startswith("tools")
             else "default"
+        )
+
+    def is_disabled(self):
+        return (self.pwdPolicySubentry is not None) or (
+            self.pwdAccountLockedTime is not None
         )
 
     def read_config_file(self):
