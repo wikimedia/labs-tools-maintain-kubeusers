@@ -8,7 +8,7 @@ import yaml
 
 
 class User:
-    """ Simple user object """
+    """Simple user object"""
 
     def __init__(self, name, id, home, admin=False, project="tools"):
         self.name = name

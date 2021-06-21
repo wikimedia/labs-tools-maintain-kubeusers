@@ -78,7 +78,7 @@ class K8sAPI:
         )
 
     def create_configmap(self, user: User) -> str:
-        """ To be done after all user generation steps are complete """
+        """To be done after all user generation steps are complete"""
         cert_o = x509.load_pem_x509_certificate(user.cert, default_backend())
         expires = cert_o.not_valid_after
         if user.admin:
@@ -168,7 +168,7 @@ class K8sAPI:
         return
 
     def approve_cert(self, user_name, admin=False):
-        """ Approve the CSR and return a cert that can be used """
+        """Approve the CSR and return a cert that can be used"""
         # TODO: exception handling
         user = user_name if admin else "tool-{}".format(user_name)
         body = self.certs.read_certificate_signing_request_status(user)
@@ -426,7 +426,7 @@ class K8sAPI:
         )
 
     def update_expired_ns(self, user):
-        """ Patch the existing NS for the new certificate expiration """
+        """Patch the existing NS for the new certificate expiration"""
         cert_o = x509.load_pem_x509_certificate(user.cert, default_backend())
         expires = cert_o.not_valid_after
         if user.admin:
