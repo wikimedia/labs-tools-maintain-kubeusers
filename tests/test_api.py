@@ -10,6 +10,7 @@ from .context import (
     ApiException,
     process_new_users,
     process_disabled_users,
+    process_removed_users,
 )
 
 
@@ -104,6 +105,32 @@ def test_test_admin_exists_with_configmap(api_object, test_admin):
     api_object.add_user_access(test_admin)
     current, _ = api_object.get_current_users()
     assert test_admin.name in current["admins"]
+
+
+@pytest.mark.vcr()
+def test_test_admin_removal(api_object, test_admin, test_admin2):
+    api_object.generate_csr(test_admin.pk, test_admin.name)
+    test_admin.cert = api_object.approve_cert(test_admin.name)
+    api_object.add_user_access(test_admin)
+
+    api_object.generate_csr(test_admin2.pk, test_admin2.name)
+    test_admin2.cert = api_object.approve_cert(test_admin2.name)
+    api_object.add_user_access(test_admin2)
+
+    current, _ = api_object.get_current_users()
+    assert test_admin.name in current["admins"]
+
+    removed_users = process_removed_users(
+        {"admin2": test_admin2},
+        current["admins"],
+        api_object,
+        True,
+    )
+
+    assert removed_users == 1
+
+    current, _ = api_object.get_current_users()
+    assert test_admin.name not in current["admins"]
 
 
 @pytest.mark.vcr()

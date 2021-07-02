@@ -19,4 +19,5 @@ from maintain_kubeusers.utils import (  # noqa: E402,F401
     get_admins_from_ldap,
     process_new_users,
     process_disabled_users,
+    process_removed_users,
 )

@@ -69,10 +69,25 @@ def test_admin(tmp_path, mocker):
     mocker.patch("os.chown", autospec=True)
     mocker.patch("os.fchown", autospec=True)
     mocker.patch("os.chmod", autospec=True)
-    admin_user = User("admin", 1003, tmp_path, None, None, True)
+    admin_user = User("admin", 1003, tmp_path / "admin", None, None, True)
     admin_user.cert = b"""
 -----BEGIN CERTIFICATE-----
 Not really a cert
+-----END CERTIFICATE-----
+"""
+    admin_user.pk = generate_pk()
+    return admin_user
+
+
+@pytest.fixture
+def test_admin2(tmp_path, mocker):
+    mocker.patch("os.chown", autospec=True)
+    mocker.patch("os.fchown", autospec=True)
+    mocker.patch("os.chmod", autospec=True)
+    admin_user = User("admin2", 1003, tmp_path / "admin2", None, None, True)
+    admin_user.cert = b"""
+-----BEGIN CERTIFICATE-----
+Some other fake cert
 -----END CERTIFICATE-----
 """
     admin_user.pk = generate_pk()

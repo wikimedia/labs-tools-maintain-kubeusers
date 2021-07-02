@@ -15,6 +15,7 @@ from maintain_kubeusers.utils import (
     get_admins_from_ldap,
     process_new_users,
     process_disabled_users,
+    process_removed_users,
 )
 
 """
@@ -159,6 +160,13 @@ def main():
 
             break
 
+        removed_tools = process_removed_users(
+            tools, cur_users["tools"], k8s_api
+        )
+        removed_admins = process_removed_users(
+            admins, cur_users["admins"], k8s_api, True
+        )
+
         if tools:
             new_tools = process_new_users(
                 tools, cur_users["tools"], k8s_api, args.gentle_mode
@@ -194,11 +202,12 @@ def main():
         disabled_tools = process_disabled_users(
             tools, cur_users["tools"], k8s_api
         )
-
         logging.info(
-            "finished run, wrote %s new accounts, disabled %s accounts",
+            "finished run, wrote %s new accounts, disabled %s accounts, "
+            "cleaned up %s accounts",
             new_tools + new_admins,
             disabled_tools,
+            removed_tools + removed_admins,
         )
 
         if args.once:

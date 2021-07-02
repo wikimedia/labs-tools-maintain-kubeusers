@@ -470,6 +470,29 @@ class K8sAPI:
             logging.error("Could not delete namespace for %s", user)
             raise
 
+    def delete_admin_configmap(self, username):
+        namespace = "maintain-kubeusers"
+        cm_list = self._check_confmap(namespace)
+        if username in cm_list[0].data.keys():
+            del cm_list[0].data[username]
+
+        # Ideally this would patch rather than delete/create but
+        #  the default merge policy only adds or edits records;
+        #  the Python bindings don't seem to support overriding
+        #  the merge policy.
+        self.core.delete_namespaced_config_map(
+            "maintain-kubeusers", "maintain-kubeusers"
+        )
+        new_map = client.V1ConfigMap(
+            api_version="v1",
+            kind="ConfigMap",
+            metadata=client.V1ObjectMeta(name="maintain-kubeusers"),
+            data=cm_list[0].data,
+        )
+        self.core.create_namespaced_config_map("maintain-kubeusers", new_map)
+
+        cm_list = self._check_confmap(namespace)
+
     def update_expired_ns(self, user):
         """Patch the existing NS for the new certificate expiration"""
         cert_o = x509.load_pem_x509_certificate(user.cert, default_backend())
@@ -902,8 +925,10 @@ class K8sAPI:
 
         self.create_configmap(user)
 
-    def disable_user_access(self, username):
+    def disable_user_access(self, username, admin=False):
         self.delete_role_binding(username)
         self.delete_psp(username)
         self.delete_namespace(username)
         self.delete_configmap(username)
+        if admin:
+            self.delete_admin_configmap(username)

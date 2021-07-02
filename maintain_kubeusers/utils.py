@@ -66,6 +66,24 @@ def process_new_users(
     return new_user_count
 
 
+def process_removed_users(
+    user_list: UserDict, current_users: List[str], k8s_api: K8sAPI, admins=False
+) -> int:
+    api_server, ca_data = k8s_api.get_cluster_info()
+    raw_removed_users = set(current_users) - set(
+        [tool.name for tool in user_list.values()]
+    )
+    removed_users = scrub_tools(raw_removed_users)
+
+    removed_user_count = 0
+    if removed_users:
+        for user_name in removed_users:
+            removed_user_count += 1
+            k8s_api.disable_user_access(user_name, admins)
+
+    return removed_user_count
+
+
 def process_disabled_users(
     user_list: UserDict, current_users: List[str], k8s_api: K8sAPI
 ) -> int:
