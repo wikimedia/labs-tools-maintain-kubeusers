@@ -481,19 +481,19 @@ class K8sAPI:
                 "maintain-kubeusers", "maintain-kubeusers", cm_data
             )
             return resp.metadata.name
-        else:
-            namespace = "tool-{}".format(user.name)
-            config_map = client.V1ConfigMap(
-                api_version="v1",
-                kind="ConfigMap",
-                metadata=client.V1ObjectMeta(name="maintain-kubeusers"),
-                data={
-                    "status": "user created: {}".format(
-                        datetime.utcnow().isoformat()
-                    ),
-                    "expires": expires.isoformat(),
-                },
-            )
+
+        namespace = "tool-{}".format(user.name)
+        config_map = client.V1ConfigMap(
+            api_version="v1",
+            kind="ConfigMap",
+            metadata=client.V1ObjectMeta(name="maintain-kubeusers"),
+            data={
+                "status": "user created: {}".format(
+                    datetime.utcnow().isoformat()
+                ),
+                "expires": expires.isoformat(),
+            },
+        )
         resp = self.core.patch_namespaced_config_map(
             "maintain-kubeusers", namespace, body=config_map
         )
