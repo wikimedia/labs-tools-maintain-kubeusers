@@ -53,7 +53,7 @@ def api_object(are_we_in_k8s, test_user, test_disabled_user):
             pass
         # If recording the cassettes, you need to wait for namespaces deletes
         if are_we_in_k8s:
-            time.sleep(5)
+            time.sleep(2)
 
 
 @pytest.mark.vcr()
@@ -108,7 +108,7 @@ def test_test_admin_exists_with_configmap(api_object, test_admin):
 
 
 @pytest.mark.vcr()
-def test_test_admin_removal(api_object, test_admin, test_admin2):
+def test_test_admin_removal(api_object, test_admin, test_admin2, vcr_cassette):
     api_object.generate_csr(test_admin.pk, test_admin.name)
     test_admin.cert = api_object.approve_cert(test_admin.name)
     api_object.add_user_access(test_admin)
@@ -120,6 +120,7 @@ def test_test_admin_removal(api_object, test_admin, test_admin2):
     current, _ = api_object.get_current_users()
     assert test_admin.name in current["admins"]
 
+    start_pos = vcr_cassette.play_count - 1
     removed_users = process_removed_users(
         {"admin2": test_admin2},
         current["admins"],
@@ -128,6 +129,13 @@ def test_test_admin_removal(api_object, test_admin, test_admin2):
     )
 
     assert removed_users == 1
+    end_pos = vcr_cassette.play_count
+
+    # There should be no 404 during removals in this test
+    responses = vcr_cassette.responses
+    assert not any(
+        [404 == x["status"]["code"] for x in responses[start_pos:end_pos]]
+    )
 
     current, _ = api_object.get_current_users()
     assert test_admin.name not in current["admins"]
@@ -151,16 +159,19 @@ def test_admin_renewal(api_object, test_admin):
 
 
 class MockCertObj:
+    """Mock an unexpired cert"""
+
     def __init__(self):
         self.not_valid_after = datetime(2030, 5, 17)
 
 
 @pytest.mark.vcr()
 def test_process_new_users(
-    monkeypatch, api_object, test_user, test_disabled_user, mocker
+    monkeypatch, api_object, test_user, test_disabled_user, mocker, vcr_cassette
 ):
     mocker.patch("pathlib.Path.touch", autospec=True)
 
+    # No need to test that fake certs load in someone else's library
     def mock_load_cert(*args, **kwargs):
         return MockCertObj()
 
@@ -168,13 +179,14 @@ def test_process_new_users(
 
     # Add blurp but not blorp
     current, _ = api_object.get_current_users()
+    start_pos1 = vcr_cassette.play_count - 1
     new_tools = process_new_users(
         {"blurp": test_user, "blorp": test_disabled_user},
         current["tools"],
         api_object,
         False,
     )
-
+    end_pos1 = vcr_cassette.play_count
     assert new_tools == 1
     current, _ = api_object.get_current_users()
     assert "blurp" in current["tools"]
@@ -199,15 +211,25 @@ def test_process_new_users(
 
     # Remove blurp
     test_user.pwdAccountLockedTime = "000001010000Z"
+    start_pos2 = vcr_cassette.play_count - 1
     disabled_tools = process_disabled_users(
         {"blurp": test_user, "blorp": test_disabled_user},
         current["tools"],
         api_object,
     )
-
-    time.sleep(5)
+    end_pos2 = vcr_cassette.play_count
+    time.sleep(2)
 
     assert disabled_tools == 1
+    responses = vcr_cassette.responses
+    # There should be no 409s during creations in this test
+    assert not any(
+        [409 == x["status"]["code"] for x in responses[start_pos1:end_pos1]]
+    )
+    # There should be no 404 during removals in this test
+    assert not any(
+        [404 == x["status"]["code"] for x in responses[start_pos2:end_pos2]]
+    )
     current, _ = api_object.get_current_users()
     assert "blurp" not in current["tools"]
     assert "blorp" not in current["tools"]

@@ -453,6 +453,37 @@ class K8sAPI:
             logging.error("Could not delete rolebinding for %s", user_name)
             raise
 
+    def delete_admin_cluster_role_binding(self, user_name):
+        try:
+            _ = self.rbac.delete_cluster_role_binding(
+                name="{}-view-binding".format(user_name),
+                body=client.V1DeleteOptions(api_version="v1"),
+            )
+        except ApiException as api_ex:
+            if api_ex.status == 404:
+                logging.info(
+                    "RoleBinding %s-tool-binding already deleted", user_name
+                )
+                return
+
+            logging.error("Could not delete rolebinding for %s", user_name)
+            raise
+
+        try:
+            _ = self.rbac.delete_cluster_role_binding(
+                name="{}-binding".format(user_name),
+                body=client.V1DeleteOptions(api_version="v1"),
+            )
+        except ApiException as api_ex:
+            if api_ex.status == 404:
+                logging.info(
+                    "RoleBinding %s-tool-binding already deleted", user_name
+                )
+                return
+
+            logging.error("Could not delete rolebinding for %s", user_name)
+            raise
+
     def delete_namespace(self, user):
         """
         Deletes the namespace for the given user
@@ -470,7 +501,7 @@ class K8sAPI:
             logging.error("Could not delete namespace for %s", user)
             raise
 
-    def delete_admin_configmap(self, username):
+    def delete_admin_from_configmap(self, username):
         namespace = "maintain-kubeusers"
         cm_list = self._check_confmap(namespace)
         if username in cm_list[0].data.keys():
@@ -926,9 +957,11 @@ class K8sAPI:
         self.create_configmap(user)
 
     def disable_user_access(self, username, admin=False):
-        self.delete_role_binding(username)
-        self.delete_psp(username)
-        self.delete_namespace(username)
-        self.delete_configmap(username)
         if admin:
-            self.delete_admin_configmap(username)
+            self.delete_admin_cluster_role_binding(username)
+            self.delete_admin_from_configmap(username)
+        else:
+            self.delete_role_binding(username)
+            self.delete_psp(username)
+            self.delete_namespace(username)
+            self.delete_configmap(username)
