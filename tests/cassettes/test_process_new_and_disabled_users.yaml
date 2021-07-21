@@ -1,0 +1,1181 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/api/v1/namespaces?labelSelector=tenancy%3Dtool
+  response:
+    body:
+      string: '{"kind":"NamespaceList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces","resourceVersion":"6285"},"items":[]}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '124'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:16 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/api/v1/namespaces/maintain-kubeusers/configmaps?fieldSelector=metadata.name%3Dmaintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"ConfigMapList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces/maintain-kubeusers/configmaps","resourceVersion":"6285"},"items":[]}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '154'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:16 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/api/v1/namespaces/kube-public/configmaps/cluster-info
+  response:
+    body:
+      string: '{"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"cluster-info","namespace":"kube-public","selfLink":"/api/v1/namespaces/kube-public/configmaps/cluster-info","uid":"d4306ce0-0623-4526-8b19-c29efb943441","resourceVersion":"306","creationTimestamp":"2021-07-20T21:28:14Z","managedFields":[{"manager":"kubeadm","operation":"Update","apiVersion":"v1","time":"2021-07-20T21:28:14Z","fieldsType":"FieldsV1","fieldsV1":{"f:data":{".":{},"f:kubeconfig":{}}}},{"manager":"kube-controller-manager","operation":"Update","apiVersion":"v1","time":"2021-07-20T21:28:29Z","fieldsType":"FieldsV1","fieldsV1":{"f:data":{"f:jws-kubeconfig-gwhjjr":{}}}}]},"data":{"jws-kubeconfig-gwhjjr":"eyJhbGciOiJIUzI1NiIsImtpZCI6Imd3aGpqciJ9..wh6VzKzaRPCb1Se0D2cam8_kjnO5TktzZ_-WTfGREC4","kubeconfig":"apiVersion:
+        v1\nclusters:\n- cluster:\n    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCakNDQWU2Z0F3SUJBZ0lCQVRBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwdGFXNXAKYTNWaVpVTkJNQjRYRFRJeE1EWXlPVEUzTURVd05sb1hEVE14TURZeU9ERTNNRFV3Tmxvd0ZURVRNQkVHQTFVRQpBeE1LYldsdWFXdDFZbVZEUVRDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBSzB0ClZzMXBkWTJzc3RYdXlaVk9tZkpBb0JxTlNBY1JPVW5MbzVMcXI4Z3ZKaWpnNmZ0MTlIdUZiUWY5OG96SmQwOXMKcFRBNmV5c05aMVFaTHo3eEJTZ0Qyb1cwc2p0a2tma0FKUDFTdWdNeEV2ZVIwbFAzTWZjL1NGSEtpUkdDbVd1Uwp3cXRBYUhqWUhzM2NWazdhbkxtejY5dUtjUXdCRkVZTG4wakNQZnkxdTJFaGVVd2xaTkpTTDhDWEpGTm9rV01lCkFIekZVdzFvUkFFNG5qRERnQ0xHUXVxdVd0Y0I0K2FRbTRZb0oyckFwNVFieTl5dkluMnlDK2lXcTN5Q08vdHcKZ29uU2EwcHFFSWptZ01nNmZzditPUEpSS09QZHEvYm42eFRaSjh4YWVkOXU5UzRFcWtaZU1XdDZETTRzS2hnUgpmL3lWQTdodUxqWHE4aDlQU3ljQ0F3RUFBYU5oTUY4d0RnWURWUjBQQVFIL0JBUURBZ0trTUIwR0ExVWRKUVFXCk1CUUdDQ3NHQVFVRkJ3TUNCZ2dyQmdFRkJRY0RBVEFQQmdOVkhSTUJBZjhFQlRBREFRSC9NQjBHQTFVZERnUVcKQkJSZ25lUi9zSzlPWTZCOUxYZkd6ZmFmT25SWXJ6QU5CZ2txaGtpRzl3MEJBUXNGQUFPQ0FRRUFleEw2NWxudgpEeFdQTTczSnViaGtsUjRvT0ovQVNndHRpcjVXdEMwQ2NSZ2hUSHgrODU4a1E2Ym5wZHEyZjlMOUtCczdWRXliCmlLdGk0VlNxQk1Hb2tEU0xCU24zcTlkdW1SSUJPL0I4bGNKaUJVbFFTazhaQ2JKTTB1VE5TSWdDV0RuUDZlV0oKZGVFcHRUcHRobFlhZzB4eldMMXhGVHRMY3duT25nblVDNVJRZWY0ZWdQUU1hN3J1U3BiaWZUYk92Wm44Q0xSYgpZOCtSUkpwUkVMamxBOTEvQ2NXc2Ewemp6cXhEUnhDcGxCeHVxQys1dGdhbEVWQ3gvY0s4emwyWlBsbHRvbGVOCkN6WTlFVWJrNXZ2QlorT2FMNk95UVZIV2lUejRDcGhZQlo2cE9hTUlVWFN6MmxoS0U2QWxGZS9UMVZNSE8xeWoKcnBrczM4KzAya3RqQ3c9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==\n    server:
+        https://control-plane.minikube.internal:8443\n  name: \"\"\ncontexts: null\ncurrent-context:
+        \"\"\nkind: Config\npreferences: {}\nusers: null\n"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:16 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"apiVersion": "certificates.k8s.io/v1beta1", "kind": "CertificateSigningRequest",
+      "metadata": {"name": "tool-blurp"}, "spec": {"groups": ["system:authenticated",
+      "toolforge"], "request": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWVqQ0NBbUlDQVFBd0pERVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTR3REFZRFZRUUREQVZpYkhWeQpjRENDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFNUjZhWjZtZGlURHp6QVdoSStQCi9EKzUvbzdqRG94TXV1ZzlHUzhWVXZhYWRJSFBGOTlaT0pGUG43THNhc2k0ekpFamdJVGtMWWNLbUxjRE9MQnQKREg2dXpVNC9jZ1NONjJLVGF0ckQwY05BZ2pVMW1pZ21yQVdyK21VUTZPY2FCcjhtemQxT3JoenFFMzJsTmQzQgo1VHFqRTFLU1dKcUExQVJJQUJOQzV4OWtJZWVKQUwzR2NKOWdVSzNZVlJVL01vZjlGSWtwSVpTSjYvMWo3UjdUClRKZTV0Q1RLT2RtSVZJZ3hVS1lWeGNWT25CYUhHRFFzSjI3cHN3YkgyU09iOW5Id0xncGJROERJNm80RjFGaFIKaUdoSk4yV21UVTNjRGRNLzh1Ni9INjdQSUx2Vll2VUxsL0FVWTRsT3l0RVMyY2ZSaWJ1NnlFUFlKUm5wL21kUAprcll2RWxRbUhtQ09OLzlORUU3aEx4ZUpLcEtkaThSelVsT0RQSW1ETWpRcWFXdG9mVmp0TDl2MmZuQzdzd1lzCmVBWVMveUl5YWhLTEpPN2JTdnVSY1cxdnlORkVVeUR1aVBaQmxOL1hJbEczTE5tN3VDRGlIRUhYRFR0cml0MXEKZ29YbWlEa0tiWTcwaXU2M093SnNGeTBMeUxTSG9Gb0t3ZldVRUdxVHpPdGRKa212Q1FxZUhkMlIvZzAxaEt2YwpLRjU2eGNBU1Qrd0RqaGRyMm9JQzdkTmpHR1cxVEEvVVJHUWdRa3ZMejFCU21FejdOQ3hpR1Fab3RVb1JSZ3RpCnZHcVl6V0p3QlRRd0g4bWdaRHJiMXlCR1Rsa21HWXJ4TEFsdTZKaTF2bkNjNmFJbHo0NDF4UDIxK3BKZzlxd2UKZEZzSjB3SU9hNUpDVHI5NnI3S05rZm5yQWdNQkFBR2dFVEFQQmdrcWhraUc5dzBCQ1E0eEFqQUFNQTBHQ1NxRwpTSWIzRFFFQkN3VUFBNElDQVFDTWtMTTYrcmJaTHh6YlRQKytUUmNPekdPWmFJRUZFWlJybnUvMyt1UUFGUlp0CjVRWEtOTkhPMk5Tb2NhRG5FZlQ3aHBSSThLaHVWVXNZVWlRU2toWStnc0lhZEJFVFBkTERFR0VwblYrdGEybWcKTGwwRkd3aGN5dmdEMXhDTkRPSHJIRUlicWhrL3ZWeFByMTJua2hRWkVYcmt4RTZaMmorN0JOb0ZIY0ZRc3NMSQp1TUF2K01lcXhVVmtFeVh0V0s2RkhkSmZPNkMvZVMxM0tLRUFHYzA4WlVMZldWWjVWODB5U3djR2kyeTBub0FECnc1NWhDOWVvQ2Zad3ZObWtCbk1tSVM4eHhUTlJ2SDAzOFRESTFNK1pESDR6S1NHYldMbk5vV2xmanJVQzU5TUMKOTAwKyszQVR1YmQ0aytSeUp2bWVvNVBCditaUmFIN044dU1PTjJCMm5WT01pU1ZlenVlQ25PYUhESHZjNVpNZgpDUnlUMnIvT3VMZUZsWXo3dnkrVFV2bm5VNERQdTE5RGg3OEowV1IxM2Y4VjZxZUpQZXNrcGJTUitJblRJNTBZCmg4eFZUMmpwV0t6cnhlVzUzYkJsUG9VNjF6bHBxZ3kwUUF2R1NzalUxdWlFeG53OENtL29WVGhSUzZWSTZMMHMKZlQwMm1aclNLcHdWZEpnQkFiWjlkNXJYVDhZNGFwek1DdHMyU1ZFZXVMemZhNnJhV1lHYTBqSFBBcVpUdzlxcgpKV0lHVjhsTnA5NnVOMkJDRUpJbEtZMDl1VWRYVnJzYWhaeEJGTUhyWU1QSHEzOXNvQ3BKVXdieGlVemgvNEk1CjhzbndrdGEwRTIzMnptV1NpcDJWdklhUlhOd1IzcG56M3lEakpvWldyMy9RU3NicnhodnB6b1VwanA3eDRnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==",
+      "usages": ["digital signature", "key encipherment", "client auth"]}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: POST
+    uri: https://10.96.0.1/apis/certificates.k8s.io/v1beta1/certificatesigningrequests
+  response:
+    body:
+      string: '{"kind":"CertificateSigningRequest","apiVersion":"certificates.k8s.io/v1beta1","metadata":{"name":"tool-blurp","selfLink":"/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-blurp","uid":"41ca1123-a530-4b63-86fc-733c71c7566a","resourceVersion":"6286","creationTimestamp":"2021-07-21T14:17:17Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"certificates.k8s.io/v1beta1","time":"2021-07-21T14:17:17Z","fieldsType":"FieldsV1","fieldsV1":{"f:spec":{"f:groups":{},"f:request":{},"f:signerName":{},"f:usages":{}}}}]},"spec":{"request":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWVqQ0NBbUlDQVFBd0pERVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTR3REFZRFZRUUREQVZpYkhWeQpjRENDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFNUjZhWjZtZGlURHp6QVdoSStQCi9EKzUvbzdqRG94TXV1ZzlHUzhWVXZhYWRJSFBGOTlaT0pGUG43THNhc2k0ekpFamdJVGtMWWNLbUxjRE9MQnQKREg2dXpVNC9jZ1NONjJLVGF0ckQwY05BZ2pVMW1pZ21yQVdyK21VUTZPY2FCcjhtemQxT3JoenFFMzJsTmQzQgo1VHFqRTFLU1dKcUExQVJJQUJOQzV4OWtJZWVKQUwzR2NKOWdVSzNZVlJVL01vZjlGSWtwSVpTSjYvMWo3UjdUClRKZTV0Q1RLT2RtSVZJZ3hVS1lWeGNWT25CYUhHRFFzSjI3cHN3YkgyU09iOW5Id0xncGJROERJNm80RjFGaFIKaUdoSk4yV21UVTNjRGRNLzh1Ni9INjdQSUx2Vll2VUxsL0FVWTRsT3l0RVMyY2ZSaWJ1NnlFUFlKUm5wL21kUAprcll2RWxRbUhtQ09OLzlORUU3aEx4ZUpLcEtkaThSelVsT0RQSW1ETWpRcWFXdG9mVmp0TDl2MmZuQzdzd1lzCmVBWVMveUl5YWhLTEpPN2JTdnVSY1cxdnlORkVVeUR1aVBaQmxOL1hJbEczTE5tN3VDRGlIRUhYRFR0cml0MXEKZ29YbWlEa0tiWTcwaXU2M093SnNGeTBMeUxTSG9Gb0t3ZldVRUdxVHpPdGRKa212Q1FxZUhkMlIvZzAxaEt2YwpLRjU2eGNBU1Qrd0RqaGRyMm9JQzdkTmpHR1cxVEEvVVJHUWdRa3ZMejFCU21FejdOQ3hpR1Fab3RVb1JSZ3RpCnZHcVl6V0p3QlRRd0g4bWdaRHJiMXlCR1Rsa21HWXJ4TEFsdTZKaTF2bkNjNmFJbHo0NDF4UDIxK3BKZzlxd2UKZEZzSjB3SU9hNUpDVHI5NnI3S05rZm5yQWdNQkFBR2dFVEFQQmdrcWhraUc5dzBCQ1E0eEFqQUFNQTBHQ1NxRwpTSWIzRFFFQkN3VUFBNElDQVFDTWtMTTYrcmJaTHh6YlRQKytUUmNPekdPWmFJRUZFWlJybnUvMyt1UUFGUlp0CjVRWEtOTkhPMk5Tb2NhRG5FZlQ3aHBSSThLaHVWVXNZVWlRU2toWStnc0lhZEJFVFBkTERFR0VwblYrdGEybWcKTGwwRkd3aGN5dmdEMXhDTkRPSHJIRUlicWhrL3ZWeFByMTJua2hRWkVYcmt4RTZaMmorN0JOb0ZIY0ZRc3NMSQp1TUF2K01lcXhVVmtFeVh0V0s2RkhkSmZPNkMvZVMxM0tLRUFHYzA4WlVMZldWWjVWODB5U3djR2kyeTBub0FECnc1NWhDOWVvQ2Zad3ZObWtCbk1tSVM4eHhUTlJ2SDAzOFRESTFNK1pESDR6S1NHYldMbk5vV2xmanJVQzU5TUMKOTAwKyszQVR1YmQ0aytSeUp2bWVvNVBCditaUmFIN044dU1PTjJCMm5WT01pU1ZlenVlQ25PYUhESHZjNVpNZgpDUnlUMnIvT3VMZUZsWXo3dnkrVFV2bm5VNERQdTE5RGg3OEowV1IxM2Y4VjZxZUpQZXNrcGJTUitJblRJNTBZCmg4eFZUMmpwV0t6cnhlVzUzYkJsUG9VNjF6bHBxZ3kwUUF2R1NzalUxdWlFeG53OENtL29WVGhSUzZWSTZMMHMKZlQwMm1aclNLcHdWZEpnQkFiWjlkNXJYVDhZNGFwek1DdHMyU1ZFZXVMemZhNnJhV1lHYTBqSFBBcVpUdzlxcgpKV0lHVjhsTnA5NnVOMkJDRUpJbEtZMDl1VWRYVnJzYWhaeEJGTUhyWU1QSHEzOXNvQ3BKVXdieGlVemgvNEk1CjhzbndrdGEwRTIzMnptV1NpcDJWdklhUlhOd1IzcG56M3lEakpvWldyMy9RU3NicnhodnB6b1VwanA3eDRnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==","signerName":"kubernetes.io/legacy-unknown","usages":["digital
+        signature","key encipherment","client auth"],"username":"system:serviceaccount:maintain-kubeusers:user-maintainer","uid":"ac2880bd-2384-4da1-9034-660c26f0dd22","groups":["system:serviceaccounts","system:serviceaccounts:maintain-kubeusers","system:authenticated"]},"status":{}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:17 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 201
+      message: Created
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-blurp/status
+  response:
+    body:
+      string: '{"kind":"CertificateSigningRequest","apiVersion":"certificates.k8s.io/v1beta1","metadata":{"name":"tool-blurp","selfLink":"/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-blurp/status","uid":"41ca1123-a530-4b63-86fc-733c71c7566a","resourceVersion":"6286","creationTimestamp":"2021-07-21T14:17:17Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"certificates.k8s.io/v1beta1","time":"2021-07-21T14:17:17Z","fieldsType":"FieldsV1","fieldsV1":{"f:spec":{"f:groups":{},"f:request":{},"f:signerName":{},"f:usages":{}}}}]},"spec":{"request":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWVqQ0NBbUlDQVFBd0pERVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTR3REFZRFZRUUREQVZpYkhWeQpjRENDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFNUjZhWjZtZGlURHp6QVdoSStQCi9EKzUvbzdqRG94TXV1ZzlHUzhWVXZhYWRJSFBGOTlaT0pGUG43THNhc2k0ekpFamdJVGtMWWNLbUxjRE9MQnQKREg2dXpVNC9jZ1NONjJLVGF0ckQwY05BZ2pVMW1pZ21yQVdyK21VUTZPY2FCcjhtemQxT3JoenFFMzJsTmQzQgo1VHFqRTFLU1dKcUExQVJJQUJOQzV4OWtJZWVKQUwzR2NKOWdVSzNZVlJVL01vZjlGSWtwSVpTSjYvMWo3UjdUClRKZTV0Q1RLT2RtSVZJZ3hVS1lWeGNWT25CYUhHRFFzSjI3cHN3YkgyU09iOW5Id0xncGJROERJNm80RjFGaFIKaUdoSk4yV21UVTNjRGRNLzh1Ni9INjdQSUx2Vll2VUxsL0FVWTRsT3l0RVMyY2ZSaWJ1NnlFUFlKUm5wL21kUAprcll2RWxRbUhtQ09OLzlORUU3aEx4ZUpLcEtkaThSelVsT0RQSW1ETWpRcWFXdG9mVmp0TDl2MmZuQzdzd1lzCmVBWVMveUl5YWhLTEpPN2JTdnVSY1cxdnlORkVVeUR1aVBaQmxOL1hJbEczTE5tN3VDRGlIRUhYRFR0cml0MXEKZ29YbWlEa0tiWTcwaXU2M093SnNGeTBMeUxTSG9Gb0t3ZldVRUdxVHpPdGRKa212Q1FxZUhkMlIvZzAxaEt2YwpLRjU2eGNBU1Qrd0RqaGRyMm9JQzdkTmpHR1cxVEEvVVJHUWdRa3ZMejFCU21FejdOQ3hpR1Fab3RVb1JSZ3RpCnZHcVl6V0p3QlRRd0g4bWdaRHJiMXlCR1Rsa21HWXJ4TEFsdTZKaTF2bkNjNmFJbHo0NDF4UDIxK3BKZzlxd2UKZEZzSjB3SU9hNUpDVHI5NnI3S05rZm5yQWdNQkFBR2dFVEFQQmdrcWhraUc5dzBCQ1E0eEFqQUFNQTBHQ1NxRwpTSWIzRFFFQkN3VUFBNElDQVFDTWtMTTYrcmJaTHh6YlRQKytUUmNPekdPWmFJRUZFWlJybnUvMyt1UUFGUlp0CjVRWEtOTkhPMk5Tb2NhRG5FZlQ3aHBSSThLaHVWVXNZVWlRU2toWStnc0lhZEJFVFBkTERFR0VwblYrdGEybWcKTGwwRkd3aGN5dmdEMXhDTkRPSHJIRUlicWhrL3ZWeFByMTJua2hRWkVYcmt4RTZaMmorN0JOb0ZIY0ZRc3NMSQp1TUF2K01lcXhVVmtFeVh0V0s2RkhkSmZPNkMvZVMxM0tLRUFHYzA4WlVMZldWWjVWODB5U3djR2kyeTBub0FECnc1NWhDOWVvQ2Zad3ZObWtCbk1tSVM4eHhUTlJ2SDAzOFRESTFNK1pESDR6S1NHYldMbk5vV2xmanJVQzU5TUMKOTAwKyszQVR1YmQ0aytSeUp2bWVvNVBCditaUmFIN044dU1PTjJCMm5WT01pU1ZlenVlQ25PYUhESHZjNVpNZgpDUnlUMnIvT3VMZUZsWXo3dnkrVFV2bm5VNERQdTE5RGg3OEowV1IxM2Y4VjZxZUpQZXNrcGJTUitJblRJNTBZCmg4eFZUMmpwV0t6cnhlVzUzYkJsUG9VNjF6bHBxZ3kwUUF2R1NzalUxdWlFeG53OENtL29WVGhSUzZWSTZMMHMKZlQwMm1aclNLcHdWZEpnQkFiWjlkNXJYVDhZNGFwek1DdHMyU1ZFZXVMemZhNnJhV1lHYTBqSFBBcVpUdzlxcgpKV0lHVjhsTnA5NnVOMkJDRUpJbEtZMDl1VWRYVnJzYWhaeEJGTUhyWU1QSHEzOXNvQ3BKVXdieGlVemgvNEk1CjhzbndrdGEwRTIzMnptV1NpcDJWdklhUlhOd1IzcG56M3lEakpvWldyMy9RU3NicnhodnB6b1VwanA3eDRnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==","signerName":"kubernetes.io/legacy-unknown","usages":["digital
+        signature","key encipherment","client auth"],"username":"system:serviceaccount:maintain-kubeusers:user-maintainer","uid":"ac2880bd-2384-4da1-9034-660c26f0dd22","groups":["system:serviceaccounts","system:serviceaccounts:maintain-kubeusers","system:authenticated"]},"status":{}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:17 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"apiVersion": "certificates.k8s.io/v1beta1", "kind": "CertificateSigningRequest",
+      "metadata": {"creationTimestamp": "2021-07-21T14:17:17+00:00", "managedFields":
+      [{"apiVersion": "certificates.k8s.io/v1beta1", "fieldsType": "FieldsV1", "fieldsV1":
+      {"f:spec": {"f:groups": {}, "f:request": {}, "f:signerName": {}, "f:usages":
+      {}}}, "manager": "OpenAPI-Generator", "operation": "Update", "time": "2021-07-21T14:17:17+00:00"}],
+      "name": "tool-blurp", "resourceVersion": "6286", "selfLink": "/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-blurp/status",
+      "uid": "41ca1123-a530-4b63-86fc-733c71c7566a"}, "spec": {"groups": ["system:serviceaccounts",
+      "system:serviceaccounts:maintain-kubeusers", "system:authenticated"], "request":
+      "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWVqQ0NBbUlDQVFBd0pERVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTR3REFZRFZRUUREQVZpYkhWeQpjRENDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFNUjZhWjZtZGlURHp6QVdoSStQCi9EKzUvbzdqRG94TXV1ZzlHUzhWVXZhYWRJSFBGOTlaT0pGUG43THNhc2k0ekpFamdJVGtMWWNLbUxjRE9MQnQKREg2dXpVNC9jZ1NONjJLVGF0ckQwY05BZ2pVMW1pZ21yQVdyK21VUTZPY2FCcjhtemQxT3JoenFFMzJsTmQzQgo1VHFqRTFLU1dKcUExQVJJQUJOQzV4OWtJZWVKQUwzR2NKOWdVSzNZVlJVL01vZjlGSWtwSVpTSjYvMWo3UjdUClRKZTV0Q1RLT2RtSVZJZ3hVS1lWeGNWT25CYUhHRFFzSjI3cHN3YkgyU09iOW5Id0xncGJROERJNm80RjFGaFIKaUdoSk4yV21UVTNjRGRNLzh1Ni9INjdQSUx2Vll2VUxsL0FVWTRsT3l0RVMyY2ZSaWJ1NnlFUFlKUm5wL21kUAprcll2RWxRbUhtQ09OLzlORUU3aEx4ZUpLcEtkaThSelVsT0RQSW1ETWpRcWFXdG9mVmp0TDl2MmZuQzdzd1lzCmVBWVMveUl5YWhLTEpPN2JTdnVSY1cxdnlORkVVeUR1aVBaQmxOL1hJbEczTE5tN3VDRGlIRUhYRFR0cml0MXEKZ29YbWlEa0tiWTcwaXU2M093SnNGeTBMeUxTSG9Gb0t3ZldVRUdxVHpPdGRKa212Q1FxZUhkMlIvZzAxaEt2YwpLRjU2eGNBU1Qrd0RqaGRyMm9JQzdkTmpHR1cxVEEvVVJHUWdRa3ZMejFCU21FejdOQ3hpR1Fab3RVb1JSZ3RpCnZHcVl6V0p3QlRRd0g4bWdaRHJiMXlCR1Rsa21HWXJ4TEFsdTZKaTF2bkNjNmFJbHo0NDF4UDIxK3BKZzlxd2UKZEZzSjB3SU9hNUpDVHI5NnI3S05rZm5yQWdNQkFBR2dFVEFQQmdrcWhraUc5dzBCQ1E0eEFqQUFNQTBHQ1NxRwpTSWIzRFFFQkN3VUFBNElDQVFDTWtMTTYrcmJaTHh6YlRQKytUUmNPekdPWmFJRUZFWlJybnUvMyt1UUFGUlp0CjVRWEtOTkhPMk5Tb2NhRG5FZlQ3aHBSSThLaHVWVXNZVWlRU2toWStnc0lhZEJFVFBkTERFR0VwblYrdGEybWcKTGwwRkd3aGN5dmdEMXhDTkRPSHJIRUlicWhrL3ZWeFByMTJua2hRWkVYcmt4RTZaMmorN0JOb0ZIY0ZRc3NMSQp1TUF2K01lcXhVVmtFeVh0V0s2RkhkSmZPNkMvZVMxM0tLRUFHYzA4WlVMZldWWjVWODB5U3djR2kyeTBub0FECnc1NWhDOWVvQ2Zad3ZObWtCbk1tSVM4eHhUTlJ2SDAzOFRESTFNK1pESDR6S1NHYldMbk5vV2xmanJVQzU5TUMKOTAwKyszQVR1YmQ0aytSeUp2bWVvNVBCditaUmFIN044dU1PTjJCMm5WT01pU1ZlenVlQ25PYUhESHZjNVpNZgpDUnlUMnIvT3VMZUZsWXo3dnkrVFV2bm5VNERQdTE5RGg3OEowV1IxM2Y4VjZxZUpQZXNrcGJTUitJblRJNTBZCmg4eFZUMmpwV0t6cnhlVzUzYkJsUG9VNjF6bHBxZ3kwUUF2R1NzalUxdWlFeG53OENtL29WVGhSUzZWSTZMMHMKZlQwMm1aclNLcHdWZEpnQkFiWjlkNXJYVDhZNGFwek1DdHMyU1ZFZXVMemZhNnJhV1lHYTBqSFBBcVpUdzlxcgpKV0lHVjhsTnA5NnVOMkJDRUpJbEtZMDl1VWRYVnJzYWhaeEJGTUhyWU1QSHEzOXNvQ3BKVXdieGlVemgvNEk1CjhzbndrdGEwRTIzMnptV1NpcDJWdklhUlhOd1IzcG56M3lEakpvWldyMy9RU3NicnhodnB6b1VwanA3eDRnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==",
+      "uid": "ac2880bd-2384-4da1-9034-660c26f0dd22", "usages": ["digital signature",
+      "key encipherment", "client auth"], "username": "system:serviceaccount:maintain-kubeusers:user-maintainer"},
+      "status": {"conditions": [{"lastUpdateTime": "2021-07-21T14:17:17.021453+00:00",
+      "message": "This certificate was approved by maintain_kubeusers", "reason":
+      "Authorized User", "type": "Approved"}]}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: PUT
+    uri: https://10.96.0.1/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-blurp/approval
+  response:
+    body:
+      string: '{"kind":"CertificateSigningRequest","apiVersion":"certificates.k8s.io/v1beta1","metadata":{"name":"tool-blurp","selfLink":"/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-blurp/approval","uid":"41ca1123-a530-4b63-86fc-733c71c7566a","resourceVersion":"6287","creationTimestamp":"2021-07-21T14:17:17Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"certificates.k8s.io/v1beta1","time":"2021-07-21T14:17:17Z","fieldsType":"FieldsV1","fieldsV1":{"f:spec":{"f:groups":{},"f:request":{},"f:signerName":{},"f:usages":{}},"f:status":{"f:conditions":{}}}}]},"spec":{"request":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWVqQ0NBbUlDQVFBd0pERVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTR3REFZRFZRUUREQVZpYkhWeQpjRENDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFNUjZhWjZtZGlURHp6QVdoSStQCi9EKzUvbzdqRG94TXV1ZzlHUzhWVXZhYWRJSFBGOTlaT0pGUG43THNhc2k0ekpFamdJVGtMWWNLbUxjRE9MQnQKREg2dXpVNC9jZ1NONjJLVGF0ckQwY05BZ2pVMW1pZ21yQVdyK21VUTZPY2FCcjhtemQxT3JoenFFMzJsTmQzQgo1VHFqRTFLU1dKcUExQVJJQUJOQzV4OWtJZWVKQUwzR2NKOWdVSzNZVlJVL01vZjlGSWtwSVpTSjYvMWo3UjdUClRKZTV0Q1RLT2RtSVZJZ3hVS1lWeGNWT25CYUhHRFFzSjI3cHN3YkgyU09iOW5Id0xncGJROERJNm80RjFGaFIKaUdoSk4yV21UVTNjRGRNLzh1Ni9INjdQSUx2Vll2VUxsL0FVWTRsT3l0RVMyY2ZSaWJ1NnlFUFlKUm5wL21kUAprcll2RWxRbUhtQ09OLzlORUU3aEx4ZUpLcEtkaThSelVsT0RQSW1ETWpRcWFXdG9mVmp0TDl2MmZuQzdzd1lzCmVBWVMveUl5YWhLTEpPN2JTdnVSY1cxdnlORkVVeUR1aVBaQmxOL1hJbEczTE5tN3VDRGlIRUhYRFR0cml0MXEKZ29YbWlEa0tiWTcwaXU2M093SnNGeTBMeUxTSG9Gb0t3ZldVRUdxVHpPdGRKa212Q1FxZUhkMlIvZzAxaEt2YwpLRjU2eGNBU1Qrd0RqaGRyMm9JQzdkTmpHR1cxVEEvVVJHUWdRa3ZMejFCU21FejdOQ3hpR1Fab3RVb1JSZ3RpCnZHcVl6V0p3QlRRd0g4bWdaRHJiMXlCR1Rsa21HWXJ4TEFsdTZKaTF2bkNjNmFJbHo0NDF4UDIxK3BKZzlxd2UKZEZzSjB3SU9hNUpDVHI5NnI3S05rZm5yQWdNQkFBR2dFVEFQQmdrcWhraUc5dzBCQ1E0eEFqQUFNQTBHQ1NxRwpTSWIzRFFFQkN3VUFBNElDQVFDTWtMTTYrcmJaTHh6YlRQKytUUmNPekdPWmFJRUZFWlJybnUvMyt1UUFGUlp0CjVRWEtOTkhPMk5Tb2NhRG5FZlQ3aHBSSThLaHVWVXNZVWlRU2toWStnc0lhZEJFVFBkTERFR0VwblYrdGEybWcKTGwwRkd3aGN5dmdEMXhDTkRPSHJIRUlicWhrL3ZWeFByMTJua2hRWkVYcmt4RTZaMmorN0JOb0ZIY0ZRc3NMSQp1TUF2K01lcXhVVmtFeVh0V0s2RkhkSmZPNkMvZVMxM0tLRUFHYzA4WlVMZldWWjVWODB5U3djR2kyeTBub0FECnc1NWhDOWVvQ2Zad3ZObWtCbk1tSVM4eHhUTlJ2SDAzOFRESTFNK1pESDR6S1NHYldMbk5vV2xmanJVQzU5TUMKOTAwKyszQVR1YmQ0aytSeUp2bWVvNVBCditaUmFIN044dU1PTjJCMm5WT01pU1ZlenVlQ25PYUhESHZjNVpNZgpDUnlUMnIvT3VMZUZsWXo3dnkrVFV2bm5VNERQdTE5RGg3OEowV1IxM2Y4VjZxZUpQZXNrcGJTUitJblRJNTBZCmg4eFZUMmpwV0t6cnhlVzUzYkJsUG9VNjF6bHBxZ3kwUUF2R1NzalUxdWlFeG53OENtL29WVGhSUzZWSTZMMHMKZlQwMm1aclNLcHdWZEpnQkFiWjlkNXJYVDhZNGFwek1DdHMyU1ZFZXVMemZhNnJhV1lHYTBqSFBBcVpUdzlxcgpKV0lHVjhsTnA5NnVOMkJDRUpJbEtZMDl1VWRYVnJzYWhaeEJGTUhyWU1QSHEzOXNvQ3BKVXdieGlVemgvNEk1CjhzbndrdGEwRTIzMnptV1NpcDJWdklhUlhOd1IzcG56M3lEakpvWldyMy9RU3NicnhodnB6b1VwanA3eDRnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==","signerName":"kubernetes.io/legacy-unknown","usages":["digital
+        signature","key encipherment","client auth"],"username":"system:serviceaccount:maintain-kubeusers:user-maintainer","uid":"ac2880bd-2384-4da1-9034-660c26f0dd22","groups":["system:serviceaccounts","system:serviceaccounts:maintain-kubeusers","system:authenticated"]},"status":{"conditions":[{"type":"Approved","reason":"Authorized
+        User","message":"This certificate was approved by maintain_kubeusers","lastUpdateTime":"2021-07-21T14:17:17Z"}]}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:17 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-blurp
+  response:
+    body:
+      string: '{"kind":"CertificateSigningRequest","apiVersion":"certificates.k8s.io/v1beta1","metadata":{"name":"tool-blurp","selfLink":"/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-blurp","uid":"41ca1123-a530-4b63-86fc-733c71c7566a","resourceVersion":"6288","creationTimestamp":"2021-07-21T14:17:17Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"certificates.k8s.io/v1beta1","time":"2021-07-21T14:17:17Z","fieldsType":"FieldsV1","fieldsV1":{"f:spec":{"f:groups":{},"f:request":{},"f:signerName":{},"f:usages":{}},"f:status":{"f:conditions":{}}}},{"manager":"kube-controller-manager","operation":"Update","apiVersion":"certificates.k8s.io/v1beta1","time":"2021-07-21T14:17:17Z","fieldsType":"FieldsV1","fieldsV1":{"f:status":{"f:certificate":{}}}}]},"spec":{"request":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJRWVqQ0NBbUlDQVFBd0pERVNNQkFHQTFVRUNnd0pkRzl2YkdadmNtZGxNUTR3REFZRFZRUUREQVZpYkhWeQpjRENDQWlJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFNUjZhWjZtZGlURHp6QVdoSStQCi9EKzUvbzdqRG94TXV1ZzlHUzhWVXZhYWRJSFBGOTlaT0pGUG43THNhc2k0ekpFamdJVGtMWWNLbUxjRE9MQnQKREg2dXpVNC9jZ1NONjJLVGF0ckQwY05BZ2pVMW1pZ21yQVdyK21VUTZPY2FCcjhtemQxT3JoenFFMzJsTmQzQgo1VHFqRTFLU1dKcUExQVJJQUJOQzV4OWtJZWVKQUwzR2NKOWdVSzNZVlJVL01vZjlGSWtwSVpTSjYvMWo3UjdUClRKZTV0Q1RLT2RtSVZJZ3hVS1lWeGNWT25CYUhHRFFzSjI3cHN3YkgyU09iOW5Id0xncGJROERJNm80RjFGaFIKaUdoSk4yV21UVTNjRGRNLzh1Ni9INjdQSUx2Vll2VUxsL0FVWTRsT3l0RVMyY2ZSaWJ1NnlFUFlKUm5wL21kUAprcll2RWxRbUhtQ09OLzlORUU3aEx4ZUpLcEtkaThSelVsT0RQSW1ETWpRcWFXdG9mVmp0TDl2MmZuQzdzd1lzCmVBWVMveUl5YWhLTEpPN2JTdnVSY1cxdnlORkVVeUR1aVBaQmxOL1hJbEczTE5tN3VDRGlIRUhYRFR0cml0MXEKZ29YbWlEa0tiWTcwaXU2M093SnNGeTBMeUxTSG9Gb0t3ZldVRUdxVHpPdGRKa212Q1FxZUhkMlIvZzAxaEt2YwpLRjU2eGNBU1Qrd0RqaGRyMm9JQzdkTmpHR1cxVEEvVVJHUWdRa3ZMejFCU21FejdOQ3hpR1Fab3RVb1JSZ3RpCnZHcVl6V0p3QlRRd0g4bWdaRHJiMXlCR1Rsa21HWXJ4TEFsdTZKaTF2bkNjNmFJbHo0NDF4UDIxK3BKZzlxd2UKZEZzSjB3SU9hNUpDVHI5NnI3S05rZm5yQWdNQkFBR2dFVEFQQmdrcWhraUc5dzBCQ1E0eEFqQUFNQTBHQ1NxRwpTSWIzRFFFQkN3VUFBNElDQVFDTWtMTTYrcmJaTHh6YlRQKytUUmNPekdPWmFJRUZFWlJybnUvMyt1UUFGUlp0CjVRWEtOTkhPMk5Tb2NhRG5FZlQ3aHBSSThLaHVWVXNZVWlRU2toWStnc0lhZEJFVFBkTERFR0VwblYrdGEybWcKTGwwRkd3aGN5dmdEMXhDTkRPSHJIRUlicWhrL3ZWeFByMTJua2hRWkVYcmt4RTZaMmorN0JOb0ZIY0ZRc3NMSQp1TUF2K01lcXhVVmtFeVh0V0s2RkhkSmZPNkMvZVMxM0tLRUFHYzA4WlVMZldWWjVWODB5U3djR2kyeTBub0FECnc1NWhDOWVvQ2Zad3ZObWtCbk1tSVM4eHhUTlJ2SDAzOFRESTFNK1pESDR6S1NHYldMbk5vV2xmanJVQzU5TUMKOTAwKyszQVR1YmQ0aytSeUp2bWVvNVBCditaUmFIN044dU1PTjJCMm5WT01pU1ZlenVlQ25PYUhESHZjNVpNZgpDUnlUMnIvT3VMZUZsWXo3dnkrVFV2bm5VNERQdTE5RGg3OEowV1IxM2Y4VjZxZUpQZXNrcGJTUitJblRJNTBZCmg4eFZUMmpwV0t6cnhlVzUzYkJsUG9VNjF6bHBxZ3kwUUF2R1NzalUxdWlFeG53OENtL29WVGhSUzZWSTZMMHMKZlQwMm1aclNLcHdWZEpnQkFiWjlkNXJYVDhZNGFwek1DdHMyU1ZFZXVMemZhNnJhV1lHYTBqSFBBcVpUdzlxcgpKV0lHVjhsTnA5NnVOMkJDRUpJbEtZMDl1VWRYVnJzYWhaeEJGTUhyWU1QSHEzOXNvQ3BKVXdieGlVemgvNEk1CjhzbndrdGEwRTIzMnptV1NpcDJWdklhUlhOd1IzcG56M3lEakpvWldyMy9RU3NicnhodnB6b1VwanA3eDRnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==","signerName":"kubernetes.io/legacy-unknown","usages":["digital
+        signature","key encipherment","client auth"],"username":"system:serviceaccount:maintain-kubeusers:user-maintainer","uid":"ac2880bd-2384-4da1-9034-660c26f0dd22","groups":["system:serviceaccounts","system:serviceaccounts:maintain-kubeusers","system:authenticated"]},"status":{"conditions":[{"type":"Approved","reason":"Authorized
+        User","message":"This certificate was approved by maintain_kubeusers","lastUpdateTime":"2021-07-21T14:17:17Z"}],"certificate":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVHVENDQXdHZ0F3SUJBZ0lRTlFOZ1B5S1ZscTV2dzcveU84bVFYVEFOQmdrcWhraUc5dzBCQVFzRkFEQVYKTVJNd0VRWURWUVFERXdwdGFXNXBhM1ZpWlVOQk1CNFhEVEl4TURjeU1URTBNVEl4TjFvWERUSXlNRGN5TVRFMApNVEl4TjFvd0pERVNNQkFHQTFVRUNoTUpkRzl2YkdadmNtZGxNUTR3REFZRFZRUURFd1ZpYkhWeWNEQ0NBaUl3CkRRWUpLb1pJaHZjTkFRRUJCUUFEZ2dJUEFEQ0NBZ29DZ2dJQkFNUjZhWjZtZGlURHp6QVdoSStQL0QrNS9vN2oKRG94TXV1ZzlHUzhWVXZhYWRJSFBGOTlaT0pGUG43THNhc2k0ekpFamdJVGtMWWNLbUxjRE9MQnRESDZ1elU0LwpjZ1NONjJLVGF0ckQwY05BZ2pVMW1pZ21yQVdyK21VUTZPY2FCcjhtemQxT3JoenFFMzJsTmQzQjVUcWpFMUtTCldKcUExQVJJQUJOQzV4OWtJZWVKQUwzR2NKOWdVSzNZVlJVL01vZjlGSWtwSVpTSjYvMWo3UjdUVEplNXRDVEsKT2RtSVZJZ3hVS1lWeGNWT25CYUhHRFFzSjI3cHN3YkgyU09iOW5Id0xncGJROERJNm80RjFGaFJpR2hKTjJXbQpUVTNjRGRNLzh1Ni9INjdQSUx2Vll2VUxsL0FVWTRsT3l0RVMyY2ZSaWJ1NnlFUFlKUm5wL21kUGtyWXZFbFFtCkhtQ09OLzlORUU3aEx4ZUpLcEtkaThSelVsT0RQSW1ETWpRcWFXdG9mVmp0TDl2MmZuQzdzd1lzZUFZUy95SXkKYWhLTEpPN2JTdnVSY1cxdnlORkVVeUR1aVBaQmxOL1hJbEczTE5tN3VDRGlIRUhYRFR0cml0MXFnb1htaURrSwpiWTcwaXU2M093SnNGeTBMeUxTSG9Gb0t3ZldVRUdxVHpPdGRKa212Q1FxZUhkMlIvZzAxaEt2Y0tGNTZ4Y0FTClQrd0RqaGRyMm9JQzdkTmpHR1cxVEEvVVJHUWdRa3ZMejFCU21FejdOQ3hpR1Fab3RVb1JSZ3RpdkdxWXpXSncKQlRRd0g4bWdaRHJiMXlCR1Rsa21HWXJ4TEFsdTZKaTF2bkNjNmFJbHo0NDF4UDIxK3BKZzlxd2VkRnNKMHdJTwphNUpDVHI5NnI3S05rZm5yQWdNQkFBR2pWakJVTUE0R0ExVWREd0VCL3dRRUF3SUZvREFUQmdOVkhTVUVEREFLCkJnZ3JCZ0VGQlFjREFqQU1CZ05WSFJNQkFmOEVBakFBTUI4R0ExVWRJd1FZTUJhQUZHQ2Q1SCt3cjA1am9IMHQKZDhiTjlwODZkRml2TUEwR0NTcUdTSWIzRFFFQkN3VUFBNElCQVFBcm5USFpwRXRDVzVrdHVwTTRGNEZFSDBrdApqQmJ4eVZuS3FqbWgwekZTSlFBMlBXSDNBeTd4NmFVY2lDbzIzK25EaFhuTFhBUlpKSzhBeVVKeldJSjZxMll2CkRDUEpKNXo0UC9mdTBnQlI2SmZRemZzTzlWVFNIQ2RYb0lNeHpiVEtmb2JMbnhUek4rUlFPZnJDV293L3pTeHEKaDZhNHFKc2hGRjVWZGJ5UEd6SGtxalhDYjBMTGVvTzlyWTZLbWJkTXl2T1J3RWowMWxKY05nTjhxSzQ0R3dLcgpiYnNpdFVHWWdrT0dJWVhDTzYxQmt2dU9lam92UXd2WFRCeis4TjJ6ekE2Y3VjVm8yaG9mWTJROEVCc3V4MkkxCi91K2ZQeFp1a2NMTFJHVnRiNUJPTE5vNWhiZGhIWnU1MG43ekFMOVdnZENkTENBQW1oTFRnOVdvM3FtTgotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg=="}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/apis/certificates.k8s.io/v1beta1/certificatesigningrequests/tool-blurp
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Success","details":{"name":"tool-blurp","group":"certificates.k8s.io","kind":"certificatesigningrequests","uid":"41ca1123-a530-4b63-86fc-733c71c7566a"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '212'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"apiVersion": "policy/v1beta1", "kind": "PodSecurityPolicy", "metadata":
+      {"annotations": {"seccomp.security.alpha.kubernetes.io/allowedProfileNames":
+      "runtime/default", "seccomp.security.alpha.kubernetes.io/defaultProfileName":
+      "runtime/default"}, "name": "tool-blurp-psp"}, "spec": {"allowPrivilegeEscalation":
+      false, "allowedHostPaths": [{"pathPrefix": "/var/lib/sss/pipes", "readOnly":
+      false}, {"pathPrefix": "/data/project", "readOnly": false}, {"pathPrefix": "/data/scratch",
+      "readOnly": false}, {"pathPrefix": "/public/dumps", "readOnly": true}, {"pathPrefix":
+      "/mnt/nfs", "readOnly": true}, {"pathPrefix": "/etc/wmcs-project", "readOnly":
+      true}, {"pathPrefix": "/etc/ldap.yaml", "readOnly": true}, {"pathPrefix": "/etc/novaobserver.yaml",
+      "readOnly": true}, {"pathPrefix": "/etc/ldap.conf", "readOnly": true}], "fsGroup":
+      {"ranges": [{"max": 1002, "min": 1002}], "rule": "MustRunAs"}, "hostIPC": false,
+      "hostNetwork": false, "hostPID": false, "privileged": false, "readOnlyRootFilesystem":
+      false, "requiredDropCapabilities": ["ALL"], "runAsGroup": {"ranges": [{"max":
+      1002, "min": 1002}], "rule": "MustRunAs"}, "runAsUser": {"ranges": [{"max":
+      1002, "min": 1002}], "rule": "MustRunAs"}, "seLinux": {"rule": "RunAsAny"},
+      "supplementalGroups": {"ranges": [{"max": 65535, "min": 1}], "rule": "MustRunAs"},
+      "volumes": ["configMap", "downwardAPI", "emptyDir", "projected", "secret", "hostPath",
+      "persistentVolumeClaim"]}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: POST
+    uri: https://10.96.0.1/apis/policy/v1beta1/podsecuritypolicies
+  response:
+    body:
+      string: '{"kind":"PodSecurityPolicy","apiVersion":"policy/v1beta1","metadata":{"name":"tool-blurp-psp","selfLink":"/apis/policy/v1beta1/podsecuritypolicies/tool-blurp-psp","uid":"1854f8f9-913a-4b7b-964c-4e34c79fb212","resourceVersion":"6291","creationTimestamp":"2021-07-21T14:17:18Z","annotations":{"seccomp.security.alpha.kubernetes.io/allowedProfileNames":"runtime/default","seccomp.security.alpha.kubernetes.io/defaultProfileName":"runtime/default"},"managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"policy/v1beta1","time":"2021-07-21T14:17:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:metadata":{"f:annotations":{".":{},"f:seccomp.security.alpha.kubernetes.io/allowedProfileNames":{},"f:seccomp.security.alpha.kubernetes.io/defaultProfileName":{}}},"f:spec":{"f:allowPrivilegeEscalation":{},"f:allowedHostPaths":{},"f:fsGroup":{"f:ranges":{},"f:rule":{}},"f:requiredDropCapabilities":{},"f:runAsGroup":{".":{},"f:ranges":{},"f:rule":{}},"f:runAsUser":{"f:ranges":{},"f:rule":{}},"f:seLinux":{"f:rule":{}},"f:supplementalGroups":{"f:ranges":{},"f:rule":{}},"f:volumes":{}}}}]},"spec":{"requiredDropCapabilities":["ALL"],"volumes":["configMap","downwardAPI","emptyDir","projected","secret","hostPath","persistentVolumeClaim"],"seLinux":{"rule":"RunAsAny"},"runAsUser":{"rule":"MustRunAs","ranges":[{"min":1002,"max":1002}]},"runAsGroup":{"rule":"MustRunAs","ranges":[{"min":1002,"max":1002}]},"supplementalGroups":{"rule":"MustRunAs","ranges":[{"min":1,"max":65535}]},"fsGroup":{"rule":"MustRunAs","ranges":[{"min":1002,"max":1002}]},"allowPrivilegeEscalation":false,"allowedHostPaths":[{"pathPrefix":"/var/lib/sss/pipes"},{"pathPrefix":"/data/project"},{"pathPrefix":"/data/scratch"},{"pathPrefix":"/public/dumps","readOnly":true},{"pathPrefix":"/mnt/nfs","readOnly":true},{"pathPrefix":"/etc/wmcs-project","readOnly":true},{"pathPrefix":"/etc/ldap.yaml","readOnly":true},{"pathPrefix":"/etc/novaobserver.yaml","readOnly":true},{"pathPrefix":"/etc/ldap.conf","readOnly":true}]}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '2006'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"apiVersion": "v1", "kind": "Namespace", "metadata": {"labels": {"name":
+      "tool-blurp", "tenancy": "tool"}, "name": "tool-blurp"}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: POST
+    uri: https://10.96.0.1/api/v1/namespaces
+  response:
+    body:
+      string: '{"kind":"Namespace","apiVersion":"v1","metadata":{"name":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp","uid":"93f440a8-2ce5-4846-be69-e7b17301a723","resourceVersion":"6292","creationTimestamp":"2021-07-21T14:17:18Z","labels":{"name":"tool-blurp","tenancy":"tool"},"managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"v1","time":"2021-07-21T14:17:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:metadata":{"f:labels":{".":{},"f:name":{},"f:tenancy":{}}},"f:status":{"f:phase":{}}}}]},"spec":{"finalizers":["kubernetes"]},"status":{"phase":"Active"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '585'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"apiVersion": "v1", "kind": "ResourceQuota", "metadata": {"name": "tool-blurp"},
+      "spec": {"hard": {"requests.cpu": "2", "requests.memory": "6Gi", "limits.cpu":
+      "2", "limits.memory": "8Gi", "pods": "4", "services": "1", "services.nodeports":
+      "0", "replicationcontrollers": "1", "secrets": "10", "configmaps": "10", "persistentvolumeclaims":
+      "3"}}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: POST
+    uri: https://10.96.0.1/api/v1/namespaces/tool-blurp/resourcequotas
+  response:
+    body:
+      string: '{"kind":"ResourceQuota","apiVersion":"v1","metadata":{"name":"tool-blurp","namespace":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp/resourcequotas/tool-blurp","uid":"e4804f9a-517a-472d-adb1-cd0278eb60c8","resourceVersion":"6296","creationTimestamp":"2021-07-21T14:17:18Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"v1","time":"2021-07-21T14:17:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:spec":{"f:hard":{".":{},"f:configmaps":{},"f:limits.cpu":{},"f:limits.memory":{},"f:persistentvolumeclaims":{},"f:pods":{},"f:replicationcontrollers":{},"f:requests.cpu":{},"f:requests.memory":{},"f:secrets":{},"f:services":{},"f:services.nodeports":{}}}}}]},"spec":{"hard":{"configmaps":"10","limits.cpu":"2","limits.memory":"8Gi","persistentvolumeclaims":"3","pods":"4","replicationcontrollers":"1","requests.cpu":"2","requests.memory":"6Gi","secrets":"10","services":"1","services.nodeports":"0"}},"status":{}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '951'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"apiVersion": "v1", "kind": "LimitRange", "metadata": {"name": "tool-blurp"},
+      "spec": {"limits": [{"default": {"cpu": "500m", "memory": "512Mi"}, "defaultRequest":
+      {"cpu": "150m", "memory": "256Mi"}, "max": {"cpu": "1", "memory": "4Gi"}, "min":
+      {"cpu": "50m", "memory": "100Mi"}, "type": "Container"}]}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: POST
+    uri: https://10.96.0.1/api/v1/namespaces/tool-blurp/limitranges
+  response:
+    body:
+      string: '{"kind":"LimitRange","apiVersion":"v1","metadata":{"name":"tool-blurp","namespace":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp/limitranges/tool-blurp","uid":"e6a9bdba-b6be-4acb-9c5b-15831d79377b","resourceVersion":"6298","creationTimestamp":"2021-07-21T14:17:18Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"v1","time":"2021-07-21T14:17:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:spec":{"f:limits":{}}}}]},"spec":{"limits":[{"type":"Container","max":{"cpu":"1","memory":"4Gi"},"min":{"cpu":"50m","memory":"100Mi"},"default":{"cpu":"500m","memory":"512Mi"},"defaultRequest":{"cpu":"150m","memory":"256Mi"}}]}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '660'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"apiVersion": "settings.k8s.io/v1alpha1", "kind": "PodPreset", "metadata":
+      {"name": "mount-toolforge-vols"}, "spec": {"env": [{"name": "HOME", "value":
+      "/data/project/blurp"}], "selector": {"matchLabels": {"toolforge": "tool"}},
+      "volumeMounts": [{"mountPath": "/public/dumps", "name": "dumps", "readOnly":
+      true}, {"mountPath": "/mnt/nfs/dumps-labstore1007.wikimedia.org", "name": "dumpsrc1",
+      "readOnly": true}, {"mountPath": "/mnt/nfs/dumps-labstore1006.wikimedia.org",
+      "name": "dumpsrc2", "readOnly": true}, {"mountPath": "/data/project", "name":
+      "home"}, {"mountPath": "/etc/wmcs-project", "name": "wmcs-project", "readOnly":
+      true}, {"mountPath": "/data/scratch", "name": "scratch"}, {"mountPath": "/etc/ldap.conf",
+      "name": "etcldap-conf", "readOnly": true}, {"mountPath": "/etc/ldap.yaml", "name":
+      "etcldap-yaml", "readOnly": true}, {"mountPath": "/etc/novaobserver.yaml", "name":
+      "etcnovaobserver-yaml", "readOnly": true}, {"mountPath": "/var/lib/sss/pipes",
+      "name": "sssd-pipes"}], "volumes": [{"hostPath": {"path": "/public/dumps", "type":
+      "Directory"}, "name": "dumps"}, {"hostPath": {"path": "/mnt/nfs/dumps-labstore1007.wikimedia.org",
+      "type": "Directory"}, "name": "dumpsrc1"}, {"hostPath": {"path": "/mnt/nfs/dumps-labstore1006.wikimedia.org",
+      "type": "Directory"}, "name": "dumpsrc2"}, {"hostPath": {"path": "/data/project",
+      "type": "Directory"}, "name": "home"}, {"hostPath": {"path": "/etc/wmcs-project",
+      "type": "File"}, "name": "wmcs-project"}, {"hostPath": {"path": "/data/scratch",
+      "type": "Directory"}, "name": "scratch"}, {"hostPath": {"path": "/etc/ldap.conf",
+      "type": "File"}, "name": "etcldap-conf"}, {"hostPath": {"path": "/etc/ldap.yaml",
+      "type": "File"}, "name": "etcldap-yaml"}, {"hostPath": {"path": "/etc/novaobserver.yaml",
+      "type": "File"}, "name": "etcnovaobserver-yaml"}, {"hostPath": {"path": "/var/lib/sss/pipes",
+      "type": "Directory"}, "name": "sssd-pipes"}]}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: POST
+    uri: https://10.96.0.1/apis/settings.k8s.io/v1alpha1/namespaces/tool-blurp/podpresets
+  response:
+    body:
+      string: '{"kind":"PodPreset","apiVersion":"settings.k8s.io/v1alpha1","metadata":{"name":"mount-toolforge-vols","namespace":"tool-blurp","selfLink":"/apis/settings.k8s.io/v1alpha1/namespaces/tool-blurp/podpresets/mount-toolforge-vols","uid":"01b9d930-0f07-48ff-a925-9ed40d74df44","resourceVersion":"6299","generation":1,"creationTimestamp":"2021-07-21T14:17:18Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"settings.k8s.io/v1alpha1","time":"2021-07-21T14:17:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:spec":{"f:env":{},"f:selector":{"f:matchLabels":{".":{},"f:toolforge":{}}},"f:volumeMounts":{},"f:volumes":{}}}}]},"spec":{"selector":{"matchLabels":{"toolforge":"tool"}},"env":[{"name":"HOME","value":"/data/project/blurp"}],"volumes":[{"name":"dumps","hostPath":{"path":"/public/dumps","type":"Directory"}},{"name":"dumpsrc1","hostPath":{"path":"/mnt/nfs/dumps-labstore1007.wikimedia.org","type":"Directory"}},{"name":"dumpsrc2","hostPath":{"path":"/mnt/nfs/dumps-labstore1006.wikimedia.org","type":"Directory"}},{"name":"home","hostPath":{"path":"/data/project","type":"Directory"}},{"name":"wmcs-project","hostPath":{"path":"/etc/wmcs-project","type":"File"}},{"name":"scratch","hostPath":{"path":"/data/scratch","type":"Directory"}},{"name":"etcldap-conf","hostPath":{"path":"/etc/ldap.conf","type":"File"}},{"name":"etcldap-yaml","hostPath":{"path":"/etc/ldap.yaml","type":"File"}},{"name":"etcnovaobserver-yaml","hostPath":{"path":"/etc/novaobserver.yaml","type":"File"}},{"name":"sssd-pipes","hostPath":{"path":"/var/lib/sss/pipes","type":"Directory"}}],"volumeMounts":[{"name":"dumps","readOnly":true,"mountPath":"/public/dumps"},{"name":"dumpsrc1","readOnly":true,"mountPath":"/mnt/nfs/dumps-labstore1007.wikimedia.org"},{"name":"dumpsrc2","readOnly":true,"mountPath":"/mnt/nfs/dumps-labstore1006.wikimedia.org"},{"name":"home","mountPath":"/data/project"},{"name":"wmcs-project","readOnly":true,"mountPath":"/etc/wmcs-project"},{"name":"scratch","mountPath":"/data/scratch"},{"name":"etcldap-conf","readOnly":true,"mountPath":"/etc/ldap.conf"},{"name":"etcldap-yaml","readOnly":true,"mountPath":"/etc/ldap.yaml"},{"name":"etcnovaobserver-yaml","readOnly":true,"mountPath":"/etc/novaobserver.yaml"},{"name":"sssd-pipes","mountPath":"/var/lib/sss/pipes"}]}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"apiVersion": "rbac.authorization.k8s.io/v1", "kind": "Role", "metadata":
+      {"name": "tool-blurp-psp", "namespace": "tool-blurp"}, "rules": [{"apiGroups":
+      ["policy"], "resourceNames": ["tool-blurp-psp"], "resources": ["podsecuritypolicies"],
+      "verbs": ["use"]}]}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: POST
+    uri: https://10.96.0.1/apis/rbac.authorization.k8s.io/v1/namespaces/tool-blurp/roles
+  response:
+    body:
+      string: '{"kind":"Role","apiVersion":"rbac.authorization.k8s.io/v1","metadata":{"name":"tool-blurp-psp","namespace":"tool-blurp","selfLink":"/apis/rbac.authorization.k8s.io/v1/namespaces/tool-blurp/roles/tool-blurp-psp","uid":"005ce51c-07fa-4b41-9dc3-0f7467f4410c","resourceVersion":"6300","creationTimestamp":"2021-07-21T14:17:18Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"rbac.authorization.k8s.io/v1","time":"2021-07-21T14:17:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:rules":{}}}]},"rules":[{"verbs":["use"],"apiGroups":["policy"],"resources":["podsecuritypolicies"],"resourceNames":["tool-blurp-psp"]}]}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '643'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"apiVersion": "rbac.authorization.k8s.io/v1", "kind": "RoleBinding", "metadata":
+      {"name": "tool-blurp-psp-binding", "namespace": "tool-blurp"}, "roleRef": {"apiGroup":
+      "rbac.authorization.k8s.io", "kind": "Role", "name": "tool-blurp-psp"}, "subjects":
+      [{"apiGroup": "rbac.authorization.k8s.io", "kind": "User", "name": "blurp"}]}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: POST
+    uri: https://10.96.0.1/apis/rbac.authorization.k8s.io/v1/namespaces/tool-blurp/rolebindings
+  response:
+    body:
+      string: '{"kind":"RoleBinding","apiVersion":"rbac.authorization.k8s.io/v1","metadata":{"name":"tool-blurp-psp-binding","namespace":"tool-blurp","selfLink":"/apis/rbac.authorization.k8s.io/v1/namespaces/tool-blurp/rolebindings/tool-blurp-psp-binding","uid":"b1cfd1b6-30a1-458b-b0cc-c2e9542f055c","resourceVersion":"6301","creationTimestamp":"2021-07-21T14:17:18Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"rbac.authorization.k8s.io/v1","time":"2021-07-21T14:17:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:roleRef":{"f:apiGroup":{},"f:kind":{},"f:name":{}},"f:subjects":{}}}]},"subjects":[{"kind":"User","apiGroup":"rbac.authorization.k8s.io","name":"blurp"}],"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"Role","name":"tool-blurp-psp"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '780'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"apiVersion": "rbac.authorization.k8s.io/v1", "kind": "RoleBinding", "metadata":
+      {"name": "default-blurp-psp-binding", "namespace": "tool-blurp"}, "roleRef":
+      {"apiGroup": "rbac.authorization.k8s.io", "kind": "Role", "name": "tool-blurp-psp"},
+      "subjects": [{"kind": "ServiceAccount", "name": "default", "namespace": "tool-blurp"}]}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: POST
+    uri: https://10.96.0.1/apis/rbac.authorization.k8s.io/v1/namespaces/tool-blurp/rolebindings
+  response:
+    body:
+      string: '{"kind":"RoleBinding","apiVersion":"rbac.authorization.k8s.io/v1","metadata":{"name":"default-blurp-psp-binding","namespace":"tool-blurp","selfLink":"/apis/rbac.authorization.k8s.io/v1/namespaces/tool-blurp/rolebindings/default-blurp-psp-binding","uid":"06a849a4-7a92-4cc2-9f68-717818611fbc","resourceVersion":"6302","creationTimestamp":"2021-07-21T14:17:18Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"rbac.authorization.k8s.io/v1","time":"2021-07-21T14:17:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:roleRef":{"f:apiGroup":{},"f:kind":{},"f:name":{}},"f:subjects":{}}}]},"subjects":[{"kind":"ServiceAccount","name":"default","namespace":"tool-blurp"}],"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"Role","name":"tool-blurp-psp"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '784'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"apiVersion": "rbac.authorization.k8s.io/v1", "kind": "RoleBinding", "metadata":
+      {"name": "blurp-tool-binding", "namespace": "tool-blurp"}, "roleRef": {"apiGroup":
+      "rbac.authorization.k8s.io", "kind": "ClusterRole", "name": "tools-user"}, "subjects":
+      [{"apiGroup": "rbac.authorization.k8s.io", "kind": "User", "name": "blurp"}]}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: POST
+    uri: https://10.96.0.1/apis/rbac.authorization.k8s.io/v1/namespaces/tool-blurp/rolebindings
+  response:
+    body:
+      string: '{"kind":"RoleBinding","apiVersion":"rbac.authorization.k8s.io/v1","metadata":{"name":"blurp-tool-binding","namespace":"tool-blurp","selfLink":"/apis/rbac.authorization.k8s.io/v1/namespaces/tool-blurp/rolebindings/blurp-tool-binding","uid":"ec6a9105-3254-4032-b5eb-9020b5183145","resourceVersion":"6303","creationTimestamp":"2021-07-21T14:17:18Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"rbac.authorization.k8s.io/v1","time":"2021-07-21T14:17:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:roleRef":{"f:apiGroup":{},"f:kind":{},"f:name":{}},"f:subjects":{}}}]},"subjects":[{"kind":"User","apiGroup":"rbac.authorization.k8s.io","name":"blurp"}],"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"ClusterRole","name":"tools-user"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '775'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"apiVersion": "rbac.authorization.k8s.io/v1", "kind": "Role", "metadata":
+      {"name": "tfb-blurp-psp", "namespace": "tool-blurp"}, "rules": [{"apiGroups":
+      ["extensions"], "resourceNames": ["toolforge-tfb-psp"], "resources": ["podsecuritypolicies"],
+      "verbs": ["use"]}]}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: POST
+    uri: https://10.96.0.1/apis/rbac.authorization.k8s.io/v1/namespaces/tool-blurp/roles
+  response:
+    body:
+      string: '{"kind":"Role","apiVersion":"rbac.authorization.k8s.io/v1","metadata":{"name":"tfb-blurp-psp","namespace":"tool-blurp","selfLink":"/apis/rbac.authorization.k8s.io/v1/namespaces/tool-blurp/roles/tfb-blurp-psp","uid":"58a1284a-c87c-4830-8ddb-1cff1b2f0156","resourceVersion":"6304","creationTimestamp":"2021-07-21T14:17:18Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"rbac.authorization.k8s.io/v1","time":"2021-07-21T14:17:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:rules":{}}}]},"rules":[{"verbs":["use"],"apiGroups":["extensions"],"resources":["podsecuritypolicies"],"resourceNames":["toolforge-tfb-psp"]}]}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '648'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"apiVersion": "rbac.authorization.k8s.io/v1", "kind": "RoleBinding", "metadata":
+      {"name": "tfb-blurp-psp-binding", "namespace": "tool-blurp"}, "roleRef": {"apiGroup":
+      "rbac.authorization.k8s.io", "kind": "Role", "name": "tfb-blurp-psp"}, "subjects":
+      [{"apiGroup": "rbac.authorization.k8s.io", "kind": "User", "name": "blurp"}]}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: POST
+    uri: https://10.96.0.1/apis/rbac.authorization.k8s.io/v1/namespaces/tool-blurp/rolebindings
+  response:
+    body:
+      string: '{"kind":"RoleBinding","apiVersion":"rbac.authorization.k8s.io/v1","metadata":{"name":"tfb-blurp-psp-binding","namespace":"tool-blurp","selfLink":"/apis/rbac.authorization.k8s.io/v1/namespaces/tool-blurp/rolebindings/tfb-blurp-psp-binding","uid":"6205d78c-c0e2-4b9d-85d0-fd2d696a62a4","resourceVersion":"6305","creationTimestamp":"2021-07-21T14:17:18Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"rbac.authorization.k8s.io/v1","time":"2021-07-21T14:17:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:roleRef":{"f:apiGroup":{},"f:kind":{},"f:name":{}},"f:subjects":{}}}]},"subjects":[{"kind":"User","apiGroup":"rbac.authorization.k8s.io","name":"blurp"}],"roleRef":{"apiGroup":"rbac.authorization.k8s.io","kind":"Role","name":"tfb-blurp-psp"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '777'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"apiVersion": "v1", "data": {"status": "user created: 2021-07-21T14:17:18.214767",
+      "expires": "2030-05-17T00:00:00"}, "kind": "ConfigMap", "metadata": {"name":
+      "maintain-kubeusers"}}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: POST
+    uri: https://10.96.0.1/api/v1/namespaces/tool-blurp/configmaps
+  response:
+    body:
+      string: '{"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"maintain-kubeusers","namespace":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp/configmaps/maintain-kubeusers","uid":"0102a7b5-c86c-46cb-a7f1-2e1c3cd2fe08","resourceVersion":"6307","creationTimestamp":"2021-07-21T14:17:18Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"v1","time":"2021-07-21T14:17:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:data":{".":{},"f:expires":{},"f:status":{}}}}]},"data":{"expires":"2030-05-17T00:00:00","status":"user
+        created: 2021-07-21T14:17:18.214767"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '587'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+    status:
+      code: 201
+      message: Created
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/api/v1/namespaces?labelSelector=tenancy%3Dtool
+  response:
+    body:
+      string: '{"kind":"NamespaceList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces","resourceVersion":"6307"},"items":[{"metadata":{"name":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp","uid":"93f440a8-2ce5-4846-be69-e7b17301a723","resourceVersion":"6292","creationTimestamp":"2021-07-21T14:17:18Z","labels":{"name":"tool-blurp","tenancy":"tool"},"managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"v1","time":"2021-07-21T14:17:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:metadata":{"f:labels":{".":{},"f:name":{},"f:tenancy":{}}},"f:status":{"f:phase":{}}}}]},"spec":{"finalizers":["kubernetes"]},"status":{"phase":"Active"}}]}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '671'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/api/v1/namespaces/tool-blurp/configmaps?fieldSelector=metadata.name%3Dmaintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"ConfigMapList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces/tool-blurp/configmaps","resourceVersion":"6307"},"items":[{"metadata":{"name":"maintain-kubeusers","namespace":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp/configmaps/maintain-kubeusers","uid":"0102a7b5-c86c-46cb-a7f1-2e1c3cd2fe08","resourceVersion":"6307","creationTimestamp":"2021-07-21T14:17:18Z","managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"v1","time":"2021-07-21T14:17:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:data":{".":{},"f:expires":{},"f:status":{}}}}]},"data":{"expires":"2030-05-17T00:00:00","status":"user
+        created: 2021-07-21T14:17:18.214767"}}]}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '695'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/api/v1/namespaces/maintain-kubeusers/configmaps?fieldSelector=metadata.name%3Dmaintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"ConfigMapList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces/maintain-kubeusers/configmaps","resourceVersion":"6307"},"items":[]}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '154'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"apiVersion": "v1"}'
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/apis/rbac.authorization.k8s.io/v1/namespaces/tool-blurp/rolebindings/blurp-tool-binding
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Success","details":{"name":"blurp-tool-binding","group":"rbac.authorization.k8s.io","kind":"rolebindings","uid":"ec6a9105-3254-4032-b5eb-9020b5183145"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '212'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/apis/policy/v1beta1/podsecuritypolicies/tool-blurp-psp
+  response:
+    body:
+      string: '{"kind":"PodSecurityPolicy","apiVersion":"policy/v1beta1","metadata":{"name":"tool-blurp-psp","selfLink":"/apis/policy/v1beta1/podsecuritypolicies/tool-blurp-psp","uid":"1854f8f9-913a-4b7b-964c-4e34c79fb212","resourceVersion":"6291","creationTimestamp":"2021-07-21T14:17:18Z","annotations":{"seccomp.security.alpha.kubernetes.io/allowedProfileNames":"runtime/default","seccomp.security.alpha.kubernetes.io/defaultProfileName":"runtime/default"},"managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"policy/v1beta1","time":"2021-07-21T14:17:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:metadata":{"f:annotations":{".":{},"f:seccomp.security.alpha.kubernetes.io/allowedProfileNames":{},"f:seccomp.security.alpha.kubernetes.io/defaultProfileName":{}}},"f:spec":{"f:allowPrivilegeEscalation":{},"f:allowedHostPaths":{},"f:fsGroup":{"f:ranges":{},"f:rule":{}},"f:requiredDropCapabilities":{},"f:runAsGroup":{".":{},"f:ranges":{},"f:rule":{}},"f:runAsUser":{"f:ranges":{},"f:rule":{}},"f:seLinux":{"f:rule":{}},"f:supplementalGroups":{"f:ranges":{},"f:rule":{}},"f:volumes":{}}}}]},"spec":{"requiredDropCapabilities":["ALL"],"volumes":["configMap","downwardAPI","emptyDir","projected","secret","hostPath","persistentVolumeClaim"],"seLinux":{"rule":"RunAsAny"},"runAsUser":{"rule":"MustRunAs","ranges":[{"min":1002,"max":1002}]},"runAsGroup":{"rule":"MustRunAs","ranges":[{"min":1002,"max":1002}]},"supplementalGroups":{"rule":"MustRunAs","ranges":[{"min":1,"max":65535}]},"fsGroup":{"rule":"MustRunAs","ranges":[{"min":1002,"max":1002}]},"allowPrivilegeEscalation":false,"allowedHostPaths":[{"pathPrefix":"/var/lib/sss/pipes"},{"pathPrefix":"/data/project"},{"pathPrefix":"/data/scratch"},{"pathPrefix":"/public/dumps","readOnly":true},{"pathPrefix":"/mnt/nfs","readOnly":true},{"pathPrefix":"/etc/wmcs-project","readOnly":true},{"pathPrefix":"/etc/ldap.yaml","readOnly":true},{"pathPrefix":"/etc/novaobserver.yaml","readOnly":true},{"pathPrefix":"/etc/ldap.conf","readOnly":true}]}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '2006'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/api/v1/namespaces/tool-blurp
+  response:
+    body:
+      string: '{"kind":"Namespace","apiVersion":"v1","metadata":{"name":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp","uid":"93f440a8-2ce5-4846-be69-e7b17301a723","resourceVersion":"6310","creationTimestamp":"2021-07-21T14:17:18Z","deletionTimestamp":"2021-07-21T14:17:18Z","labels":{"name":"tool-blurp","tenancy":"tool"},"managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"v1","time":"2021-07-21T14:17:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:metadata":{"f:labels":{".":{},"f:name":{},"f:tenancy":{}}},"f:status":{"f:phase":{}}}}]},"spec":{"finalizers":["kubernetes"]},"status":{"phase":"Terminating"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '633'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/api/v1/namespaces/tool-blurp/configmaps/maintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Success","details":{"name":"maintain-kubeusers","kind":"configmaps","uid":"0102a7b5-c86c-46cb-a7f1-2e1c3cd2fe08"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '174'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:18 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/api/v1/namespaces?labelSelector=tenancy%3Dtool
+  response:
+    body:
+      string: '{"kind":"NamespaceList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces","resourceVersion":"6313"},"items":[{"metadata":{"name":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp","uid":"93f440a8-2ce5-4846-be69-e7b17301a723","resourceVersion":"6310","creationTimestamp":"2021-07-21T14:17:18Z","deletionTimestamp":"2021-07-21T14:17:18Z","labels":{"name":"tool-blurp","tenancy":"tool"},"managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"v1","time":"2021-07-21T14:17:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:metadata":{"f:labels":{".":{},"f:name":{},"f:tenancy":{}}},"f:status":{"f:phase":{}}}}]},"spec":{"finalizers":["kubernetes"]},"status":{"phase":"Terminating"}}]}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '719'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:20 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/api/v1/namespaces/tool-blurp/configmaps?fieldSelector=metadata.name%3Dmaintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"ConfigMapList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces/tool-blurp/configmaps","resourceVersion":"6313"},"items":[]}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '146'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:20 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://10.96.0.1/api/v1/namespaces/maintain-kubeusers/configmaps?fieldSelector=metadata.name%3Dmaintain-kubeusers
+  response:
+    body:
+      string: '{"kind":"ConfigMapList","apiVersion":"v1","metadata":{"selfLink":"/api/v1/namespaces/maintain-kubeusers/configmaps","resourceVersion":"6313"},"items":[]}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '154'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:20 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/api/v1/namespaces/tool-blurp?gracePeriodSeconds=0&propagationPolicy=Foreground
+  response:
+    body:
+      string: '{"kind":"Namespace","apiVersion":"v1","metadata":{"name":"tool-blurp","selfLink":"/api/v1/namespaces/tool-blurp","uid":"93f440a8-2ce5-4846-be69-e7b17301a723","resourceVersion":"6310","creationTimestamp":"2021-07-21T14:17:18Z","deletionTimestamp":"2021-07-21T14:17:18Z","labels":{"name":"tool-blurp","tenancy":"tool"},"managedFields":[{"manager":"OpenAPI-Generator","operation":"Update","apiVersion":"v1","time":"2021-07-21T14:17:18Z","fieldsType":"FieldsV1","fieldsV1":{"f:metadata":{"f:labels":{".":{},"f:name":{},"f:tenancy":{}}},"f:status":{"f:phase":{}}}}]},"spec":{"finalizers":["kubernetes"]},"status":{"phase":"Terminating"}}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '633'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:20 GMT
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/api/v1/namespaces/maintain-kubeusers/configmaps/maintain-kubeusers?gracePeriodSeconds=0&propagationPolicy=Foreground
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"configmaps
+        \"maintain-kubeusers\" not found","reason":"NotFound","details":{"name":"maintain-kubeusers","kind":"configmaps"},"code":404}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '216'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:20 GMT
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/apis/policy/v1beta1/podsecuritypolicies/tool-blurp-psp?gracePeriodSeconds=0&propagationPolicy=Foreground
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podsecuritypolicies.policy
+        \"tool-blurp-psp\" not found","reason":"NotFound","details":{"name":"tool-blurp-psp","group":"policy","kind":"podsecuritypolicies"},"code":404}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '250'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:20 GMT
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/api/v1/namespaces/tool-blorp?gracePeriodSeconds=0&propagationPolicy=Foreground
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"namespaces
+        \"tool-blorp\" not found","reason":"NotFound","details":{"name":"tool-blorp","kind":"namespaces"},"code":404}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '200'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:22 GMT
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/api/v1/namespaces/maintain-kubeusers/configmaps/maintain-kubeusers?gracePeriodSeconds=0&propagationPolicy=Foreground
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"configmaps
+        \"maintain-kubeusers\" not found","reason":"NotFound","details":{"name":"maintain-kubeusers","kind":"configmaps"},"code":404}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '216'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:22 GMT
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - OpenAPI-Generator/12.0.1/python
+      authorization:
+      - DUMMY
+    method: DELETE
+    uri: https://10.96.0.1/apis/policy/v1beta1/podsecuritypolicies/tool-blorp-psp?gracePeriodSeconds=0&propagationPolicy=Foreground
+  response:
+    body:
+      string: '{"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"podsecuritypolicies.policy
+        \"tool-blorp-psp\" not found","reason":"NotFound","details":{"name":"tool-blorp-psp","group":"policy","kind":"podsecuritypolicies"},"code":404}
+
+        '
+    headers:
+      Cache-Control:
+      - no-cache, private
+      Content-Length:
+      - '250'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Jul 2021 14:17:22 GMT
+    status:
+      code: 404
+      message: Not Found
+version: 1

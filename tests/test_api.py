@@ -167,6 +167,38 @@ class MockCertObj:
 
 @pytest.mark.vcr()
 def test_process_new_users(
+    monkeypatch, api_object, test_user, mocker, vcr_cassette
+):
+    mocker.patch("pathlib.Path.touch", autospec=True)
+
+    def mock_load_cert(*args, **kwargs):
+        return MockCertObj()
+
+    monkeypatch.setattr(x509, "load_pem_x509_certificate", mock_load_cert)
+
+    current, _ = api_object.get_current_users()
+    start_pos1 = vcr_cassette.play_count - 1
+    new_tools = process_new_users(
+        {"blurp": test_user},
+        current["tools"],
+        api_object,
+        False,
+    )
+    end_pos1 = vcr_cassette.play_count - 1
+
+    # There should be no 409s during creations in this test
+    responses = vcr_cassette.responses
+    assert not any(
+        [409 == x["status"]["code"] for x in responses[start_pos1:end_pos1]]
+    )
+
+    assert new_tools == 1
+    current, _ = api_object.get_current_users()
+    assert "blurp" in current["tools"]
+
+
+@pytest.mark.vcr()
+def test_process_new_and_disabled_users(
     monkeypatch, api_object, test_user, test_disabled_user, mocker, vcr_cassette
 ):
     mocker.patch("pathlib.Path.touch", autospec=True)
@@ -186,34 +218,79 @@ def test_process_new_users(
         api_object,
         False,
     )
-    end_pos1 = vcr_cassette.play_count
+    end_pos1 = vcr_cassette.play_count - 1
     assert new_tools == 1
     current, _ = api_object.get_current_users()
     assert "blurp" in current["tools"]
     assert "blorp" not in current["tools"]
 
-    # Add nothing, remove nothing
+    # Remove blurp
+    start_pos2 = vcr_cassette.play_count - 1
+    test_user.pwdAccountLockedTime = "000001010000Z"
     disabled_tools = process_disabled_users(
         {"blurp": test_user, "blorp": test_disabled_user},
         current["tools"],
         api_object,
     )
-    assert disabled_tools == 0
+    end_pos2 = vcr_cassette.play_count - 1
+
+    # There should be no 409s during creations in this test
+    responses = vcr_cassette.responses
+    assert not any(
+        [409 == x["status"]["code"] for x in responses[start_pos1:end_pos1]]
+    )
+    # There should be no 404 during removals in this test
+    assert not any(
+        [404 == x["status"]["code"] for x in responses[start_pos2:end_pos2]]
+    )
+
+    time.sleep(2)
+
+    assert disabled_tools == 1
+    current, _ = api_object.get_current_users()
+    assert "blurp" not in current["tools"]
+    assert "blorp" not in current["tools"]
+
+
+@pytest.mark.vcr()
+def test_remove_disabled_user(
+    monkeypatch, api_object, test_user, test_disabled_user, mocker, vcr_cassette
+):
+    mocker.patch("pathlib.Path.touch", autospec=True)
+
+    def mock_load_cert(*args, **kwargs):
+        return MockCertObj()
+
+    monkeypatch.setattr(x509, "load_pem_x509_certificate", mock_load_cert)
+
+    # Add blurp so we can remove it
+    current, _ = api_object.get_current_users()
     new_tools = process_new_users(
-        {"blurp": test_user, "blorp": test_disabled_user},
+        {"blurp": test_user},
         current["tools"],
         api_object,
         False,
     )
-    assert new_tools == 0
+
+    assert new_tools == 1
+    current, _ = api_object.get_current_users()
     assert "blurp" in current["tools"]
-    assert "blorp" not in current["tools"]
+
+    start_pos1 = vcr_cassette.play_count - 1
+    # Confirm that we don't remove users that don't need removing
+    disabled_tools = process_disabled_users(
+        {"blurp": test_user, "blorp": test_disabled_user},
+        current["tools"],
+        api_object,
+    )
+    end_pos1 = vcr_cassette.play_count
+    assert disabled_tools == 0
 
     # Remove blurp
     test_user.pwdAccountLockedTime = "000001010000Z"
     start_pos2 = vcr_cassette.play_count - 1
     disabled_tools = process_disabled_users(
-        {"blurp": test_user, "blorp": test_disabled_user},
+        {"blurp": test_user},
         current["tools"],
         api_object,
     )
@@ -232,4 +309,3 @@ def test_process_new_users(
     )
     current, _ = api_object.get_current_users()
     assert "blurp" not in current["tools"]
-    assert "blorp" not in current["tools"]
