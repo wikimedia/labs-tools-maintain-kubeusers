@@ -160,9 +160,11 @@ def main():
 
             break
 
-        removed_tools = process_removed_users(
-            tools, cur_users["tools"], k8s_api
-        )
+        if not args.admins_only:
+            removed_tools = process_removed_users(
+                tools, cur_users["tools"], k8s_api
+            )
+
         removed_admins = process_removed_users(
             admins, cur_users["admins"], k8s_api, True
         )
@@ -199,16 +201,23 @@ def main():
                     k8s_api.update_expired_ns(admins[admin_name])
                     logging.info("Renewed creds for admin user %s", admin_name)
 
-        disabled_tools = process_disabled_users(
-            tools, cur_users["tools"], k8s_api
-        )
-        logging.info(
-            "finished run, wrote %s new accounts, disabled %s accounts, "
-            "cleaned up %s accounts",
-            new_tools + new_admins,
-            disabled_tools,
-            removed_tools + removed_admins,
-        )
+        if not args.admins_only:
+            disabled_tools = process_disabled_users(
+                tools, cur_users["tools"], k8s_api
+            )
+            logging.info(
+                "finished run, wrote %s new accounts, disabled %s accounts, "
+                "cleaned up %s accounts",
+                new_tools + new_admins,
+                disabled_tools,
+                removed_tools + removed_admins,
+            )
+        else:
+            logging.info(
+                "finished run, wrote %s new accounts, cleaned up %s accounts",
+                new_admins,
+                removed_admins,
+            )
 
         if args.once:
             break
