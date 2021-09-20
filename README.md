@@ -84,7 +84,8 @@ a few prerequisites that must be available.
 
 The steps are below:
 
-1. Start minikube with `minikube start --kubernetes-version=1.18.20 --extra-config=apiserver.runtime-config=settings.k8s.io/v1alpha1=true --extra-config=apiserver.enable-admission-plugins=PodSecurityPolicy,PodPreset`. It
+1. Start minikube with `minikube start --kubernetes-version=1.19.13
+   --extra-config=apiserver.enable-admission-plugins=PodSecurityPolicy`. It
    **will fail** to finish initializing because PodSecurityPolicy complicates
    everything until the next step.
 2. Run `kubectl apply -k deployments/test` to establish a PSP for the admin systems as well as the other k8s resources needed for the tests.

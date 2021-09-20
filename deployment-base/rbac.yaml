@@ -193,18 +193,6 @@ rules:
   - watch
   - delete
 - apiGroups:
-  - settings.k8s.io
-  resources:
-  - podpresets
-  verbs:
-  - create
-  - get
-  - list
-  - patch
-  - update
-  - watch
-  - delete
-- apiGroups:
   - extensions
   resources:
   - podsecuritypolicies
