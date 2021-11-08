@@ -84,7 +84,7 @@ a few prerequisites that must be available.
 
 The steps are below:
 
-1. Start minikube with `minikube start --kubernetes-version=1.19.13
+1. Start minikube with `minikube start --kubernetes-version=1.20.11
    --extra-config=apiserver.enable-admission-plugins=PodSecurityPolicy`. It
    **will fail** to finish initializing because PodSecurityPolicy complicates
    everything until the next step.

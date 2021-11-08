@@ -18,7 +18,7 @@ from maintain_kubeusers.user import User
 class K8sAPI:
     def __init__(self):
         self.core = client.CoreV1Api()
-        self.certs = client.CertificatesV1beta1Api()
+        self.certs = client.CertificatesV1Api()
         self.rbac = client.RbacAuthorizationV1Api()
         self.policy = client.PolicyV1beta1Api()
 
@@ -144,13 +144,14 @@ class K8sAPI:
             .sign(private_key, hashes.SHA256(), default_backend())
         )
         b64_csr = base64.b64encode(csr.public_bytes(serialization.Encoding.PEM))
-        csr_spec = client.V1beta1CertificateSigningRequestSpec(
+        csr_spec = client.V1CertificateSigningRequestSpec(
             request=b64_csr.decode("utf-8"),
             groups=["system:authenticated", org_name],
             usages=["digital signature", "key encipherment", "client auth"],
+            signer_name="kubernetes.io/kube-apiserver-client",
         )
-        csr_body = client.V1beta1CertificateSigningRequest(
-            api_version="certificates.k8s.io/v1beta1",
+        csr_body = client.V1CertificateSigningRequest(
+            api_version="certificates.k8s.io/v1",
             kind="CertificateSigningRequest",
             metadata=client.V1ObjectMeta(name="tool-{}".format(user)),
             spec=csr_spec,
@@ -183,11 +184,12 @@ class K8sAPI:
         user = user_name if admin else "tool-{}".format(user_name)
         body = self.certs.read_certificate_signing_request_status(user)
         # create an approval condition
-        approval_condition = client.V1beta1CertificateSigningRequestCondition(
+        approval_condition = client.V1CertificateSigningRequestCondition(
             last_update_time=datetime.now(timezone.utc).astimezone(),
             message="This certificate was approved by maintain_kubeusers",
             reason="Authorized User",
             type="Approved",
+            status="True",
         )
         # patch the existing `body` with the new conditions
         # you might want to append the new conditions to the existing ones
@@ -411,7 +413,7 @@ class K8sAPI:
             raise
 
     def generate_psp(self, user):
-        policy = client.PolicyV1beta1PodSecurityPolicy(
+        policy = client.V1beta1PodSecurityPolicy(
             api_version="policy/v1beta1",
             kind="PodSecurityPolicy",
             metadata=client.V1ObjectMeta(
@@ -421,12 +423,12 @@ class K8sAPI:
                     "seccomp.security.alpha.kubernetes.io/defaultProfileName": "runtime/default",  # noqa: E501
                 },
             ),
-            spec=client.PolicyV1beta1PodSecurityPolicySpec(
+            spec=client.V1beta1PodSecurityPolicySpec(
                 allow_privilege_escalation=False,
-                fs_group=client.PolicyV1beta1FSGroupStrategyOptions(
+                fs_group=client.V1beta1FSGroupStrategyOptions(
                     rule="MustRunAs",
                     ranges=[
-                        client.PolicyV1beta1IDRange(
+                        client.V1beta1IDRange(
                             max=int(user.id), min=int(user.id)
                         )
                     ],
@@ -437,28 +439,26 @@ class K8sAPI:
                 privileged=False,
                 required_drop_capabilities=["ALL"],
                 read_only_root_filesystem=False,
-                run_as_user=client.PolicyV1beta1RunAsUserStrategyOptions(
+                run_as_user=client.V1beta1RunAsUserStrategyOptions(
                     rule="MustRunAs",
                     ranges=[
-                        client.PolicyV1beta1IDRange(
+                        client.V1beta1IDRange(
                             max=int(user.id), min=int(user.id)
                         )
                     ],
                 ),
-                se_linux=client.PolicyV1beta1SELinuxStrategyOptions(
-                    rule="RunAsAny"
-                ),
-                run_as_group=client.PolicyV1beta1RunAsGroupStrategyOptions(
+                se_linux=client.V1beta1SELinuxStrategyOptions(rule="RunAsAny"),
+                run_as_group=client.V1beta1RunAsGroupStrategyOptions(
                     rule="MustRunAs",
                     ranges=[
-                        client.PolicyV1beta1IDRange(
+                        client.V1beta1IDRange(
                             max=int(user.id), min=int(user.id)
                         )
                     ],
                 ),
-                supplemental_groups=client.PolicyV1beta1SupplementalGroupsStrategyOptions(  # noqa: E501
+                supplemental_groups=client.V1beta1SupplementalGroupsStrategyOptions(  # noqa: E501
                     rule="MustRunAs",
-                    ranges=[client.PolicyV1beta1IDRange(min=1, max=65535)],
+                    ranges=[client.V1beta1IDRange(min=1, max=65535)],
                 ),
                 volumes=[
                     "configMap",
@@ -470,31 +470,31 @@ class K8sAPI:
                     "persistentVolumeClaim",
                 ],
                 allowed_host_paths=[
-                    client.PolicyV1beta1AllowedHostPath(
+                    client.V1beta1AllowedHostPath(
                         path_prefix="/var/lib/sss/pipes", read_only=False
                     ),
-                    client.PolicyV1beta1AllowedHostPath(
+                    client.V1beta1AllowedHostPath(
                         path_prefix="/data/project", read_only=False
                     ),
-                    client.PolicyV1beta1AllowedHostPath(
+                    client.V1beta1AllowedHostPath(
                         path_prefix="/data/scratch", read_only=False
                     ),
-                    client.PolicyV1beta1AllowedHostPath(
+                    client.V1beta1AllowedHostPath(
                         path_prefix="/public/dumps", read_only=True
                     ),
-                    client.PolicyV1beta1AllowedHostPath(
+                    client.V1beta1AllowedHostPath(
                         path_prefix="/mnt/nfs", read_only=True
                     ),
-                    client.PolicyV1beta1AllowedHostPath(
+                    client.V1beta1AllowedHostPath(
                         path_prefix="/etc/wmcs-project", read_only=True
                     ),
-                    client.PolicyV1beta1AllowedHostPath(
+                    client.V1beta1AllowedHostPath(
                         path_prefix="/etc/ldap.yaml", read_only=True
                     ),
-                    client.PolicyV1beta1AllowedHostPath(
+                    client.V1beta1AllowedHostPath(
                         path_prefix="/etc/novaobserver.yaml", read_only=True
                     ),
-                    client.PolicyV1beta1AllowedHostPath(
+                    client.V1beta1AllowedHostPath(
                         path_prefix="/etc/ldap.conf", read_only=True
                     ),
                 ],
