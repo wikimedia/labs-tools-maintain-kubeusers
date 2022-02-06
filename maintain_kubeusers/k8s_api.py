@@ -256,8 +256,8 @@ class K8sAPI:
                         "secrets": "10",
                         "configmaps": "10",
                         "persistentvolumeclaims": "3",
-                        "count/cronjobs": "50",
-                        "count/jobs": "15",
+                        "count/cronjobs.batch": "50",
+                        "count/jobs.batch": "15",
                         "count/deployments.apps": "3",
                     }
                 ),
