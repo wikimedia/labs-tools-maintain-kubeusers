@@ -59,7 +59,7 @@ class User:
             return {}
 
         # At least make sure we are using valid required keys before proceeding
-        if all(
+        if config is not None and all(
             k in config
             for k in (
                 "apiVersion",
