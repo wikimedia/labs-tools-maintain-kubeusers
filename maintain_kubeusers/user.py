@@ -111,8 +111,8 @@ class User:
             return
 
         context = config["current-context"]
-        if context != "toolforge":
-            config["current-context"] = "toolforge"
+        if context != self.ctx:
+            config["current-context"] = self.ctx
             self.write_config_file(config)
 
     def create_homedir(self):
@@ -199,8 +199,18 @@ class User:
                         "user": self.kubeuser,
                         "namespace": self.ns,
                     },
-                    "name": "toolforge",
+                    "name": self.ctx,
                 }
+
+        # Remove remains of a 'toolforge' cluster if needed. Previously the
+        # cluster name was hardcoded, but currently it's based on the project
+        # name.
+        if self.ctx != "toolforge":
+            config["contexts"] = [
+                context
+                for context in config["contexts"]
+                if context["name"] != "toolforge"
+            ]
 
     def write_kubeconfig(self, api_server, ca_data, gentle):
         """
@@ -223,7 +233,7 @@ class User:
                 # First check if we are using a "virgin" Toolforge 1.0 config
                 is_new = True
                 for i in range(len(config["clusters"])):
-                    if config["clusters"][i]["name"] == "toolforge":
+                    if config["clusters"][i]["name"] == self.ctx:
                         is_new = False
 
                 if is_new:

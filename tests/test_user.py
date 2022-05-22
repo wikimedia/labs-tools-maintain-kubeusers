@@ -28,7 +28,7 @@ def test_migrate_user(test_user):
     assert "current-context: default" in kube_conf.read_text()
     # migrate them!
     test_user.switch_context()
-    assert "current-context: toolforge" in kube_conf.read_text()
+    assert f"current-context: {test_user.ctx}" in kube_conf.read_text()
 
 
 def test_admin_user(test_admin):
