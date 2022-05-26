@@ -11,11 +11,6 @@
     - Annotate the namespace with configmap
 
 ## Deploying in toolsbeta
-
-**Important!** You must copy the /etc/ldap.yaml from a VM in the Cloud VPS over
-the repository's copy of ldap.yaml before running `docker build`.  The repository
-version is for testing only, not for deployment.
-
 Build the container on the current docker-builder host in the tools project with
 `docker build -t docker-registry.tools.wmflabs.org/maintain-kubeusers:beta .`
 and push it `docker push docker-registry.tools.wmflabs.org/maintain-kubeusers:beta`.
@@ -24,11 +19,6 @@ Then as admin on the toolsbeta kubernetes cluster, go to a checkout of this repo
 and run `kubectl apply -k deployments/beta`
 
 ## Deploying in tools
-
-**Important!** You must copy the /etc/ldap.yaml from a VM in the Cloud VPS over
-the repository's copy of ldap.yaml before running `docker build`.  The repository
-version is for testing only, not for deployment.
-
 Build the container on the current docker-builder host in the tools project with
 `docker build -t docker-registry.tools.wmflabs.org/maintain-kubeusers:latest .`
 and push it `docker push docker-registry.tools.wmflabs.org/maintain-kubeusers:latest`.
@@ -84,7 +74,7 @@ a few prerequisites that must be available.
 
 The steps are below:
 
-1. Start minikube with `minikube start --kubernetes-version=1.20.11
+1. Start minikube with `minikube start --kubernetes-version=1.21.9
    --extra-config=apiserver.enable-admission-plugins=PodSecurityPolicy`. It
    **will fail** to finish initializing because PodSecurityPolicy complicates
    everything until the next step.
@@ -93,7 +83,7 @@ The steps are below:
    kube-system` and `kubectl get nodes`
 4. In that shell or opening another one with `minikube ssh`, create the
     directory you will need to stand in for NFS (just so the app can write to
-    something). `sudo mkdir /data/project`
+    something). `sudo mkdir /data/project` `sudo touch /etc/ldap.yaml`
 5. Back at your local shell, in the directory with your maintain-kubeusers
     checkout, run `eval $(minikube docker-env)` to use minikube's docker
     daemon, not whatever other one your shell might have access to. Use the

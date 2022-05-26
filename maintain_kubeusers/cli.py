@@ -166,12 +166,16 @@ def main():
             )
 
         removed_admins = process_removed_users(
-            admins, cur_users["admins"], k8s_api, True
+            admins, cur_users["admins"], k8s_api, admins=True
         )
 
         if tools:
             new_tools = process_new_users(
-                tools, cur_users["tools"], k8s_api, args.gentle_mode
+                tools,
+                cur_users["tools"],
+                k8s_api,
+                admin=False,
+                gentle=args.gentle_mode,
             )
             if expiring_users["tools"]:
                 for tool_name in expiring_users["tools"]:
@@ -187,13 +191,21 @@ def main():
 
         if admins:
             new_admins = process_new_users(
-                admins, cur_users["admins"], k8s_api, args.gentle_mode
+                admins,
+                cur_users["admins"],
+                k8s_api,
+                admin=True,
+                gentle=args.gentle_mode,
             )
             if expiring_users["admins"]:
                 for admin_name in expiring_users["admins"]:
                     admins[admin_name].pk = generate_pk()
-                    k8s_api.generate_csr(admins[admin_name].pk, admin_name)
-                    admins[admin_name].cert = k8s_api.approve_cert(admin_name)
+                    k8s_api.generate_csr(
+                        admins[admin_name].pk, admin_name, admin=True
+                    )
+                    admins[admin_name].cert = k8s_api.approve_cert(
+                        admin_name, admin=True
+                    )
                     admins[admin_name].create_homedir()
                     admins[admin_name].write_kubeconfig(
                         api_server, ca_data, args.gentle_mode

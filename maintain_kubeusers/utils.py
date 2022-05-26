@@ -35,7 +35,11 @@ DISABLED_K8S_FILE = "k8s.disabled"
 
 
 def process_new_users(
-    user_list: UserDict, current_users: List[str], k8s_api: K8sAPI, gentle: bool
+    user_list: UserDict,
+    current_users: List[str],
+    k8s_api: K8sAPI,
+    admin: bool,
+    gentle: bool,
 ) -> int:
     api_server, ca_data = k8s_api.get_cluster_info()
     raw_new_users = set([tool.name for tool in user_list.values()]) - set(
@@ -48,8 +52,10 @@ def process_new_users(
             if not user_list[user_name].is_disabled():
                 new_user_count += 1
                 user_list[user_name].pk = generate_pk()
-                k8s_api.generate_csr(user_list[user_name].pk, user_name)
-                user_list[user_name].cert = k8s_api.approve_cert(user_name)
+                k8s_api.generate_csr(user_list[user_name].pk, user_name, admin)
+                user_list[user_name].cert = k8s_api.approve_cert(
+                    user_name, admin
+                )
                 user_list[user_name].create_homedir()
                 user_list[user_name].write_kubeconfig(
                     api_server, ca_data, gentle

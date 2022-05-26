@@ -101,8 +101,8 @@ def test_tool_renewal(api_object, test_user):
 
 @pytest.mark.vcr()
 def test_test_admin_exists_with_configmap(api_object, test_admin):
-    api_object.generate_csr(test_admin.pk, test_admin.name)
-    test_admin.cert = api_object.approve_cert(test_admin.name)
+    api_object.generate_csr(test_admin.pk, test_admin.name, True)
+    test_admin.cert = api_object.approve_cert(test_admin.name, True)
     api_object.add_user_access(test_admin)
     current, _ = api_object.get_current_users()
     assert test_admin.name in current["admins"]
@@ -110,12 +110,12 @@ def test_test_admin_exists_with_configmap(api_object, test_admin):
 
 @pytest.mark.vcr()
 def test_test_admin_removal(api_object, test_admin, test_admin2, vcr_cassette):
-    api_object.generate_csr(test_admin.pk, test_admin.name)
-    test_admin.cert = api_object.approve_cert(test_admin.name)
+    api_object.generate_csr(test_admin.pk, test_admin.name, True)
+    test_admin.cert = api_object.approve_cert(test_admin.name, True)
     api_object.add_user_access(test_admin)
 
-    api_object.generate_csr(test_admin2.pk, test_admin2.name)
-    test_admin2.cert = api_object.approve_cert(test_admin2.name)
+    api_object.generate_csr(test_admin2.pk, test_admin2.name, True)
+    test_admin2.cert = api_object.approve_cert(test_admin2.name, True)
     api_object.add_user_access(test_admin2)
 
     current, _ = api_object.get_current_users()
@@ -144,8 +144,8 @@ def test_test_admin_removal(api_object, test_admin, test_admin2, vcr_cassette):
 
 @pytest.mark.vcr()
 def test_admin_renewal(api_object, test_admin):
-    api_object.generate_csr(test_admin.pk, test_admin.name)
-    test_admin.cert = api_object.approve_cert(test_admin.name)
+    api_object.generate_csr(test_admin.pk, test_admin.name, True)
+    test_admin.cert = api_object.approve_cert(test_admin.name, True)
     api_object.add_user_access(test_admin)
     # We have to patch the configmap to be expired
     patch_data = {"data": {test_admin.name: "2018-08-14T22:31:00"}}
@@ -185,6 +185,7 @@ def test_process_new_users(
                 current["tools"],
                 api_object,
                 False,
+                False,
             )
     end_pos1 = vcr_cassette.play_count - 1
 
@@ -218,6 +219,7 @@ def test_process_new_and_disabled_users(
                 {"blurp": test_user, "blorp": test_disabled_user},
                 current["tools"],
                 api_object,
+                False,
                 False,
             )
 
@@ -273,6 +275,7 @@ def test_remove_disabled_user(
                 {"blurp": test_user},
                 current["tools"],
                 api_object,
+                False,
                 False,
             )
 
