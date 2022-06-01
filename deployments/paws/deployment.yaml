@@ -25,6 +25,10 @@ spec:
         hostPath:
           path: /home
           type: Directory
+      - name: my-host-etc-ldap
+        hostPath:
+          path: /etc/ldap.yaml
+          type: File
       containers:
       - name: maintain-kubeusers
         imagePullPolicy: Always
@@ -36,6 +40,8 @@ spec:
           name: my-host-project
         - mountPath: /home
           name: my-host-home
+        - mountPath: /etc/ldap.yaml
+          name: my-host-etc-ldap
         livenessProbe:
           exec:
             command:

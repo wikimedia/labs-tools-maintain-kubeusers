@@ -21,6 +21,10 @@ spec:
         hostPath:
           path: /data/project
           type: Directory
+      - name: my-host-etc-ldap
+        hostPath:
+          path: /etc/ldap.yaml
+          type: File
       containers:
       - name: maintain-kubeusers
         imagePullPolicy: IfNotPresent
@@ -30,3 +34,5 @@ spec:
         volumeMounts:
         - mountPath: /data/project
           name: my-host-nfs
+        - mountPath: /etc/ldap.yaml
+          name: my-host-etc-ldap
