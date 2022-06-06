@@ -1,4 +1,4 @@
-import os
+from unittest.mock import patch
 
 
 def test_create_user(test_user):
@@ -27,7 +27,9 @@ def test_migrate_user(test_user):
     kube_conf = test_user.home / ".kube" / "config"
     assert "current-context: default" in kube_conf.read_text()
     # migrate them!
-    test_user.switch_context()
+    with patch("os.chown", autospec=True):
+        with patch("os.fchown", autospec=True):
+            test_user.switch_context()
     assert f"current-context: {test_user.ctx}" in kube_conf.read_text()
 
 
@@ -36,10 +38,14 @@ def test_admin_user(test_admin):
     certs_dir = test_admin.home / ".admkube"
     cert = certs_dir / "client.crt"
     key = certs_dir / "client.key"
-    test_admin.write_kubeconfig("myserver", "FAKE_CA_DATA==", True)
-    # Admin user creds are read-only to owner, not group
-    os.chmod.assert_any_call(str(cert), 0o400)  # pylint: disable=no-member
-    os.chmod.assert_any_call(str(key), 0o400)  # pylint: disable=no-member
+    with patch("os.chown", autospec=True):
+        with patch("os.fchown", autospec=True):
+            with patch("os.chmod", autospec=True) as chmod_mock:
+                test_admin.write_kubeconfig("myserver", "FAKE_CA_DATA==", True)
+                # Admin user creds are read-only to owner, not group
+                # pylint: disable=no-member
+                chmod_mock.assert_any_call(str(cert), 0o400)
+                chmod_mock.assert_any_call(str(key), 0o400)
     assert "Not really a cert" in cert.read_text()
     assert "PRIVATE KEY" in key.read_text()
     assert ".admkube/client.crt" in kube_conf.read_text()

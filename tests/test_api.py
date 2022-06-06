@@ -3,6 +3,7 @@ from cryptography.hazmat.backends import default_backend
 from datetime import datetime
 import time
 import pytest
+from unittest.mock import patch
 from .context import (
     K8sAPI,
     k_config,
@@ -167,10 +168,8 @@ class MockCertObj:
 
 @pytest.mark.vcr()
 def test_process_new_users(
-    monkeypatch, api_object, test_user, mocker, vcr_cassette
+    monkeypatch, api_object, test_user, vcr_cassette
 ):
-    mocker.patch("pathlib.Path.touch", autospec=True)
-
     def mock_load_cert(*args, **kwargs):
         return MockCertObj()
 
@@ -178,12 +177,15 @@ def test_process_new_users(
 
     current, _ = api_object.get_current_users()
     start_pos1 = vcr_cassette.play_count - 1
-    new_tools = process_new_users(
-        {"blurp": test_user},
-        current["tools"],
-        api_object,
-        False,
-    )
+
+    with patch("os.chown", autospec=True):
+        with patch("os.fchown", autospec=True):
+            new_tools = process_new_users(
+                {"blurp": test_user},
+                current["tools"],
+                api_object,
+                False,
+            )
     end_pos1 = vcr_cassette.play_count - 1
 
     # There should be no 409s during creations in this test
@@ -199,10 +201,8 @@ def test_process_new_users(
 
 @pytest.mark.vcr()
 def test_process_new_and_disabled_users(
-    monkeypatch, api_object, test_user, test_disabled_user, mocker, vcr_cassette
+    monkeypatch, api_object, test_user, test_disabled_user, vcr_cassette
 ):
-    mocker.patch("pathlib.Path.touch", autospec=True)
-
     # No need to test that fake certs load in someone else's library
     def mock_load_cert(*args, **kwargs):
         return MockCertObj()
@@ -212,12 +212,15 @@ def test_process_new_and_disabled_users(
     # Add blurp but not blorp
     current, _ = api_object.get_current_users()
     start_pos1 = vcr_cassette.play_count - 1
-    new_tools = process_new_users(
-        {"blurp": test_user, "blorp": test_disabled_user},
-        current["tools"],
-        api_object,
-        False,
-    )
+    with patch("os.chown", autospec=True):
+        with patch("os.fchown", autospec=True):
+            new_tools = process_new_users(
+                {"blurp": test_user, "blorp": test_disabled_user},
+                current["tools"],
+                api_object,
+                False,
+            )
+
     end_pos1 = vcr_cassette.play_count - 1
     assert new_tools == 1
     current, _ = api_object.get_current_users()
@@ -227,11 +230,12 @@ def test_process_new_and_disabled_users(
     # Remove blurp
     start_pos2 = vcr_cassette.play_count - 1
     test_user.pwdAccountLockedTime = "000001010000Z"
-    disabled_tools = process_disabled_users(
-        {"blurp": test_user, "blorp": test_disabled_user},
-        current["tools"],
-        api_object,
-    )
+    with patch("pathlib.Path.touch", autospec=True):
+        disabled_tools = process_disabled_users(
+            {"blurp": test_user, "blorp": test_disabled_user},
+            current["tools"],
+            api_object,
+        )
     end_pos2 = vcr_cassette.play_count - 1
 
     # There should be no 409s during creations in this test
@@ -254,10 +258,8 @@ def test_process_new_and_disabled_users(
 
 @pytest.mark.vcr()
 def test_remove_disabled_user(
-    monkeypatch, api_object, test_user, test_disabled_user, mocker, vcr_cassette
+    monkeypatch, api_object, test_user, test_disabled_user, vcr_cassette
 ):
-    mocker.patch("pathlib.Path.touch", autospec=True)
-
     def mock_load_cert(*args, **kwargs):
         return MockCertObj()
 
@@ -265,12 +267,14 @@ def test_remove_disabled_user(
 
     # Add blurp so we can remove it
     current, _ = api_object.get_current_users()
-    new_tools = process_new_users(
-        {"blurp": test_user},
-        current["tools"],
-        api_object,
-        False,
-    )
+    with patch("os.chown", autospec=True):
+        with patch("os.fchown", autospec=True):
+            new_tools = process_new_users(
+                {"blurp": test_user},
+                current["tools"],
+                api_object,
+                False,
+            )
 
     assert new_tools == 1
     current, _ = api_object.get_current_users()
@@ -289,11 +293,12 @@ def test_remove_disabled_user(
     # Remove blurp
     test_user.pwdAccountLockedTime = "000001010000Z"
     start_pos2 = vcr_cassette.play_count - 1
-    disabled_tools = process_disabled_users(
-        {"blurp": test_user},
-        current["tools"],
-        api_object,
-    )
+    with patch("pathlib.Path.touch", autospec=True):
+        disabled_tools = process_disabled_users(
+            {"blurp": test_user},
+            current["tools"],
+            api_object,
+        )
     end_pos2 = vcr_cassette.play_count
     time.sleep(2)
 

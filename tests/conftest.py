@@ -1,5 +1,7 @@
 # conftest.py
 import pytest
+from unittest.mock import patch
+
 import ldap3
 from .context import User, generate_pk
 
@@ -13,11 +15,7 @@ def vcr_config():
 
 
 @pytest.fixture
-def test_user(tmp_path, mocker):
-    mocker.patch("os.chown", autospec=True)
-    mocker.patch("os.fchown", autospec=True)
-    mocker.patch("os.chmod", autospec=True)
-    mocker.patch("os.fchmod", autospec=True)
+def test_user(tmp_path):
     user = User(
         "blurp",
         1002,
@@ -33,17 +31,17 @@ Not really a cert
 -----END CERTIFICATE-----
 """
     user.pk = generate_pk()
-    user.create_homedir()
-    user.write_kubeconfig("myserver", "FAKE_CA_DATA==", True)
-    return user
+    with patch("os.chown", autospec=True):
+        with patch("os.chmod", autospec=True):
+            with patch("os.fchown", autospec=True):
+                with patch("os.fchmod", autospec=True):
+                    user.create_homedir()
+                    user.write_kubeconfig("myserver", "FAKE_CA_DATA==", True)
+    yield user
 
 
 @pytest.fixture
-def test_disabled_user(tmp_path, mocker):
-    mocker.patch("os.chown", autospec=True)
-    mocker.patch("os.fchown", autospec=True)
-    mocker.patch("os.chmod", autospec=True)
-    mocker.patch("os.fchmod", autospec=True)
+def test_disabled_user(tmp_path):
     user = User(
         "blorp",
         1002,
@@ -59,16 +57,17 @@ Not really a cert
 -----END CERTIFICATE-----
 """
     user.pk = generate_pk()
-    user.create_homedir()
-    user.write_kubeconfig("myserver", "FAKE_CA_DATA==", True)
-    return user
+    with patch("os.chown", autospec=True):
+        with patch("os.chmod", autospec=True):
+            with patch("os.fchown", autospec=True):
+                with patch("os.fchmod", autospec=True):
+                    user.create_homedir()
+                    user.write_kubeconfig("myserver", "FAKE_CA_DATA==", True)
+    yield user
 
 
 @pytest.fixture
-def test_admin(tmp_path, mocker):
-    mocker.patch("os.chown", autospec=True)
-    mocker.patch("os.fchown", autospec=True)
-    mocker.patch("os.chmod", autospec=True)
+def test_admin(tmp_path):
     admin_user = User("admin", 1003, tmp_path / "admin", None, None, True)
     admin_user.cert = b"""
 -----BEGIN CERTIFICATE-----
@@ -76,14 +75,11 @@ Not really a cert
 -----END CERTIFICATE-----
 """
     admin_user.pk = generate_pk()
-    return admin_user
+    yield admin_user
 
 
 @pytest.fixture
-def test_admin2(tmp_path, mocker):
-    mocker.patch("os.chown", autospec=True)
-    mocker.patch("os.fchown", autospec=True)
-    mocker.patch("os.chmod", autospec=True)
+def test_admin2(tmp_path):
     admin_user = User("admin2", 1003, tmp_path / "admin2", None, None, True)
     admin_user.cert = b"""
 -----BEGIN CERTIFICATE-----
@@ -91,7 +87,7 @@ Some other fake cert
 -----END CERTIFICATE-----
 """
     admin_user.pk = generate_pk()
-    return admin_user
+    yield admin_user
 
 
 def pytest_addoption(parser):
