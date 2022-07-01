@@ -8,7 +8,6 @@ WORKDIR /app
 COPY maintain_kubeusers maintain_kubeusers
 COPY maintain_kubeusers.py .
 COPY requirements.txt .
-COPY ldap.yaml /etc/
 
 RUN mkdir -p /data/project
 RUN python3 -m venv venv

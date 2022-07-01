@@ -5,8 +5,6 @@ RUN apk add --no-cache --virtual .fetch-deps \
 
 WORKDIR /app
 
-COPY ldap.yaml /etc/
-
 COPY . /app
 RUN rm -rf venv
 RUN mkdir -p /data/project

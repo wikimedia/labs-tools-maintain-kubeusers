@@ -18,6 +18,10 @@ spec:
     hostPath:
       path: /home
       type: Directory
+  - name: my-host-etc-ldap
+    hostPath:
+      path: /etc/ldap.yaml
+      type: File
   containers:
   - name: maintain-kubeusers
     image: docker-registry.tools.wmflabs.org/maintain-kubeusers:latest
@@ -28,3 +32,5 @@ spec:
       name: my-host-project
     - mountPath: /home
       name: my-host-home
+    - mountPath: /etc/ldap.yaml
+      name: my-host-etc-ldap
