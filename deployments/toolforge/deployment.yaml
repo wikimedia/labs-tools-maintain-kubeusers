@@ -16,6 +16,8 @@ spec:
         app: maintain-kubeusers
     spec:
       serviceAccountName: user-maintainer
+      nodeSelector:
+        kubernetes.wmcloud.org/nfs-mounted: "true"
       volumes:
       - name: my-host-project
         hostPath:
