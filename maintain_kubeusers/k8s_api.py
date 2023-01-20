@@ -483,9 +483,6 @@ class K8sAPI:
                         path_prefix="/data/scratch", read_only=False
                     ),
                     client.V1beta1AllowedHostPath(
-                        path_prefix="/shared", read_only=False
-                    ),
-                    client.V1beta1AllowedHostPath(
                         path_prefix="/public/dumps", read_only=True
                     ),
                     client.V1beta1AllowedHostPath(
