@@ -53,13 +53,6 @@ def main():
         help="Project name to fetch LDAP users from",
         default="tools",
     )
-    argparser.add_argument(
-        "--admins-only",
-        "-a",
-        help="Only manage admin accounts for this project",
-        default=False,
-        action="store_true",
-    )
     group1.add_argument(
         "--interval", help="Seconds between between runs", default=60
     )
@@ -118,7 +111,7 @@ def main():
         logging.info("starting a run")
         # Touch a temp file for a Kubernetes liveness check to prevent hangs
         Path("/tmp/run.check").touch()
-        cur_users, expiring_users = k8s_api.get_current_users(args.admins_only)
+        cur_users, expiring_users = k8s_api.get_current_users()
         servers = ldap3.ServerPool(
             [ldap3.Server(s, connect_timeout=1) for s in ldapconfig["servers"]],
             ldap3.ROUND_ROBIN,
@@ -134,10 +127,7 @@ def main():
             raise_exceptions=True,
             receive_timeout=60,
         ) as conn:
-            tools = []
-            if not args.admins_only:
-                tools = get_tools_from_ldap(conn, args.project)
-
+            tools = get_tools_from_ldap(conn, args.project)
             admins = get_admins_from_ldap(conn, args.project)
 
         # Initialize these to zero in cases where something is missing.
@@ -160,10 +150,9 @@ def main():
 
             break
 
-        if not args.admins_only:
-            removed_tools = process_removed_users(
-                tools, cur_users["tools"], k8s_api
-            )
+        removed_tools = process_removed_users(
+            tools, cur_users["tools"], k8s_api
+        )
 
         removed_admins = process_removed_users(
             admins, cur_users["admins"], k8s_api, admins=True
@@ -213,23 +202,16 @@ def main():
                     k8s_api.update_expired_ns(admins[admin_name])
                     logging.info("Renewed creds for admin user %s", admin_name)
 
-        if not args.admins_only:
-            disabled_tools = process_disabled_users(
-                tools, cur_users["tools"], k8s_api
-            )
-            logging.info(
-                "finished run, wrote %s new accounts, disabled %s accounts, "
-                "cleaned up %s accounts",
-                new_tools + new_admins,
-                disabled_tools,
-                removed_tools + removed_admins,
-            )
-        else:
-            logging.info(
-                "finished run, wrote %s new accounts, cleaned up %s accounts",
-                new_admins,
-                removed_admins,
-            )
+        disabled_tools = process_disabled_users(
+            tools, cur_users["tools"], k8s_api
+        )
+        logging.info(
+            "finished run, wrote %s new accounts, disabled %s accounts, "
+            "cleaned up %s accounts",
+            new_tools + new_admins,
+            disabled_tools,
+            removed_tools + removed_admins,
+        )
 
         if args.once:
             break

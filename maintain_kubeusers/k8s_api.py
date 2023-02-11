@@ -43,7 +43,7 @@ class K8sAPI:
         fs = "metadata.name=maintain-kubeusers"
         return self.core.list_namespaced_config_map(ns, field_selector=fs).items
 
-    def get_current_users(self, admins=False):
+    def get_current_users(self):
         # Return all tools that currently have the maintain-kubeusers ConfigMap
         # and tools whose certs expire in 30 days
         namespaces = self.get_tool_namespaces()
@@ -52,16 +52,16 @@ class K8sAPI:
         expiring_tools = []
         expiring_admins = []
         test_time = datetime.utcnow() + timedelta(days=30)
-        if not admins:
-            for ns in namespaces:
-                cm_list = self._check_confmap(ns)
-                if cm_list:
-                    current_tools.append(ns[5:])
-                    expiry_time = datetime.strptime(
-                        cm_list[0].data["expires"], "%Y-%m-%dT%H:%M:%S"
-                    )
-                    if expiry_time <= test_time:
-                        expiring_tools.append(ns[5:])
+
+        for ns in namespaces:
+            cm_list = self._check_confmap(ns)
+            if cm_list:
+                current_tools.append(ns[5:])
+                expiry_time = datetime.strptime(
+                    cm_list[0].data["expires"], "%Y-%m-%dT%H:%M:%S"
+                )
+                if expiry_time <= test_time:
+                    expiring_tools.append(ns[5:])
 
         adm_cm_list = self._check_confmap("maintain-kubeusers")
         if adm_cm_list:
