@@ -1,0 +1,3 @@
+image:
+  tag: aac195b
+  args: ["/app/maintain_kubeusers.py", "--project=toolsbeta"]

@@ -1,6 +1,0 @@
-commonLabels:
-  app: maintain-kubeusers
-resources:
-- namespace.yaml
-- service-account.yaml
-- rbac.yaml

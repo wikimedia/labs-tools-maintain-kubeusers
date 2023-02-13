@@ -1,9 +1,0 @@
-bases:
-- ../../deployment-base
-# Not using now, but it's fun to experiment with
-# nameSuffix: -test
-resources:
-  # This is just so the test environment will work right. It is the same as the
-  # base psps in puppet.
-  - privileged-psp.yaml
-  - deployment.yaml

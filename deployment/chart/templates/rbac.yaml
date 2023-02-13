@@ -1,5 +1,5 @@
+{{ if .Values.includeBaseRbac }}
 # role for toolforge tools
-
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -156,6 +156,7 @@ rules:
     - list
     - watch
 ---
+{{ end }}
 # role for kubernetes project admins
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -271,7 +272,7 @@ metadata:
   name: user-maintainer-binding
 subjects:
 - kind: ServiceAccount
-  namespace: maintain-kubeusers
+  namespace: {{ .Release.Namespace }}
   name: user-maintainer
 roleRef:
   kind: ClusterRole
@@ -284,7 +285,7 @@ metadata:
   name: user-maintainer-psp-binding
 subjects:
 - kind: ServiceAccount
-  namespace: maintain-kubeusers
+  namespace: {{ .Release.Namespace }}
   name: user-maintainer
 roleRef:
   kind: ClusterRole
@@ -297,7 +298,7 @@ metadata:
   name: user-maintainer-tools-user
 subjects:
 - kind: ServiceAccount
-  namespace: maintain-kubeusers
+  namespace: {{ .Release.Namespace }}
   name: user-maintainer
 roleRef:
   kind: ClusterRole
@@ -310,7 +311,7 @@ metadata:
   name: user-maintainer-k8s-admin
 subjects:
 - kind: ServiceAccount
-  namespace: maintain-kubeusers
+  namespace: {{ .Release.Namespace }}
   name: user-maintainer
 roleRef:
   kind: ClusterRole
@@ -323,7 +324,7 @@ metadata:
   name: user-maintainer-view
 subjects:
 - kind: ServiceAccount
-  namespace: maintain-kubeusers
+  namespace: {{ .Release.Namespace }}
   name: user-maintainer
 roleRef:
   kind: ClusterRole

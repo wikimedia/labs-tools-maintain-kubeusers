@@ -1,0 +1,15 @@
+releases:
+  - name: maintain-kubeusers
+    chart: ./chart/
+
+    namespace: maintain-kubeusers
+    createNamespace: true
+
+    values:
+      - ./values/{{ .Environment.Name }}.yaml
+
+# Specify an environment for each project.
+environments:
+  tools: {}
+  toolsbeta: {}
+  local: {}

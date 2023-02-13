@@ -1,4 +1,0 @@
-bases:
-- ../../deployment-base
-resources:
-- deployment.yaml

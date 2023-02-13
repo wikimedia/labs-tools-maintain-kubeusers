@@ -1,0 +1,9 @@
+image:
+  name: docker-registry.tools.wmflabs.org/maintain-kubeusers
+  tag: latest
+  pullPolicy: Always
+  command: ["/app/venv/bin/python"]
+  args: ["/app/maintain_kubeusers.py"]
+
+mountHome: true
+enableLivelinessProbe: true
