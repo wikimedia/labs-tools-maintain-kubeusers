@@ -13,10 +13,8 @@ rules:
     - limitranges
     - namespaces
     - namespaces/status
-    - persistentvolumeclaims
     - pods/log
     - pods/status
-    - replicationcontrollers/status
     - resourcequotas
     - resourcequotas/status
     verbs:
@@ -33,8 +31,6 @@ rules:
     - pods/exec
     - pods/portforward
     - pods/proxy
-    - replicationcontrollers
-    - replicationcontrollers/scale
     - secrets
     - services
     - services/proxy
@@ -88,34 +84,6 @@ rules:
     resources:
     - cronjobs
     - jobs
-    verbs:
-    - get
-    - list
-    - watch
-    - create
-    - delete
-    - deletecollection
-    - patch
-    - update
-  - apiGroups:
-    - extensions
-    resources:
-    - daemonsets
-    verbs:
-    - get
-    - list
-    - watch
-  - apiGroups:
-    - extensions
-    resources:
-    - deployments
-    - deployments/rollback
-    - deployments/scale
-    - ingresses
-    - networkpolicies
-    - replicasets
-    - replicasets/scale
-    - replicationcontrollers/scale
     verbs:
     - get
     - list
@@ -194,18 +162,6 @@ rules:
   - watch
   - delete
 - apiGroups:
-  - extensions
-  resources:
-  - podsecuritypolicies
-  verbs:
-  - create
-  - get
-  - list
-  - patch
-  - update
-  - use
-  - delete
-- apiGroups:
   - policy
   resources:
   - podsecuritypolicies
@@ -261,7 +217,6 @@ rules:
   resources:
   - signers
   resourceNames:
-  - kubernetes.io/legacy-unknown
   - kubernetes.io/kube-apiserver-client
   verbs:
   - approve
