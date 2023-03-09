@@ -667,7 +667,7 @@ class K8sAPI:
                     ),
                     rules=[
                         client.V1PolicyRule(
-                            api_groups=["extensions"],
+                            api_groups=["policy"],
                             resource_names=["toolforge-tfb-psp"],
                             resources=["podsecuritypolicies"],
                             verbs=["use"],
