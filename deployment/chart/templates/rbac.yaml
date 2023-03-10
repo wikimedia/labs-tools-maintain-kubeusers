@@ -17,6 +17,13 @@ rules:
     - pods/status
     - resourcequotas
     - resourcequotas/status
+
+    # ReplicationControllers are the predecessor of Deployments, and not
+    # used in Toolforge. For that reason we do not grant tools the ability to
+    # create or otherwise manage them. However we grant the ability to list
+    # them, or otherwise `kubectl get all` prints an error message at least in
+    # 1.21 and 1.22.
+    - replicationcontrollers
     verbs:
     - get
     - list
