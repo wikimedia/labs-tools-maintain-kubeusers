@@ -13,3 +13,4 @@ environments:
   tools: {}
   toolsbeta: {}
   local: {}
+  vcr-recording: {}

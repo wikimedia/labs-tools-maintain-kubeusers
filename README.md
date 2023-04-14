@@ -19,6 +19,22 @@ This project uses the [standard workflow](https://wikitech.wikimedia.org/wiki/Wi
 3. Use the `wmcs.toolforge.k8s.component.deploy` cookbook to deploy the updated
    image to the cluster.
 
+## Deploying locally
+
+Follow these steps:
+
+1. Have a local kubernetes deployment for Toolforge (you can use [lima-kilo](https://gitlab.wikimedia.org/repos/cloud/toolforge/lima-kilo/))
+2. Build the Docker image locally and load it into the local kubernetes deployment
+
+```shell-session
+# if using lima-kilo (kind)
+$ docker build -t maintain-kubeusers . && kind load docker-image maintain-kubeusers:latest -n toolforge
+```
+3. Run the deploy script
+```shell-session
+$ ./deploy.sh local
+```
+
 ## Running tests
 
 Tests are run using [tox](https://tox.readthedocs.io/en/latest/), normally,
@@ -52,7 +68,7 @@ $ docker build -f Dockerfile.test -t mk-test:testcase . && kind load docker-imag
 ```
 3. Run the deploy script to start the service
 ```shell-session
-$ ./deploy.sh local
+$ ./deploy.sh vcr-recording
 ```
 4. Presuming that your service launched alright, get the name of the created
    pod with `kubectl get pods -n maintain-kubeusers` and then get a shell on

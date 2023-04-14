@@ -1,12 +1,9 @@
 # this is for local development
-
 image:
-  name: mk-test
-  tag: testcase
+  name: maintain-kubeusers
+  tag: latest
   pullPolicy: Never
-
-  command: ["/bin/ash"]
-  args: ["-c", "while true; do echo hello; sleep 10;done"]
+  args: ["/app/maintain_kubeusers.py", "--project=toolsbeta", "--debug"]
 
 mountHome: false
 enableLivelinessProbe: false

@@ -1,0 +1,12 @@
+# this is for running the tests
+image:
+  name: mk-test
+  tag: testcase
+  pullPolicy: Never
+
+  command: ["/bin/ash"]
+  args: ["-c", "while true; do echo hello; sleep 10;done"]
+
+mountHome: false
+enableLivelinessProbe: false
+includeBaseRbac: false
