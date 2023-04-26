@@ -1,3 +1,4 @@
+import os
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from datetime import datetime
@@ -20,7 +21,9 @@ def api_object(are_we_in_k8s, test_user, test_disabled_user):
     if are_we_in_k8s:
         k_config.load_incluster_config()
     else:
-        k_config.load_kube_config(config_file="tests/dummy_config")
+        k_config.load_kube_config(
+            config_file=os.path.join(os.path.dirname(__file__), "dummy_config")
+        )
     api = K8sAPI()
     yield api
     users = [test_user, test_disabled_user]

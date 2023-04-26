@@ -219,9 +219,12 @@ class User:
         """
         dirpath = os.path.join(self.home, ".kube")
         cdir_name = ".admkube" if self.admin else ".toolskube"
-        certpath = os.path.join(self.home, cdir_name)
+        # use relative paths to allow relocating the kubeconfig files and certs
+        # as supported by the official libraries
+        certpath = os.path.join("..", cdir_name)
         certfile = os.path.join(certpath, "client.crt")
         keyfile = os.path.join(certpath, "client.key")
+
         path = os.path.join(dirpath, "config")
         current_context = "default" if gentle else self.ctx
         mode = 0o700 if self.admin else 0o775
@@ -264,10 +267,13 @@ class User:
 
         # exist_ok=True is fine here, and not a security issue (Famous
         # last words?).
-        os.makedirs(certpath, mode=mode, exist_ok=True)
         os.makedirs(dirpath, mode=mode, exist_ok=True)
         os.chown(dirpath, int(self.id), int(self.id))
-        os.chown(certpath, int(self.id), int(self.id))
+
+        full_certpath = os.path.realpath(os.path.join(dirpath, certpath))
+        os.makedirs(full_certpath, mode=mode, exist_ok=True)
+        os.chown(full_certpath, int(self.id), int(self.id))
+
         self.write_certs()
         self.write_config_file(config)
 
