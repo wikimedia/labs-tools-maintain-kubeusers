@@ -173,9 +173,7 @@ class MockCertObj:
 
 
 @pytest.mark.vcr()
-def test_process_new_users(
-    monkeypatch, api_object, test_user, vcr_cassette
-):
+def test_process_new_users(monkeypatch, api_object, test_user, vcr_cassette):
     def mock_load_cert(*args, **kwargs):
         return MockCertObj()
 
