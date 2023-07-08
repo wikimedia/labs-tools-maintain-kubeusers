@@ -62,3 +62,7 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 5
 {{ end }}
+        ports:
+          - containerPort: 9000
+            name: metrics
+            protocol: TCP
