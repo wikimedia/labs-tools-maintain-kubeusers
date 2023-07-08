@@ -22,17 +22,6 @@ def test_disabled_user(test_disabled_user):
     assert test_disabled_user.is_disabled()
 
 
-def test_migrate_user(test_user):
-    # test_user starts in gentle mode
-    kube_conf = test_user.home / ".kube" / "config"
-    assert "current-context: default" in kube_conf.read_text()
-    # migrate them!
-    with patch("os.chown", autospec=True):
-        with patch("os.fchown", autospec=True):
-            test_user.switch_context()
-    assert f"current-context: {test_user.ctx}" in kube_conf.read_text()
-
-
 def test_admin_user(test_admin):
     kube_conf = test_admin.home / ".kube" / "config"
     certs_dir = test_admin.home / ".admkube"
@@ -41,7 +30,7 @@ def test_admin_user(test_admin):
     with patch("os.chown", autospec=True):
         with patch("os.fchown", autospec=True):
             with patch("os.chmod", autospec=True) as chmod_mock:
-                test_admin.write_kubeconfig("myserver", "FAKE_CA_DATA==", True)
+                test_admin.write_kubeconfig("myserver", "FAKE_CA_DATA==")
                 # Admin user creds are read-only to owner, not group
                 # pylint: disable=no-member
                 chmod_mock.assert_any_call(str(cert), 0o400)

@@ -189,7 +189,6 @@ def test_process_new_users(monkeypatch, api_object, test_user, vcr_cassette):
                 current["tools"],
                 api_object,
                 False,
-                False,
             )
     end_pos1 = vcr_cassette.play_count - 1
 
@@ -225,7 +224,6 @@ def test_process_new_and_disabled_users(
                 {"blurp": test_user, "blorp": test_disabled_user},
                 current["tools"],
                 api_object,
-                False,
                 False,
             )
 
@@ -281,7 +279,6 @@ def test_remove_disabled_user(
                 {"blurp": test_user},
                 current["tools"],
                 api_object,
-                False,
                 False,
             )
 

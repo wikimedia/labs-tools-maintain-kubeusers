@@ -98,23 +98,6 @@ class User:
         finally:
             os.close(f)
 
-    def switch_context(self):
-        path = os.path.join(self.home, ".kube", "config")
-        if not self.project.startswith("tools"):
-            return
-
-        if not os.path.isfile(path):
-            return
-
-        config = self.read_config_file()
-        if not config:
-            return
-
-        context = config["current-context"]
-        if context != self.ctx:
-            config["current-context"] = self.ctx
-            self.write_config_file(config)
-
     def create_homedir(self):
         """
         Create homedirs for new users
@@ -212,7 +195,7 @@ class User:
                 if context["name"] != "toolforge"
             ]
 
-    def write_kubeconfig(self, api_server, ca_data, gentle):
+    def write_kubeconfig(self, api_server, ca_data):
         """
         Write or merge an appropriate .kube/config for given user to access
         given api server.
@@ -226,7 +209,6 @@ class User:
         keyfile = os.path.join(certpath, "client.key")
 
         path = os.path.join(dirpath, "config")
-        current_context = "default" if gentle else self.ctx
         mode = 0o700 if self.admin else 0o775
         # If the path exists, merge the configs and do not force the switch to
         # this cluster
@@ -261,7 +243,7 @@ class User:
                 "clusters": [],
                 "users": [],
                 "contexts": [],
-                "current-context": current_context,
+                "current-context": self.ctx,
             }
             self.append_config(config, api_server, ca_data, keyfile, certfile)
 

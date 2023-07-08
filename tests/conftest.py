@@ -36,7 +36,7 @@ Not really a cert
             with patch("os.fchown", autospec=True):
                 with patch("os.fchmod", autospec=True):
                     user.create_homedir()
-                    user.write_kubeconfig("myserver", "FAKE_CA_DATA==", True)
+                    user.write_kubeconfig("myserver", "FAKE_CA_DATA==")
     yield user
 
 
@@ -62,7 +62,7 @@ Not really a cert
             with patch("os.fchown", autospec=True):
                 with patch("os.fchmod", autospec=True):
                     user.create_homedir()
-                    user.write_kubeconfig("myserver", "FAKE_CA_DATA==", True)
+                    user.write_kubeconfig("myserver", "FAKE_CA_DATA==")
     yield user
 
 

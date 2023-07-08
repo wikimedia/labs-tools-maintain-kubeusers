@@ -39,7 +39,6 @@ Kubernetes
 def main():
     argparser = argparse.ArgumentParser()
     group1 = argparser.add_mutually_exclusive_group()
-    group2 = argparser.add_mutually_exclusive_group()
     argparser.add_argument(
         "--ldapconfig",
         help="Path to YAML LDAP config file",
@@ -62,36 +61,8 @@ def main():
         help="Specifies this is not running in Kubernetes (for debugging)",
         action="store_true",
     )
-    group2.add_argument(
-        "--force-migrate",
-        help=(
-            "For full Kubernetes cluster change: switches every account "
-            "to use the toolforge context. Requires the --once option"
-        ),
-        action="store_true",
-    )
-    group2.add_argument(
-        "--force-buildpack-psp",
-        help=(
-            "Add the new buildpack PSP roles to existing accounts. Requires "
-            "the --once option"
-        ),
-        action="store_true",
-    )
-    group2.add_argument(
-        "--gentle-mode",
-        help=(
-            "Before general release, keep current context set to default "
-            "while the new Kubernetes cluster is considered opt-in"
-        ),
-        action="store_true",
-    )
 
     args = argparser.parse_args()
-    if args.force_migrate and not args.once:
-        argparser.error("--once is required when --force-migrate is set")
-    elif args.force_buildpack_psp and not args.once:
-        argparser.error("--once is required when --force-buildpack-psp is set")
 
     loglvl = logging.DEBUG if args.debug else logging.INFO
     logging.basicConfig(format="%(message)s", level=loglvl)
@@ -133,22 +104,6 @@ def main():
         # Initialize these to zero in cases where something is missing.
         new_tools = 0
         new_admins = 0
-        # If this is just migrating all remaining users (--force-migrate)
-        # we should short-circuit the while True loop as soon as possible to
-        # reduce all the churn.
-        if args.force_migrate:
-            for tool_name in cur_users["tools"]:
-                tools[tool_name].switch_context()
-
-            break
-
-        # If --force-buildpack-psp is used, backfill the the rbac for all
-        # tools and then short-circuit the while True loop.
-        if args.force_buildpack_psp:
-            for tool_name in cur_users["tools"]:
-                k8s_api.process_buildpack_rbac(tool_name)
-
-            break
 
         removed_tools = process_removed_users(
             tools, cur_users["tools"], k8s_api
@@ -164,7 +119,6 @@ def main():
                 cur_users["tools"],
                 k8s_api,
                 admin=False,
-                gentle=args.gentle_mode,
             )
             if expiring_users["tools"]:
                 for tool_name in expiring_users["tools"]:
@@ -172,9 +126,7 @@ def main():
                     k8s_api.generate_csr(tools[tool_name].pk, tool_name)
                     tools[tool_name].cert = k8s_api.approve_cert(tool_name)
                     tools[tool_name].create_homedir()
-                    tools[tool_name].write_kubeconfig(
-                        api_server, ca_data, args.gentle_mode
-                    )
+                    tools[tool_name].write_kubeconfig(api_server, ca_data)
                     k8s_api.update_expired_ns(tools[tool_name])
                     logging.info("Renewed creds for tool %s", tool_name)
 
@@ -184,7 +136,6 @@ def main():
                 cur_users["admins"],
                 k8s_api,
                 admin=True,
-                gentle=args.gentle_mode,
             )
             if expiring_users["admins"]:
                 for admin_name in expiring_users["admins"]:
@@ -196,9 +147,7 @@ def main():
                         admin_name, admin=True
                     )
                     admins[admin_name].create_homedir()
-                    admins[admin_name].write_kubeconfig(
-                        api_server, ca_data, args.gentle_mode
-                    )
+                    admins[admin_name].write_kubeconfig(api_server, ca_data)
                     k8s_api.update_expired_ns(admins[admin_name])
                     logging.info("Renewed creds for admin user %s", admin_name)
 

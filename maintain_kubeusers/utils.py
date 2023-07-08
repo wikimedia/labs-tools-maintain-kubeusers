@@ -39,7 +39,6 @@ def process_new_users(
     current_users: List[str],
     k8s_api: K8sAPI,
     admin: bool,
-    gentle: bool,
 ) -> int:
     api_server, ca_data = k8s_api.get_cluster_info()
     raw_new_users = set([tool.name for tool in user_list.values()]) - set(
@@ -57,9 +56,7 @@ def process_new_users(
                     user_name, admin
                 )
                 user_list[user_name].create_homedir()
-                user_list[user_name].write_kubeconfig(
-                    api_server, ca_data, gentle
-                )
+                user_list[user_name].write_kubeconfig(api_server, ca_data)
                 k8s_api.add_user_access(user_list[user_name])
                 logging.info("Provisioned creds for user %s", user_name)
 
