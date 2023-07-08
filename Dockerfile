@@ -1,4 +1,4 @@
-FROM alpine:3.14.2
+FROM alpine:3.18.2
 
 RUN apk add --no-cache --virtual .fetch-deps \
     libffi-dev openssl-dev python3 python3-dev musl-dev gcc ca-certificates
