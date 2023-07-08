@@ -86,7 +86,7 @@ $ ./deploy.sh vcr-recording
    `cp -r tests/cassettes /data/project/`.  Then, log out of your pod terminal
    (since that should all be done if all your tests passed), delete the cassettes
    in your active repo (`rm tests/cassettes/*`), and replace them with
-   `cp /data/project/cassettes/* tests/cassettes/`.
+   `cp ~/.toolforge-lima-kilo/chroot/data/project/cassettes/* tests/cassettes/`.
 9. Before you commit all this run `tox` on the changed repo to make sure the
    tests do, in fact pass now.
 10. Don't forget to check in the new cassettes with your commit review so CI

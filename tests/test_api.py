@@ -27,21 +27,12 @@ def api_object(are_we_in_k8s, test_user, test_disabled_user):
     api = K8sAPI()
     yield api
     users = [test_user, test_disabled_user]
+
     # If we created a namespace, delete it to clean up
     for t_user in users:
         try:
             _ = api.core.delete_namespace(
                 "tool-{}".format(t_user.name),
-                grace_period_seconds=0,
-                propagation_policy="Foreground",
-            )
-        except ApiException:  # If there was no namespace, we are ok with that.
-            pass
-        # If we created an admin configmap, delete it to clean up
-        try:
-            _ = api.core.delete_namespaced_config_map(
-                "maintain-kubeusers",
-                "maintain-kubeusers",
                 grace_period_seconds=0,
                 propagation_policy="Foreground",
             )
@@ -55,9 +46,21 @@ def api_object(are_we_in_k8s, test_user, test_disabled_user):
             )
         except ApiException:  # If there was no PSP, we are ok with that.
             pass
-        # If recording the cassettes, you need to wait for namespaces deletes
-        if are_we_in_k8s:
-            time.sleep(2)
+
+    # If we created an admin configmap, delete it to clean up
+    try:
+        _ = api.core.delete_namespaced_config_map(
+            "maintain-kubeusers",
+            "maintain-kubeusers",
+            grace_period_seconds=0,
+            propagation_policy="Foreground",
+        )
+    except ApiException:  # If there was no namespace, we are ok with that.
+        pass
+
+    # If recording the cassettes, you need to wait for namespaces deletes
+    if are_we_in_k8s:
+        time.sleep(10)
 
 
 @pytest.mark.vcr()
@@ -215,6 +218,8 @@ def test_process_new_and_disabled_users(
 
     # Add blurp but not blorp
     current, _ = api_object.get_current_users()
+    assert current == {"admins": [], "tools": []}
+
     start_pos1 = vcr_cassette.play_count - 1
     with patch("os.chown", autospec=True):
         with patch("os.fchown", autospec=True):
