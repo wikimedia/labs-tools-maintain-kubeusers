@@ -36,6 +36,78 @@ Kubernetes
 """
 
 
+def do_run(k8s_api, ldap_config, ldap_servers, project, api_server, ca_data):
+    cur_users, expiring_users = k8s_api.get_current_users()
+    with ldap3.Connection(
+        ldap_servers,
+        read_only=True,
+        user=ldap_config["user"],
+        auto_bind=True,
+        password=ldap_config["password"],
+        raise_exceptions=True,
+        receive_timeout=60,
+    ) as conn:
+        tools = get_tools_from_ldap(conn, project)
+        admins = get_admins_from_ldap(conn, project)
+
+    # Initialize these to zero in cases where something is missing.
+    new_tools = 0
+    new_admins = 0
+
+    removed_tools = process_removed_users(tools, cur_users["tools"], k8s_api)
+
+    removed_admins = process_removed_users(
+        admins, cur_users["admins"], k8s_api, admins=True
+    )
+
+    if tools:
+        new_tools = process_new_users(
+            tools,
+            cur_users["tools"],
+            k8s_api,
+            admin=False,
+        )
+        if expiring_users["tools"]:
+            for tool_name in expiring_users["tools"]:
+                tools[tool_name].pk = generate_pk()
+                k8s_api.generate_csr(tools[tool_name].pk, tool_name)
+                tools[tool_name].cert = k8s_api.approve_cert(tool_name)
+                tools[tool_name].create_homedir()
+                tools[tool_name].write_kubeconfig(api_server, ca_data)
+                k8s_api.update_expired_ns(tools[tool_name])
+                logging.info("Renewed creds for tool %s", tool_name)
+
+    if admins:
+        new_admins = process_new_users(
+            admins,
+            cur_users["admins"],
+            k8s_api,
+            admin=True,
+        )
+        if expiring_users["admins"]:
+            for admin_name in expiring_users["admins"]:
+                admins[admin_name].pk = generate_pk()
+                k8s_api.generate_csr(
+                    admins[admin_name].pk, admin_name, admin=True
+                )
+                admins[admin_name].cert = k8s_api.approve_cert(
+                    admin_name, admin=True
+                )
+                admins[admin_name].create_homedir()
+                admins[admin_name].write_kubeconfig(api_server, ca_data)
+                k8s_api.update_expired_ns(admins[admin_name])
+                logging.info("Renewed creds for admin user %s", admin_name)
+
+    disabled_tools = process_disabled_users(tools, cur_users["tools"], k8s_api)
+    logging.info(
+        "finished run, wrote %s new accounts, disabled %s accounts, "
+        "cleaned up %s accounts",
+        new_tools + new_admins,
+        disabled_tools,
+        removed_tools + removed_admins,
+    )
+
+
 def main():
     argparser = argparse.ArgumentParser()
     group1 = argparser.add_mutually_exclusive_group()
@@ -68,7 +140,14 @@ def main():
     logging.basicConfig(format="%(message)s", level=loglvl)
 
     with open(args.ldapconfig, encoding="utf-8") as f:
-        ldapconfig = yaml.safe_load(f)
+        ldap_config = yaml.safe_load(f)
+
+    ldap_servers = ldap3.ServerPool(
+        [ldap3.Server(s, connect_timeout=1) for s in ldap_config["servers"]],
+        ldap3.ROUND_ROBIN,
+        active=True,
+        exhaust=True,
+    )
 
     if args.local:
         k_config.load_kube_config()
@@ -82,84 +161,14 @@ def main():
         logging.info("starting a run")
         # Touch a temp file for a Kubernetes liveness check to prevent hangs
         Path("/tmp/run.check").touch()
-        cur_users, expiring_users = k8s_api.get_current_users()
-        servers = ldap3.ServerPool(
-            [ldap3.Server(s, connect_timeout=1) for s in ldapconfig["servers"]],
-            ldap3.ROUND_ROBIN,
-            active=True,
-            exhaust=True,
-        )
-        with ldap3.Connection(
-            servers,
-            read_only=True,
-            user=ldapconfig["user"],
-            auto_bind=True,
-            password=ldapconfig["password"],
-            raise_exceptions=True,
-            receive_timeout=60,
-        ) as conn:
-            tools = get_tools_from_ldap(conn, args.project)
-            admins = get_admins_from_ldap(conn, args.project)
 
-        # Initialize these to zero in cases where something is missing.
-        new_tools = 0
-        new_admins = 0
-
-        removed_tools = process_removed_users(
-            tools, cur_users["tools"], k8s_api
-        )
-
-        removed_admins = process_removed_users(
-            admins, cur_users["admins"], k8s_api, admins=True
-        )
-
-        if tools:
-            new_tools = process_new_users(
-                tools,
-                cur_users["tools"],
-                k8s_api,
-                admin=False,
-            )
-            if expiring_users["tools"]:
-                for tool_name in expiring_users["tools"]:
-                    tools[tool_name].pk = generate_pk()
-                    k8s_api.generate_csr(tools[tool_name].pk, tool_name)
-                    tools[tool_name].cert = k8s_api.approve_cert(tool_name)
-                    tools[tool_name].create_homedir()
-                    tools[tool_name].write_kubeconfig(api_server, ca_data)
-                    k8s_api.update_expired_ns(tools[tool_name])
-                    logging.info("Renewed creds for tool %s", tool_name)
-
-        if admins:
-            new_admins = process_new_users(
-                admins,
-                cur_users["admins"],
-                k8s_api,
-                admin=True,
-            )
-            if expiring_users["admins"]:
-                for admin_name in expiring_users["admins"]:
-                    admins[admin_name].pk = generate_pk()
-                    k8s_api.generate_csr(
-                        admins[admin_name].pk, admin_name, admin=True
-                    )
-                    admins[admin_name].cert = k8s_api.approve_cert(
-                        admin_name, admin=True
-                    )
-                    admins[admin_name].create_homedir()
-                    admins[admin_name].write_kubeconfig(api_server, ca_data)
-                    k8s_api.update_expired_ns(admins[admin_name])
-                    logging.info("Renewed creds for admin user %s", admin_name)
-
-        disabled_tools = process_disabled_users(
-            tools, cur_users["tools"], k8s_api
-        )
-        logging.info(
-            "finished run, wrote %s new accounts, disabled %s accounts, "
-            "cleaned up %s accounts",
-            new_tools + new_admins,
-            disabled_tools,
-            removed_tools + removed_admins,
+        do_run(
+            k8s_api=k8s_api,
+            ldap_servers=ldap_servers,
+            ldap_config=ldap_config,
+            project=args.project,
+            api_server=api_server,
+            ca_data=ca_data,
         )
 
         if args.once:
