@@ -1,3 +1,0 @@
-image:
-  tag: "eaeb46b"
-  args: ["/app/maintain_kubeusers.py", "--project=toolsbeta"]
