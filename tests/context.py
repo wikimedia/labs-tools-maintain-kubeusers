@@ -5,7 +5,10 @@ sys.path.insert(
     0, os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 )
 
-from maintain_kubeusers.user import User  # noqa: E402,F401
+from maintain_kubeusers.user import (  # noqa: E402,F401
+    User,
+    REQUIRED_CONFIG_KEYS,
+)
 from maintain_kubeusers.cli import k_config  # noqa: E402,F401
 from maintain_kubeusers.k8s_api import (  # noqa: E402,F401
     K8sAPI,

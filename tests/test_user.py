@@ -1,5 +1,7 @@
 from unittest.mock import patch
 
+from .context import REQUIRED_CONFIG_KEYS
+
 
 def test_create_user(test_user):
     kube_conf = test_user.home / ".kube" / "config"
@@ -39,3 +41,18 @@ def test_admin_user(test_admin):
     assert "PRIVATE KEY" in key.read_text()
     assert ".admkube/client.crt" in kube_conf.read_text()
     assert test_admin.is_disabled() is False
+
+
+def test_write_config_file_truncate(test_user):
+    kube_conf = test_user.home / ".kube" / "config"
+    # Something that's very long and definitely does not pass YAML validation.
+    kube_conf.write_text("NOTYAML:" * 1000)
+
+    assert test_user.read_config_file() == {}
+
+    # Changing permissions needs root which we generally don't have in tests.
+    with patch("os.fchown", autospec=True):
+        # Write the required keys so config validation does not fail.
+        test_user.write_config_file({key: True for key in REQUIRED_CONFIG_KEYS})
+
+    assert "apiVersion" in test_user.read_config_file()

@@ -7,6 +7,16 @@ from cryptography.hazmat.primitives import serialization
 import yaml
 
 
+REQUIRED_CONFIG_KEYS = (
+    "apiVersion",
+    "kind",
+    "clusters",
+    "users",
+    "contexts",
+    "current-context",
+)
+
+
 class User:
     """Simple user object"""
 
@@ -60,15 +70,7 @@ class User:
 
         # At least make sure we are using valid required keys before proceeding
         if config is not None and all(
-            k in config
-            for k in (
-                "apiVersion",
-                "kind",
-                "clusters",
-                "users",
-                "contexts",
-                "current-context",
-            )
+            k in config for k in REQUIRED_CONFIG_KEYS
         ):
             return config
         else:
@@ -78,7 +80,7 @@ class User:
 
     def write_config_file(self, config):
         path = os.path.join(self.home, ".kube", "config")
-        f = os.open(path, os.O_CREAT | os.O_WRONLY | os.O_NOFOLLOW)
+        f = os.open(path, os.O_CREAT | os.O_WRONLY | os.O_NOFOLLOW | os.O_TRUNC)
         try:
             fcntl.flock(f, fcntl.LOCK_EX)
             os.write(
